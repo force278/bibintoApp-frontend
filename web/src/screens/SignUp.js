@@ -5,6 +5,7 @@ import routes from "../routes";
 import FormBox from "../components/auth/FormBox";
 import BottomBox from "../components/auth/BottomBox";
 import { BoldLink } from "../components/shared";
+import { Helmet } from "react-helmet-async";
 
 const HeaderContainer = styled.div`
     display: flex;
@@ -39,11 +40,14 @@ const Input = styled.input`
 function SignUp() {
   return (
     <AuthLayout>
+      <Helmet>
+        <title>Регистрация Бибинто</title>
+      </Helmet>
         <FormBox>
           <HeaderContainer>
             <img src="bibinto.svg" width="180" height="60" alt="Бибинто"></img>
             <Subtitle>
-                Зарегистрируйтесь, чтобы получать оценки и оценивать людей.
+            Зарегистрируйтесь, чтобы оценивать других людей
             </Subtitle>
           </HeaderContainer>
           <form>
