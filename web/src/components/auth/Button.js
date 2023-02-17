@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const SButton = styled.input`
+const Button = styled.input`
 width:100%;
 margin-top: 15px;
 color: white;
@@ -11,9 +11,5 @@ border-radius: 5px;
 font-weight: 600;
 background: linear-gradient(90deg, #6CF2FE, #2936FF, #FE2DB7);
 `;
-
-function Button(props) {
-    return <SButton {...props} />
-}
 
 export default Button;
