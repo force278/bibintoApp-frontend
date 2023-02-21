@@ -10,6 +10,7 @@ border: none;
 border-radius: 5px;
 font-weight: 600;
 background: linear-gradient(90deg, #6CF2FE, #2936FF, #FE2DB7);
+opacity: ${(props) => (props.disabled ? "0.5" : "1")};
 `;
 
 export default Button;

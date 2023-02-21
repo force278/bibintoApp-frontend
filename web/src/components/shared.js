@@ -4,6 +4,7 @@ export const BaseBox = styled.div`
   background-color: white;
   border: 1px solid ${(props) => props.theme.borderColor};
   width: 100%;
+  border-radius: 10px;
 `;
 
 export const BoldLink = styled.span`
