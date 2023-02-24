@@ -25,7 +25,8 @@ const SEE_FEED_QUERY = gql`
 `;
 
 function Home() {
-  const { data } = useQuery(SEE_FEED_QUERY, { variables: { page: 1 } });
+  const { data } = useQuery(SEE_FEED_QUERY, { variables: { offset: 0 } });
+
   return (
     <>
       <PageTitle title="Лента" />

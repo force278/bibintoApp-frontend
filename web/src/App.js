@@ -13,6 +13,7 @@ import { ApolloProvider } from "@apollo/client";
 import { client } from "./apollo";
 import Layout from "./components/Layout";
 import Profile from "./screens/Profile";
+import LoadPhoto from "./screens/LoadPhoto";
 
 function App() {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
@@ -43,6 +44,9 @@ function App() {
                 <Layout>
                   <Profile />
                 </Layout>
+              </Route>
+              <Route path={routes.upload}>
+                <LoadPhoto />
               </Route>
               <Route>
                 <NotFound />

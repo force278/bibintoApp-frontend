@@ -135,9 +135,6 @@ function Post({
             <PostAction>
               <FontAwesomeIcon icon={faComment} />
             </PostAction>
-            <PostAction>
-              <FontAwesomeIcon icon={faTelegramPlane} />
-            </PostAction>
           </div>
           <div>
             <FontAwesomeIcon icon={faBookmark} />
