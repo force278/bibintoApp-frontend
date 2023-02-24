@@ -1,32 +1,34 @@
-import {createGlobalStyle} from "styled-components";
+import { createGlobalStyle } from "styled-components";
 import reset from "styled-reset";
 
 export const lightTheme = {
-    fontColor: "#2c2c2c",
-    bgColor: "rgb(250, 250, 250)",
-    accent: "#0095f6",
-    borderColor: "rgb(219, 219, 219)"
+  bgColor: "rgb(250,250,250)",
+  accent: "#0095f6",
+  borderColor: "rgb(219, 219, 219)",
+  color: "rgb(38, 38, 38)",
 };
 
-export const darkTheme ={
-    fontColor:"rgb(250, 250, 250)",
-    bgColor: "#2c2c2c"
+export const darkTheme = {
+  color: "rgb(250,250,250)",
+  bgColor: "#0F111F",
 };
 
 export const GlobalStyles = createGlobalStyle`
     ${reset}
     input{
-        all: unset;
-      }
-      * {
-        box-sizing: border-box;
-      }
-      body {
-          background-color: ${(props) => props.theme.bgColor};
-          font-size: 12px;
-          font-family: 'Open Sans', sans-serif;
-      }
-      a {
-        text-decoration: none;
-      }
-`
+      all: unset;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+        background-color: ${(props) => props.theme.bgColor};
+        font-size: 14px;
+        font-family: 'Open Sans', sans-serif;
+        color: ${(props) => props.theme.color};
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+`;

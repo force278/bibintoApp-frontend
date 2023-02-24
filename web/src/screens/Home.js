@@ -1,11 +1,40 @@
-import { isLoggedInVar } from "../apollo";
+import { gql, useQuery } from "@apollo/client";
+import Post from "../components/feed/Post";
+import PageTitle from "../components/PageTitle";
+import { COMMENTS_FRAGMENT, POST_FRAGMENT } from "../fragments";
+
+const SEE_FEED_QUERY = gql`
+  query seeFeed($offset: Int!) {
+    seeFeed(offset: $offset) {
+      ...PostFragment
+      caption
+      comments {
+        ...CommentFragment
+      }
+      user {
+        username
+        avatar
+      }
+      createdAt
+      isMine
+      isLiked
+    }
+  }
+  ${POST_FRAGMENT}
+  ${COMMENTS_FRAGMENT}
+`;
 
 function Home() {
+  const { data } = useQuery(SEE_FEED_QUERY, { variables: { page: 1 } });
   return (
-    <div>
-      <h1>Главная страница</h1>
-      <button onClick={() => isLoggedInVar(false)}>Выйти из аккаунта</button>
-    </div>
+    <>
+      <PageTitle title="Лента" />
+      <div>
+        {data?.seeFeed?.map((post) => (
+          <Post key={post.id} {...post} />
+        ))}
+      </div>
+    </>
   );
 }
 export default Home;

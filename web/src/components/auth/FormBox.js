@@ -18,8 +18,8 @@ const SFormBox = styled(BaseBox)`
   }
 `;
 
-function FormBox({children}) {
-    return (<SFormBox>{children}</SFormBox>);
+function FormBox({ children }) {
+  return <SFormBox>{children}</SFormBox>;
 }
 
 export default FormBox;
