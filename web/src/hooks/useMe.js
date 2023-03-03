@@ -14,7 +14,7 @@ export const ME_QUERY = gql`
 
 function useMe() {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
-  const { data, error } = useQuery(ME_QUERY, {
+  const { data} = useQuery(ME_QUERY, {
     skip: !isLoggedIn,
   });
   useEffect(() => {

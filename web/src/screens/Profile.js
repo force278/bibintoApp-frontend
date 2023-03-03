@@ -7,7 +7,7 @@ import { BoldText } from "../components/shared";
 import { POST_FRAGMENT } from "../fragments";
 import Button from "../components/auth/Button";
 import PageTitle from "../components/PageTitle";
-import useMe, { ME_QUERY } from "../hooks/useMe";
+import useMe from "../hooks/useMe";
 
 const SEE_PROFILE_QUERY = gql`
   query seeProfile($username: String!) {

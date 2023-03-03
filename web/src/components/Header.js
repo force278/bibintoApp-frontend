@@ -1,5 +1,5 @@
 import { useReactiveVar } from "@apollo/client";
-import { faCompass, faUser } from "@fortawesome/free-regular-svg-icons";
+import { faFileImage} from "@fortawesome/free-regular-svg-icons";
 import { faHome } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
@@ -66,7 +66,9 @@ function Header() {
                 </Link>
               </Icon>
               <Icon>
-                <FontAwesomeIcon icon={faCompass} size="lg" />
+                <Link to={routes.upload}>
+                  <FontAwesomeIcon icon={faFileImage} size="lg" />
+                </Link>
               </Icon>
               <Icon>
                 <Link to={`/users/${data?.me?.username}`}>

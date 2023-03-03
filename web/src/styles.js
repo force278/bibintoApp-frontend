@@ -10,7 +10,7 @@ export const lightTheme = {
 
 export const darkTheme = {
   color: "rgb(250,250,250)",
-  bgColor: "#0F111F",
+  bgColor: "black",
 };
 
 export const GlobalStyles = createGlobalStyle`

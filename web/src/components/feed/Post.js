@@ -9,7 +9,6 @@ import {
   faHeart,
 } from "@fortawesome/free-regular-svg-icons";
 import { faHeart as SolidHeart } from "@fortawesome/free-solid-svg-icons";
-import { faTelegramPlane } from "@fortawesome/free-brands-svg-icons";
 import { gql, useMutation } from "@apollo/client";
 import Comments from "./Comments";
 import { Link } from "react-router-dom";
@@ -28,7 +27,7 @@ const PostContainer = styled.div`
   border: 1px solid ${(props) => props.theme.borderColor};
   border-radius: 4px;
   margin-bottom: 60px;
-  max-width: 620px;
+  max-width: 560px;
 `;
 
 const PostHeader = styled.div`
@@ -108,7 +107,7 @@ function Post({
       });
     }
   };
-  const [toogleLike, { loading }] = useMutation(TOGGLE_LIKE_MUTATION, {
+  const [toogleLike] = useMutation(TOGGLE_LIKE_MUTATION, {
     variables: { id },
     update: updateToggleLike,
   });
