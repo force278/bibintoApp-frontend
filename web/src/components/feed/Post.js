@@ -12,6 +12,11 @@ import { faHeart as SolidHeart } from "@fortawesome/free-solid-svg-icons";
 import { gql, useMutation } from "@apollo/client";
 import Comments from "./Comments";
 import { Link } from "react-router-dom";
+import React, { Component } from 'react'
+import Modal from "../modal/Modal";
+import { useState } from "react";
+import ModalContent from "../modal/ModalContent";
+
 
 const TOGGLE_LIKE_MUTATION = gql`
   mutation toggleLike($id: Int!) {
@@ -73,6 +78,12 @@ const Likes = styled(BoldText)`
   margin-top: 15px;
 `;
 
+const More = styled.div`
+  margin-left: 410px;
+`;
+
+
+
 function Post({
   id,
   user,
@@ -111,6 +122,8 @@ function Post({
     variables: { id },
     update: updateToggleLike,
   });
+  const [modalActive, setModalActive] = useState(false);
+  
   return (
     <PostContainer key={id}>
       <PostHeader>
@@ -120,6 +133,12 @@ function Post({
         <Link to={`/users/${user?.username}`}>
           <Username>{user?.username}</Username>
         </Link>
+        <Modal active={modalActive} setActive={setModalActive}>
+          <ModalContent head={"Редактирование"} content={"Удалить фото"} id={id}/>
+        </Modal>
+        <More onClick={() => setModalActive(true)}>
+        <img src="more.svg"/>
+        </More>
       </PostHeader>
       <PostContent src={file} />
       <PostFooter>

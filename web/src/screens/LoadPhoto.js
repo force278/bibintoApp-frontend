@@ -2,8 +2,8 @@ import PageTitle from "../components/PageTitle";
 import styled from "styled-components";
 import { BaseBox } from "../components/shared";
 import { gql, useLazyQuery, useMutation } from "@apollo/client";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useState } from "react";
+import Header from "../components/Header";
 
 const SFormBox = styled(BaseBox)`
   display: flex;
@@ -22,24 +22,6 @@ const SFormBox = styled(BaseBox)`
   }
 `;
 
-const Button = styled.button`
-  margin-top: 10px;
-`;
-
-/*
-const imageInput = document.querySelector("#imageInput");
-const file = imageInput.files[0];
-fetch(data.getUrlUploadPhoto, {
-  method: "PUT",
-  headers: {
-    "Content-Type": "multipart/form-data",
-  },
-  body: file
-})
-const imageUrl = data.getUrlUploadPhoto.split('?')[0]
-const img = document.createElement("img")
-img.src = imageUrl
-return img;*/
 
 const URL_UPLOAD_QUERY = gql`
   query {
@@ -56,7 +38,6 @@ mutation uploadPhoto($file: String!){
 `;
 
 const AddDB = ({data}) => {
-  console.log(data);
   const [state, setState] = useState(null);
   const [uploadDB] = useMutation(POST_PHOTO, {
     variables: { file: data }
@@ -67,7 +48,7 @@ const AddDB = ({data}) => {
   }
   
   return (<div>
-    <img src={data}/>
+    <img src={data} alt="Фото"/>
   </div>)
 }
 
@@ -111,6 +92,7 @@ function LoadPhoto() {
     return (
       <>
         <PageTitle title="Загрузка фото" />
+        <Header/>
         <SFormBox>
           <input id="imageInput" type="file" accept="image/jpeg, image/png"/>
         <UploadImage />

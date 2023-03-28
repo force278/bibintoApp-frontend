@@ -8,6 +8,9 @@ import { isLoggedInVar } from "../apollo";
 import useMe from "../hooks/useMe";
 import routes from "../routes";
 import Avatar from "./Avatar";
+import Modal from "./modal/Modal";
+import { useState } from "react";
+import ModalContent from "./modal/ModalContent";
 
 const SHeader = styled.header`
   width: 100%;
@@ -49,13 +52,16 @@ const IconContainer = styled.div`
 function Header() {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const { data } = useMe();
+  const [modalActive, setModalActive] = useState(false);
   return (
     <SHeader>
       <Wrapper>
         <Column>
+        <Link to={routes.home}>
           <div>
             <img src="../../bibinto.svg" width="100" alt="Бибинто"></img>
           </div>
+          </Link>
         </Column>
         <Column>
           {isLoggedIn ? (
@@ -74,6 +80,11 @@ function Header() {
                 <Link to={`/users/${data?.me?.username}`}>
                   <Avatar url={data?.me?.avatar} />
                 </Link>
+              </Icon>
+              <Icon>
+              <Modal active={modalActive} setActive={setModalActive}>
+                <ModalContent head={"Выход из аккаунта"} content={"Выйти"}/>
+              </Modal>
               </Icon>
             </IconContainer>
           ) : (
