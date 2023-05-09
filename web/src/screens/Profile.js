@@ -43,6 +43,10 @@ const UNFOLLOW_USER_MUTATION = gql`
   }
 `;
 
+const StyledProfileContainer = styled.div`
+  margin-top: 65px;
+`;
+
 const Header = styled.div`
   display: flex;
 `;
@@ -53,7 +57,7 @@ const Avatar = styled.img`
   border-radius: 50%;
   margin-right: 150px;
   background-color: #2c2c2c;
- object-fit:cover;
+  object-fit: cover;
 `;
 const Column = styled.div``;
 const Username = styled.h3`
@@ -212,7 +216,7 @@ function Profile() {
   };
 
   return (
-    <div>
+    <StyledProfileContainer>
       <PageTitle
         title={
           loading ? "Загрузка..." : `Профиль ${data?.seeProfile?.username}`
@@ -265,7 +269,7 @@ function Profile() {
           </Photo>
         ))}
       </Grid>
-    </div>
+    </StyledProfileContainer>
   );
 }
 
