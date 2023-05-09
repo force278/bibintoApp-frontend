@@ -63,28 +63,34 @@ function Header() {
           </div>
           </Link>
         </Column>
+      
         <Column>
           {isLoggedIn ? (
             <IconContainer>
               <Icon>
                 <Link to={routes.home}>
-                  <FontAwesomeIcon icon={faHome} size="lg" />
+                <img src="home.svg" alt="home"/>
+                </Link>
+              </Icon>
+              <Icon>
+                <Link to={routes.home}>
+                <img src="Message.svg" alt="message"/>
                 </Link>
               </Icon>
               <Icon>
                 <Link to={routes.upload}>
-                  <FontAwesomeIcon icon={faFileImage} size="lg" />
+                <img src="upload.svg" alt="upload"/>
+                </Link>
+              </Icon>
+              <Icon>
+                <Link to={routes.home}>
+                <img src="like.svg" alt="like"/>
                 </Link>
               </Icon>
               <Icon>
                 <Link to={`/users/${data?.me?.username}`}>
-                  <Avatar url={data?.me?.avatar} />
+                <img src="user.svg" alt="user"/>
                 </Link>
-              </Icon>
-              <Icon>
-              <Modal active={modalActive} setActive={setModalActive}>
-                <ModalContent head={"Выход из аккаунта"} content={"Выйти"}/>
-              </Modal>
               </Icon>
             </IconContainer>
           ) : (
