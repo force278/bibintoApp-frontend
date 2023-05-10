@@ -25,7 +25,7 @@
 
 ## Авторы
 
-- Юрий Алексеев (@yuralexeev) - Product Owner
+- Юрий Алексеев (@yuralexeev) - CEO
 - Константин Карпов (@dedOfficial) - Software Engeneer
 - Силантий Васильев (@force278) - Software Engeneer
 
