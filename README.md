@@ -27,7 +27,7 @@
 
 - Юрий Алексеев (@yuralexeev) - Product Owner
 - Константин Карпов (@dedOfficial) - Software Engeneer
-- Силантий Васильев (@force278) - Backend developer
+- Силантий Васильев (@force278) - Software Engeneer
 
 ## Лицензия
 
