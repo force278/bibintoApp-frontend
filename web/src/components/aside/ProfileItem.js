@@ -5,33 +5,65 @@ import { Link } from "react-router-dom";
 const StyledProfileItem = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 19px 0;
+  padding: ${(props) => (props.small ? "12.5px" : "19px")} 0;
 `;
 
 const StyledMiniInfo = styled.div`
   display: flex;
   gap: 12px;
+  cursor: pointer;
 `;
-const StyledLink = styled.div``;
+
+const StyledLink = styled.div`
+  display: flex;
+  color: blue;
+  font-size: 12px;
+  cursor: pointer;
+`;
+
 const StyledImageContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background: #c4c4c4;
   border-radius: 50%;
-  width: 56px;
-  height: 56px;
+  width: ${(props) => (props.small ? "36px" : "56px")};
+  height: ${(props) => (props.small ? "36px" : "56px")};
+  cursor: pointer;
+
+  img {
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 `;
 const StyledText = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+
+  strong {
+    font-weight: 600;
+    font-size: ${(props) => (props.small ? "13px" : "14px")};
+  }
+
+  small {
+    font-size: 12px;
+    color: gray;
+    letter-spacing: 0px;
+  }
 `;
 
 const ProfileItem = ({ linkText, linkTo, small = false }) => {
   return (
-    <StyledProfileItem>
+    <StyledProfileItem small={small}>
       <StyledMiniInfo>
-        <StyledImageContainer>
+        <StyledImageContainer small={small}>
           <img src='#' alt='avatar' />
         </StyledImageContainer>
-        <StyledText>
+        <StyledText small={small}>
           <strong>alexeev</strong>
           <small>Yuri Alexeev</small>
         </StyledText>

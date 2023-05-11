@@ -10,11 +10,18 @@ const StyledAside = styled.div`
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   padding: 20px;
   margin-top: 54px;
+  border-radius: 10px;
 `;
 
 const StyledLinks = styled.div`
   display: flex;
   justify-content: space-between;
+  padding: 10px 0;
+
+  a {
+    color: blue;
+    cursor: pointer;
+  }
 `;
 
 const StyledCopyright = styled.small`
@@ -22,6 +29,7 @@ const StyledCopyright = styled.small`
   font-size: 12px;
   line-height: 18px;
   color: #8e8e8e;
+  margin-top: 10px;
 `;
 
 const RecomendationAside = ({ currentUsername }) => {
@@ -38,14 +46,17 @@ const RecomendationAside = ({ currentUsername }) => {
       <ProfileItem
         linkText='Подписаться'
         linkTo={`/users/${currentUsername}/edit`}
+        small
       />
       <ProfileItem
         linkText='Подписаться'
         linkTo={`/users/${currentUsername}/edit`}
+        small
       />
       <ProfileItem
         linkText='Подписаться'
         linkTo={`/users/${currentUsername}/edit`}
+        small
       />
       <StyledCopyright>BIBINTO © 2023</StyledCopyright>
     </StyledAside>

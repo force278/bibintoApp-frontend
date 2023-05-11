@@ -1,7 +1,7 @@
 const routes = {
   home: "/",
   signUp: "/sign-up",
-  upload: "/upload", 
+  // upload: "/upload",
 };
 
 export default routes;

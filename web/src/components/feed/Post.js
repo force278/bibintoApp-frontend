@@ -12,11 +12,10 @@ import { faHeart as SolidHeart } from "@fortawesome/free-solid-svg-icons";
 import { gql, useMutation } from "@apollo/client";
 import Comments from "./Comments";
 import { Link } from "react-router-dom";
-import React, { Component } from 'react'
+import React, { Component } from "react";
 import Modal from "../modal/Modal";
 import { useState } from "react";
 import ModalContent from "../modal/ModalContent";
-
 
 const TOGGLE_LIKE_MUTATION = gql`
   mutation toggleLike($id: Int!) {
@@ -30,9 +29,11 @@ const TOGGLE_LIKE_MUTATION = gql`
 const PostContainer = styled.div`
   background-color: white;
   border: 1px solid ${(props) => props.theme.borderColor};
-  border-radius: 4px;
+  border-radius: 10px;
   margin-bottom: 60px;
   max-width: 560px;
+  // background-color: rgb(250, 250, 250);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 `;
 
 const PostHeader = styled.div`
@@ -82,8 +83,6 @@ const More = styled.div`
   margin-left: 410px;
 `;
 
-
-
 function Post({
   id,
   user,
@@ -123,7 +122,7 @@ function Post({
     update: updateToggleLike,
   });
   const [modalActive, setModalActive] = useState(false);
-  
+
   return (
     <PostContainer key={id}>
       <PostHeader>
@@ -134,10 +133,14 @@ function Post({
           <Username>{user?.username}</Username>
         </Link>
         <Modal active={modalActive} setActive={setModalActive}>
-          <ModalContent head={"Редактирование"} content={"Удалить фото"} id={id}/>
+          <ModalContent
+            head={"Редактирование"}
+            content={"Удалить фото"}
+            id={id}
+          />
         </Modal>
         <More onClick={() => setModalActive(true)}>
-        <img src="more.svg"/>
+          <img src='more.svg' />
         </More>
       </PostHeader>
       <PostContent src={file} />
