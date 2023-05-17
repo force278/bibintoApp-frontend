@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { Link, Switch, Route } from "react-router-dom";
 import { gql, useQuery } from "@apollo/client";
 import styled from "styled-components";
 import Post from "../components/feed/Post";
@@ -53,6 +54,7 @@ const StyledSubHeader = styled.div`
 
   .active {
     color: #000;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
   }
 `;
 
@@ -69,7 +71,19 @@ function Home() {
     setActiveTab(1);
   };
 
-  const { data } = useQuery(SEE_FEED_QUERY, { variables: { offset: 0 } });
+  const { data, refetch } = useQuery(SEE_FEED_QUERY, {
+    variables: { offset: 0 },
+  });
+
+  useEffect(
+    () => {
+      const interval = setInterval(() => refetch({ offset: 0 }), 5000);
+
+      return () => clearInterval(interval);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [] // empty array
+  );
 
   return (
     <>
@@ -77,25 +91,34 @@ function Home() {
       <StyledHomeContainer>
         <div>
           <StyledSubHeader>
-            <span
+            <Link
+              to='/'
               onClick={handleClickSubscribe}
               className={`${activeTab === 0 ? "active" : ""}`}
             >
               Подписки
-            </span>{" "}
+            </Link>{" "}
             |{" "}
-            <span
+            <Link
+              to='/recomendations'
               onClick={handleClickRecomenations}
               className={`${activeTab === 1 ? "active" : ""}`}
             >
               Рекомендации
-            </span>
+            </Link>
           </StyledSubHeader>
-          <>
-            {data?.seeFeed?.map((post) => (
-              <Post key={post.id} {...post} />
-            ))}
-          </>
+          <Switch>
+            <Route exact path='/'>
+              <>
+                {data?.seeFeed?.map((post) => (
+                  <Post key={post.id} {...post} />
+                ))}
+              </>
+            </Route>
+            <Route exact path='/recomendations'>
+              <></>
+            </Route>
+          </Switch>
         </div>
         <RecomendationAside />
       </StyledHomeContainer>

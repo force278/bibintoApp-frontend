@@ -56,16 +56,19 @@ const StyledText = styled.div`
   }
 `;
 
-const ProfileItem = ({ linkText, linkTo, small = false }) => {
+const StyledAvatar = styled.div``;
+
+const ProfileItem = ({ linkText, linkTo, name, username, small = false }) => {
   return (
     <StyledProfileItem small={small}>
       <StyledMiniInfo>
         <StyledImageContainer small={small}>
-          <img src='#' alt='avatar' />
+          {/* <img src='#' alt='avatar' /> */}
+          <StyledAvatar />
         </StyledImageContainer>
         <StyledText small={small}>
-          <strong>alexeev</strong>
-          <small>Yuri Alexeev</small>
+          <strong>{username}</strong>
+          <small>{name}</small>
         </StyledText>
       </StyledMiniInfo>
       <StyledLink>

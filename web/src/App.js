@@ -35,6 +35,11 @@ function App() {
                   <Login />
                 )}
               </Route>
+              <Route path='/recomendations'>
+                <Layout>
+                  <Home />
+                </Layout>
+              </Route>
               {!isLoggedIn ? (
                 <Route path={routes.signUp}>
                   <SignUp />
@@ -45,9 +50,9 @@ function App() {
                   <Profile />
                 </Layout>
               </Route>
-              <Route path={routes.upload}>
+              {/* <Route path={routes.upload}>
                 <LoadPhoto />
-              </Route>
+              </Route> */}
               <Route>
                 <NotFound />
               </Route>

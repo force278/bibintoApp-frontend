@@ -3,6 +3,7 @@ import Header from "./Header";
 
 const Content = styled.div`
   margin: 0 auto;
+  padding-top: 71px;
   max-width: 930px;
   width: 100%;
 `;

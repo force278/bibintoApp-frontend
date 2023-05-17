@@ -1,18 +1,12 @@
 // TODO: Поудалять ненужные переменные
-import React, { useState, useEffect } from "react";
-import { Link, useHistory, useSearchParams } from "react-router-dom";
-import { useReactiveVar, gql, useLazyQuery, useMutation } from "@apollo/client";
-import { faFileImage } from "@fortawesome/free-regular-svg-icons";
-import { faHome } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useState, useEffect, useCallback } from "react";
+import { Link, useHistory } from "react-router-dom";
+import { useReactiveVar } from "@apollo/client";
 import styled from "styled-components";
 
 import { isLoggedInVar } from "../apollo";
 import useMe from "../hooks/useMe";
 import routes from "../routes";
-import Avatar from "./Avatar";
-import Modal from "./modal/Modal";
-import ModalContent from "./modal/ModalContent";
 import UploadPopUp from "../screens/UploadPopUp";
 
 const SHeader = styled.header`
@@ -23,6 +17,9 @@ const SHeader = styled.header`
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  position: fixed;
+  z-index: 100;
 `;
 
 const Wrapper = styled.div`
@@ -52,6 +49,16 @@ const IconContainer = styled.div`
   align-items: center;
 `;
 
+const StyledFileInput = styled.input`
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+`;
+
+const StyledFileInputLabel = styled.label`
+  cursor: pointer;
+`;
+
 function Header() {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const { data } = useMe();
@@ -61,16 +68,27 @@ function Header() {
 
   useEffect(() => {
     if (history.location.search.includes("upload=true")) {
+      console.log("true");
       setUploadModalActive(true);
     } else {
+      console.log("false");
       setUploadModalActive(false);
     }
   }, [history.location.search]);
 
-  const handleUploadImage = () =>
+  const handleUploadImage = () => {
     history.push({
       search: "?upload=true",
     });
+    setUploadModalActive(true);
+  };
+
+  const handleClosePopUp = useCallback(() => {
+    history.replace({
+      search: "",
+    });
+    setUploadModalActive(false);
+  }, [history]);
 
   return (
     <>
@@ -101,13 +119,15 @@ function Header() {
                 </Icon>
                 {/* TODO: стилизовать input */}
                 <Icon>
-                  <input
+                  <StyledFileInput
                     id='imageInput'
                     type='file'
                     accept='image/jpeg, image/png'
                     onChange={handleUploadImage}
                   />
-                  <img src='upload.svg' alt='upload' />
+                  <StyledFileInputLabel htmlFor='imageInput'>
+                    <img src='upload.svg' alt='upload' />
+                  </StyledFileInputLabel>
                 </Icon>
                 <Icon>
                   <Link to={routes.home}>
@@ -129,7 +149,7 @@ function Header() {
         </Wrapper>
       </SHeader>
 
-      {uploadModalActive && <UploadPopUp />}
+      {uploadModalActive && <UploadPopUp onClose={handleClosePopUp} />}
     </>
   );
 }

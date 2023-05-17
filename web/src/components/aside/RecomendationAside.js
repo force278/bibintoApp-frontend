@@ -11,6 +11,7 @@ const StyledAside = styled.div`
   padding: 20px;
   margin-top: 54px;
   border-radius: 10px;
+  max-height: 390px;
 `;
 
 const StyledLinks = styled.div`
@@ -29,7 +30,7 @@ const StyledCopyright = styled.small`
   font-size: 12px;
   line-height: 18px;
   color: #8e8e8e;
-  margin-top: 10px;
+  margin-top: 15px;
 `;
 
 const RecomendationAside = ({ currentUsername }) => {
@@ -38,6 +39,8 @@ const RecomendationAside = ({ currentUsername }) => {
       <ProfileItem
         linkText='Редактировать'
         linkTo={`/users/${currentUsername}/edit`}
+        name='Yuri Alexeev'
+        username='alexeev'
       />
       <StyledLinks>
         <h2>Рекомендуемые профили</h2>
@@ -46,16 +49,22 @@ const RecomendationAside = ({ currentUsername }) => {
       <ProfileItem
         linkText='Подписаться'
         linkTo={`/users/${currentUsername}/edit`}
+        name='Konstantin Karpov'
+        username='konstantin__karpov'
         small
       />
       <ProfileItem
         linkText='Подписаться'
         linkTo={`/users/${currentUsername}/edit`}
+        name='Sylanty Sylanty'
+        username='silanty013'
         small
       />
       <ProfileItem
         linkText='Подписаться'
         linkTo={`/users/${currentUsername}/edit`}
+        name='Pavel Durov'
+        username='durov_official'
         small
       />
       <StyledCopyright>BIBINTO © 2023</StyledCopyright>

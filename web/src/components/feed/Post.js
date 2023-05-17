@@ -31,7 +31,7 @@ const PostContainer = styled.div`
   border: 1px solid ${(props) => props.theme.borderColor};
   border-radius: 10px;
   margin-bottom: 60px;
-  max-width: 560px;
+  max-width: 585px;
   // background-color: rgb(250, 250, 250);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 `;
@@ -80,7 +80,7 @@ const Likes = styled(BoldText)`
 `;
 
 const More = styled.div`
-  margin-left: 410px;
+  margin-left: 405px;
 `;
 
 function Post({
