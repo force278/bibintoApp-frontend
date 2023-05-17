@@ -40,7 +40,7 @@ const RecomendationAside = ({ currentUsername }) => {
         linkText='Редактировать'
         linkTo={`/users/${currentUsername}/edit`}
         name='Yuri Alexeev'
-        username='alexeev'
+        username={currentUsername}
       />
       <StyledLinks>
         <h2>Рекомендуемые профили</h2>

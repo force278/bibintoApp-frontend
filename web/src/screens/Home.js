@@ -120,7 +120,7 @@ function Home() {
             </Route>
           </Switch>
         </div>
-        <RecomendationAside />
+        <RecomendationAside currentUsername='alexeev' />
       </StyledHomeContainer>
     </>
   );

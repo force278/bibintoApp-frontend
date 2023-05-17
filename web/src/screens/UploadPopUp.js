@@ -151,7 +151,7 @@ const StyledOverlay = styled.div`
   justify-content: center;
   align-items: center;
 
-  z-index: 1;
+  z-index: 1000;
 `;
 
 const StyledPopUpContainer = styled.div`
@@ -228,6 +228,7 @@ const StyledPopUpActionButton = styled.button`
   line-height: 23px;
   display: flex;
   align-items: center;
+  cursor: pointer;
 
   color: #2283f5;
 `;
