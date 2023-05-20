@@ -17,6 +17,8 @@ const SEE_PROFILE_QUERY = gql`
       username
       bio
       avatar
+      totalFollowers
+      totalFollowing
       photos {
         ...PostFragment
       }
@@ -36,8 +38,8 @@ const FOLLOW_USER_MUTATION = gql`
 `;
 
 const UNFOLLOW_USER_MUTATION = gql`
-  mutation unfollowUser($username: String!) {
-    unfollowUser(username: $username) {
+  mutation unFollowUser($username: String!) {
+    unFollowUser(username: $username) {
       ok
     }
   }
@@ -143,7 +145,7 @@ function Profile() {
   const unfollowUserUpdate = (cache, result) => {
     const {
       data: {
-        unfollowUser: { ok },
+        unFollowUser: { ok },
       },
     } = result;
     if (!ok) return;

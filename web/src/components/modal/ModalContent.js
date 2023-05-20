@@ -18,10 +18,6 @@ const ModalContent = ({head, content, id}) => {
       })
     return (
         <div>
-            <div className="modalHeader">
-                {head}
-            </div>
-            <hr></hr>
             <div className="Content" onClick={id ? deletePhoto : LogoutUser}>
                 {content}
             </div>

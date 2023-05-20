@@ -10,5 +10,7 @@
     width: 100%;
 }
 .Content {
+    cursor: pointer;
+    font-weight:bold;
     color: tomato;
 }

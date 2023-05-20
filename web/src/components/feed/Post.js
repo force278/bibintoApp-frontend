@@ -80,6 +80,7 @@ const Likes = styled(BoldText)`
 `;
 
 const More = styled.div`
+  cursor: pointer;
   margin-left: 405px;
 `;
 
