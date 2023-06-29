@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { BoldText } from "../shared";
 import Avatar from "../Avatar";
+import moreIcon from "../../assets/More.svg"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBookmark,
@@ -141,7 +142,7 @@ function Post({
           />
         </Modal>
         <More onClick={() => setModalActive(true)}>
-          <img src='more.svg' />
+          <img src={moreIcon} />
         </More>
       </PostHeader>
       <PostContent src={file} />
