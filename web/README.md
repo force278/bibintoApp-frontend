@@ -37,3 +37,4 @@
 ## Узнать больше
 
 Документацию Create React App можно найти [здесь](https://facebook.github.io/create-react-app/docs/getting-started). Для изучения React можно посмотреть официальную документацию. [React documentation](https://reactjs.org/)
+
