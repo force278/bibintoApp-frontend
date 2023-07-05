@@ -1,8 +1,5 @@
 # Bibinto
 
-Мы лучше чем Insta... что-то там!
-На данный момент готов бэкен и фронтенд web приложения.
-
 ## Установка
 
 1. Скачайте репозиторий
@@ -22,12 +19,6 @@
 - Apollo Client
 - Expo
 - Styled Components
-
-## Авторы
-
-- Юрий Алексеев (@yuralexeev) - CEO
-- Константин Карпов (@dedOfficial) - Software Engeneer
-- Силантий Васильев (@force278) - Software Engeneer
 
 ## Лицензия
 
