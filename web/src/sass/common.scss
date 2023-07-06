@@ -1,0 +1,27 @@
+@import '~bootstrap/scss/bootstrap';
+
+.textLine{
+  display: flex;
+  &:after{
+    content: "";
+    bottom: 29%;
+    position: absolute;
+    border-bottom: 1px solid #EBEBEB;
+    width: 40%;
+    right: 0;
+  }
+  &:before{
+    content: "";
+    bottom: 29%;
+    position: absolute;
+    border-bottom: 1px solid #EBEBEB;
+    width: 40%;
+    left: 0;
+  }
+}
+
+
+.line {
+  border: 1px solid #EBEBEB;
+  width: 72px;
+}

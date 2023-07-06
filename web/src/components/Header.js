@@ -3,12 +3,12 @@ import React, { useState, useEffect, useCallback } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useReactiveVar } from "@apollo/client";
 import styled from "styled-components";
-import userIcon from "../assets/user.svg";
-import likeIcon from "../assets/like.svg";
-import uploadIcon from "../assets/upload.svg";
-import messageIcon from "../assets/Message.svg";
-import homeIcon from "../assets/home.svg";
-import logo from "../assets/bibinto.svg"
+import userIcon from "../assets/img/user.svg";
+import likeIcon from "../assets/img/like.svg";
+import uploadIcon from "../assets/img/upload.svg";
+import messageIcon from "../assets/img/Message.svg";
+import homeIcon from "../assets/img/home.svg";
+import logo from "../assets/img/bibinto.svg"
 import { isLoggedInVar } from "../apollo";
 import useMe from "../hooks/useMe";
 import routes from "../routes";

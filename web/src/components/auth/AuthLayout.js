@@ -5,19 +5,19 @@ import styled from "styled-components";
 import { darkModeVar, disableDarkMode, enableDarkMode } from "../../apollo";
 
 const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+   
 `;
 
 const Wrapper = styled.div`
-  max-width: 350px;
-  width: 100%;
+   display: flex;
+   flex-wrap: wrap;
+   margin-right: -0.75rem;
+   min-width: 100%;
+   margin-left: -0.75rem;
 `;
 
 const Footer = styled.header`
+  display: none;
   margin-top: 20px;
 `;
 
