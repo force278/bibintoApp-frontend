@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { BoldText } from "../shared";
 import Avatar from "../Avatar";
-import moreIcon from "../../assets/More.svg"
+import moreIcon from "../../assets/img/More.svg"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBookmark,

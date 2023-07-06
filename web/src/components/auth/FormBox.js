@@ -6,8 +6,11 @@ const SFormBox = styled(BaseBox)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 35px 40px 25px 40px;
-  margin-bottom: 15px;
+  padding: 35px 20px 35px 20px;
+  margin-bottom: 20px;
+   @media (min-width: 767px) {
+    max-width: 374px;
+  }
   form {
     display: flex;
     flex-direction: column;

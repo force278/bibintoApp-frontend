@@ -11,6 +11,7 @@ import { useForm } from "react-hook-form";
 import { gql, useMutation } from "@apollo/client";
 import FormError from "../components/auth/FormError";
 import { useHistory } from "react-router-dom";
+import logoIcon from "../assets/img/bibinto.svg"
 
 const HeaderContainer = styled.div`
   display: flex;
@@ -84,7 +85,7 @@ function SignUp() {
       <FormBox>
         <HeaderContainer>
           <div>
-            <img src="bibinto.svg" width="180" height="60" alt="Бибинто"></img>
+            <img src={logoIcon} width="180" height="60" alt="логотип"></img>
           </div>
           <Subtitle>
             Зарегистрируйтесь, чтобы смотреть фото и видео ваших друзей.
