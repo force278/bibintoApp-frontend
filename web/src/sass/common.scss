@@ -1,21 +1,33 @@
 @import '~bootstrap/scss/bootstrap';
 
-.textLine{
+@mixin textLineMixin($bottom) {
+  content: "";
+  bottom: $bottom;
+  position: absolute;
+  border-bottom: 1px solid #EBEBEB;
+  width: 40%;
+}
+
+.textLine {
   display: flex;
-  &:after{
-    content: "";
-    bottom: 29%;
-    position: absolute;
-    border-bottom: 1px solid #EBEBEB;
-    width: 40%;
+  &:after {
+    @include textLineMixin(29%);
     right: 0;
   }
-  &:before{
-    content: "";
-    bottom: 29%;
-    position: absolute;
-    border-bottom: 1px solid #EBEBEB;
-    width: 40%;
+  &:before {
+    @include textLineMixin(29%);
+    left: 0;
+  }
+}
+
+.textLineSignUP {
+  display: flex;
+  &:after {
+    @include textLineMixin(9%);
+    right: 0;
+  }
+  &:before {
+    @include textLineMixin(9%);
     left: 0;
   }
 }

@@ -13,6 +13,9 @@ const Wrapper = styled.div`
    flex-wrap: wrap;
    margin-right: -0.75rem;
    min-width: 100%;
+   justify-content: center;
+   height: 100vh;
+   align-items: center;
    margin-left: -0.75rem;
 `;
 
