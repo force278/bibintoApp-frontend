@@ -99,7 +99,7 @@ function Home() {
             </Link>
             <span className="ps-2 pe-2">
               <svg width="2" height="14" viewBox="0 0 2 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M1 12.5V1.5" stroke="black" stroke-opacity="0.6" stroke-width="2" stroke-linecap="round"/>
+                <path d="M1 12.5V1.5" stroke="black" strokeOpacity="0.6" strokeWidth="2" strokeLinecap="round"/>
               </svg>
             </span>
             <Link
