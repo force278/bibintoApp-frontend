@@ -29,6 +29,7 @@ const SEE_FEED_QUERY = gql`
 `;
 
 const StyledHomeContainer = styled.div`
+  position: relative;
   display: grid;
   grid-template-columns: 2fr 1fr;
   column-gap: 23px;

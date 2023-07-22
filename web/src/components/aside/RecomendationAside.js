@@ -9,9 +9,12 @@ const StyledAside = styled.div`
   background-color: rgb(250, 250, 250);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   padding: 20px;
-  margin-top: 54px;
+  margin-top: 65px;
   border-radius: 10px;
   max-height: 390px;
+  position: fixed;
+  right: 372px;
+  
 `;
 
 const StyledLinks = styled.div`

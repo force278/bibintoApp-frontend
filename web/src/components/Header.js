@@ -13,6 +13,7 @@ import { isLoggedInVar } from "../apollo";
 import useMe from "../hooks/useMe";
 import routes from "../routes";
 import UploadPopUp from "../screens/UploadPopUp";
+import searchGray from "../assets/img/header/searchGray.svg"
 
 const SHeader = styled.header`
   width: 100%;
@@ -138,6 +139,10 @@ function Header() {
           <Column>
             {isLoggedIn ? (
               <IconContainer>
+                <div className="inputSearch">
+                  <input type="text" className="inputSearch__input" placeholder="Поиск" />
+                  <img src={searchGray} alt="search" className="inputSearch__icon" />
+                </div>
                 <Icon>
                   <Link to={routes.home}>
                     <img src={homeIcon} alt='home' />
