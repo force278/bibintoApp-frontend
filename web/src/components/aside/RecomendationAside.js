@@ -13,7 +13,7 @@ const StyledAside = styled.div`
   border-radius: 10px;
   max-height: 390px;
   position: fixed;
-  right: 372px;
+  right: 10em;
   
 `;
 

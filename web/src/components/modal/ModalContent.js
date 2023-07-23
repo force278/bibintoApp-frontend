@@ -2,7 +2,6 @@
 
 import "./ModalContent.css"
 import { gql, useMutation } from "@apollo/client";
-import { LogoutUser } from "../../apollo";
 const DELETE_PHOTO = gql`
 mutation deletePhoto($id: Int!){
     deletePhoto(id: $id) {
@@ -12,15 +11,21 @@ mutation deletePhoto($id: Int!){
 `;
 
 
-const ModalContent = ({head, content, id}) => {
+const ModalContent = ({id, isMine}) => {
     const [deletePhoto] = useMutation(DELETE_PHOTO, {
         variables: { id }
       })
     return (
         <div>
-            <div className="Content" onClick={id ? deletePhoto : LogoutUser}>
-                {content}
+          {
+            isMine ? 
+            <div className="Delete" onClick={deletePhoto}>
+                {"Удалить фото"}
+            </div> :
+            <div className="Report" >
+              {"Пожаловаться"}
             </div>
+          }
         </div>
 
     )

@@ -27,8 +27,12 @@ export const GlobalStyles = createGlobalStyle`
         font-family: 'Open Sans', sans-serif;
         color: ${(props) => props.theme.color};
     }
+    ::-webkit-scrollbar {
+      width: 0;
+    }
     a {
       text-decoration: none;
       color: inherit;
     }
+
 `;

@@ -13,7 +13,7 @@ import { faHeart as SolidHeart } from "@fortawesome/free-solid-svg-icons";
 import { gql, useMutation } from "@apollo/client";
 import Comments from "./Comments";
 import { Link } from "react-router-dom";
-import React, { Component } from "react";
+import React from "react";
 import Modal from "../modal/Modal";
 import { useState } from "react";
 import ModalContent from "../modal/ModalContent";
@@ -81,8 +81,9 @@ const Likes = styled(BoldText)`
 `;
 
 const More = styled.div`
+  display: flex;
   cursor: pointer;
-  margin-left: 405px;
+  margin-left: auto;
 `;
 
 function Post({
@@ -90,6 +91,7 @@ function Post({
   user,
   file,
   isLiked,
+  isMine,
   likes,
   caption,
   commentsNumber,
@@ -134,13 +136,7 @@ function Post({
         <Link to={`/users/${user?.username}`}>
           <Username>{user?.username}</Username>
         </Link>
-        <Modal active={modalActive} setActive={setModalActive}>
-          <ModalContent
-            head={"Редактирование"}
-            content={"Удалить фото"}
-            id={id}
-          />
-        </Modal>
+        
         <More onClick={() => setModalActive(true)}>
           <img src={moreIcon} />
         </More>
@@ -174,6 +170,12 @@ function Post({
           comments={comments}
         />
       </PostFooter>
+      <Modal active={modalActive} setActive={setModalActive}>
+          <ModalContent
+            id={id}
+            isMine={isMine}
+          />
+        </Modal>
     </PostContainer>
   );
 }
@@ -186,6 +188,7 @@ Post.propTypes = {
   }),
   file: PropTypes.string.isRequired,
   isLiked: PropTypes.bool.isRequired,
+  isMine: PropTypes.bool,
   likes: PropTypes.number.isRequired,
   caption: PropTypes.string,
   commentsNumber: PropTypes.number.isRequired,

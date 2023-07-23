@@ -1,11 +1,10 @@
-import react from "react";
 
 import "./Modal.css"
 
 const Modal = ({active, setActive, children})=> {
     return (
-        <div className={active ? "modal active" : "modal"} onClick={() => setActive(false)}>
-            <div className={active ? "modal_content active" : "modal_content"}>
+        <div className={active ? "postmodal active" : "postmodal"} onClick={() => setActive(false)}>
+            <div className={active ? "postmodal_content active" : "postmodal_content"}>
                 {children}
             </div>
         </div>
