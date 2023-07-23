@@ -1,0 +1,68 @@
+@import '~bootstrap/scss/bootstrap';
+
+.textLine{
+  display: flex;
+  &:after{
+    content: "";
+    bottom: 29%;
+    position: absolute;
+    border-bottom: 1px solid #EBEBEB;
+    width: 40%;
+    right: 0;
+  }
+  &:before{
+    content: "";
+    bottom: 29%;
+    position: absolute;
+    border-bottom: 1px solid #EBEBEB;
+    width: 40%;
+    left: 0;
+  }
+}
+
+
+.line {
+  border: 1px solid #EBEBEB;
+  width: 72px;
+}
+
+
+.inputSearch {
+  position: relative;
+  background: #EFEFEF;
+  border-radius: 8px;
+  padding: 8px 12px 8px 40px; /* Увеличьте левый паддинг для учета иконки */
+}
+
+.inputSearch__input {
+  width: 100%;
+  border: none;
+  background: transparent;
+  padding: 0;
+  &::placeholder {
+    color: #a7a7a7;
+  }
+  &:focus {
+    outline: none;
+  }
+}
+
+.inputSearch__icon {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+}
+
+.inputSearch__placeholder {
+  position: absolute;
+  top: 50%;
+  left: 40px; /* Увеличьте левый отступ для учета иконки */
+  transform: translateY(-50%);
+  color: #a7a7a7;
+  pointer-events: none;
+}
+
+.inputSearch__input:focus + .inputSearch__placeholder {
+  display: none;
+}
