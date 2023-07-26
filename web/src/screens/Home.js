@@ -29,6 +29,7 @@ const SEE_FEED_QUERY = gql`
 `;
 
 const StyledHomeContainer = styled.div`
+  position: relative;
   display: grid;
   grid-template-columns: 2fr 1fr;
   column-gap: 23px;
@@ -42,19 +43,18 @@ const StyledHomeContainer = styled.div`
 const StyledSubHeader = styled.div`
   font-weight: 700;
   font-size: 20px;
+  font-family: Nexa, sans-serif;
   line-height: 27px;
   text-align: center;
   letter-spacing: 0.1px;
-  color: rgba(0, 0, 0, 0.4);
   padding: 19px 0;
-
+  color: rgba(0, 0, 0, 0.40);
   &:hover {
     cursor: pointer;
   }
 
   .active {
     color: #000;
-    text-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
   }
 `;
 
@@ -97,8 +97,12 @@ function Home() {
               className={`${activeTab === 0 ? "active" : ""}`}
             >
               Подписки
-            </Link>{" "}
-            |{" "}
+            </Link>
+            <span className="ps-2 pe-2">
+              <svg width="2" height="14" viewBox="0 0 2 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 12.5V1.5" stroke="black" strokeOpacity="0.6" strokeWidth="2" strokeLinecap="round"/>
+              </svg>
+            </span>
             <Link
               to='/recomendations'
               onClick={handleClickRecomenations}

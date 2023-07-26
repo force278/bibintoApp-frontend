@@ -28,18 +28,18 @@ const DarkModeBtn = styled.span`
   cursor: pointer;
 `;
 
-function AuthLayout({ children }) {
-  const darkMode = useReactiveVar(darkModeVar);
-  return (
-    <Container>
-      <Wrapper>{children}</Wrapper>
-      <Footer>
-        <DarkModeBtn onClick={darkMode ? disableDarkMode : enableDarkMode}>
-          <FontAwesomeIcon icon={darkMode ? faLightbulb : faMoon} size={"2x"} />
-        </DarkModeBtn>
-      </Footer>
-    </Container>
-  );
+function AuthLayout({children}) {
+    const darkMode = useReactiveVar(darkModeVar);
+    return (
+        <Container>
+            <Wrapper>{children}</Wrapper>
+            <Footer>
+                <DarkModeBtn onClick={darkMode ? disableDarkMode : enableDarkMode}>
+                    <FontAwesomeIcon icon={darkMode ? faLightbulb : faMoon} size={"2x"}/>
+                </DarkModeBtn>
+            </Footer>
+        </Container>
+    );
 }
 
 export default AuthLayout;

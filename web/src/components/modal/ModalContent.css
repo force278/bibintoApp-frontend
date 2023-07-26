@@ -9,8 +9,14 @@
     height: 1px; /* Толщина линии */
     width: 100%;
 }
-.Content {
+.Delete {
     cursor: pointer;
     font-weight:bold;
     color: tomato;
+}
+
+.Report {
+    cursor: pointer;
+    font-weight:bold;
+    color: rgb(202, 158, 65);
 }

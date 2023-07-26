@@ -1,5 +1,5 @@
 // TODO: Поудалять ненужные переменные
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useReactiveVar } from "@apollo/client";
 import styled from "styled-components";
@@ -13,6 +13,7 @@ import { isLoggedInVar } from "../apollo";
 import useMe from "../hooks/useMe";
 import routes from "../routes";
 import UploadPopUp from "../screens/UploadPopUp";
+import searchGray from "../assets/img/header/searchGray.svg"
 
 const SHeader = styled.header`
   width: 100%;
@@ -68,6 +69,32 @@ function Header() {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const { data } = useMe();
   const history = useHistory();
+  const [showModal, setShowModal] = useState(false);
+  const modalRef = useRef();
+  const handleShowModal = (event) => {
+    event.stopPropagation();
+    setShowModal(!showModal);
+  };
+  const logOut = () => {
+    //TODO: ужасное решение, все нужно переписать
+    localStorage.removeItem('TOKEN')
+    history.push('/');
+    window.location.reload();
+  }
+
+  useEffect(() => {
+    const handleClickOutsideModal = (event) => {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        setShowModal(false);
+      }
+    };
+
+    document.addEventListener('click', handleClickOutsideModal);
+
+    return () => {
+      document.removeEventListener('click', handleClickOutsideModal);
+    };
+  }, []);
 
   const [uploadModalActive, setUploadModalActive] = useState(false);
 
@@ -112,6 +139,10 @@ function Header() {
           <Column>
             {isLoggedIn ? (
               <IconContainer>
+                <div className="inputSearch">
+                  <input type="text" className="inputSearch__input" placeholder="Поиск" />
+                  <img src={searchGray} alt="search" className="inputSearch__icon" />
+                </div>
                 <Icon>
                   <Link to={routes.home}>
                     <img src={homeIcon} alt='home' />
@@ -140,9 +171,38 @@ function Header() {
                   </Link>
                 </Icon>
                 <Icon>
-                  <Link to={`/users/${data?.me?.username}`}>
+                  {/*<Link to={`/users/${data?.me?.username}`}>*/}
+                  <button className="border-0 bg-transparent" onClick={handleShowModal}>
                     <img src={userIcon} alt='user' />
-                  </Link>
+                  </button>
+                  <div className={`position-relative ${showModal? 'd-block' : 'd-none'}`}>
+                    <div className="position-absolute"
+                         style={{
+                           width: '250px',
+                           height: '130px',
+                           background: '#F4F4F4',
+                           borderRadius: '17px',
+                           top:'66px',
+                           left: '50%',
+                           transform: 'translate(-50%, -50%)',
+                    }}>
+                      {showModal && (
+                          <div className="d-flex flex-column" ref={modalRef}>
+                            <button className="m-2 z-2 border-0 p-3 bg-white rounded">
+                              <Link to={`/users/${data?.me?.username}`}>
+                                Мой профиль
+                              </Link>
+                            </button>
+                            <button className="m-2 z-2 border-0 p-3 bg-white text-danger rounded" onClick={logOut}>
+                              <Link to={`/users/${data?.me?.username}`}>
+                                Выйти из профиля
+                              </Link>
+                            </button>
+                          </div>
+                      )}
+                    </div>
+                  </div>
+                  {/*</Link>*/}
                 </Icon>
               </IconContainer>
             ) : (
