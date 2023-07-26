@@ -4,13 +4,12 @@ import AuthLayout from "../components/auth/AuthLayout";
 import Button from "../components/auth/Button";
 import Input from "../components/auth/Input";
 import FormBox from "../components/auth/FormBox";
-import BottomBox from "../components/auth/BottomBox";
 import { BoldLink } from "../components/shared";
 import PageTitle from "../components/PageTitle";
 import { useForm } from "react-hook-form";
 import { gql, useMutation } from "@apollo/client";
 import FormError from "../components/auth/FormError";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import logoIcon from "../assets/img/bibinto.svg"
 
 const HeaderContainer = styled.div`
@@ -87,11 +86,8 @@ function SignUp() {
           <div>
             <img src={logoIcon} width="180" height="60" alt="логотип"></img>
           </div>
-          <Subtitle>
-            Зарегистрируйтесь, чтобы смотреть фото и видео ваших друзей.
-          </Subtitle>
         </HeaderContainer>
-        <form onSubmit={handleSubmit(onSubmitValid)}>
+        <form onSubmit={handleSubmit(onSubmitValid)} className="position-relative">
           <Input
             {...register("email", {
               required: "Email обязателен для заполнения",
@@ -137,13 +133,26 @@ function SignUp() {
           <FormError message={formState.errors?.password?.message} />
           <Button
             type="submit"
-            value={loading ? "Загрузка..." : "Регистрация"}
+            value={loading ? "Загрузка..." : "Зарегистрироваться"}
             disabled={!formState.isValid || loading}
           />
           <FormError message={formState.errors?.result?.message} />
+          <div className="textLineSignUP mt-4">или</div>
+          <button className="mt-4 text-primary bg-transparent border-0 fw-bold">
+            <Link to="/">Войти</Link>
+          </button>
         </form>
       </FormBox>
-      <BottomBox cta="Есть аккаунт?" link={routes.home} linkText="Вход" />
+      <div className="col-sm-12 mt-2">
+        <div className="d-flex justify-content-center row">
+          <span className="col-sm-12 col-lg-3 d-flex justify-content-center  me-2">Политика конфиденциальности</span>
+          <span className="col-sm-12 col-lg-3 d-flex justify-content-center  me-2">Условия использования</span>
+          <span className="col-sm-12 col-lg-3 d-flex justify-content-center  me-2">English</span>
+        </div>
+        <div className="d-flex justify-content-center mt-3">
+          <span>BIBINTO © 2023 </span>
+        </div>
+      </div>
     </AuthLayout>
   );
 }
