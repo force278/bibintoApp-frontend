@@ -2,10 +2,14 @@ import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
+
+//Todo:styled-component переписать на bootstrap и в отдельный файл с css стилям, чтобы был порядок
 const StyledProfileItem = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: ${(props) => (props.small ? "12.5px" : "19px")} 0;
+  gap: 12px;
 `;
 
 const StyledMiniInfo = styled.div`

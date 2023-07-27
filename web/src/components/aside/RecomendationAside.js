@@ -41,9 +41,9 @@ const RecomendationAside = ({ currentUsername }) => {
     <StyledAside>
       <ProfileItem
         linkText='Редактировать'
-        linkTo={`/users/${currentUsername}/edit`}
-        name='Yuri Alexeev'
-        username={currentUsername}
+        linkTo={`*`}
+        name='Разрабатывается...'
+        username="Мой профиль"
       />
       <StyledLinks>
         <h2>Рекомендуемые профили</h2>

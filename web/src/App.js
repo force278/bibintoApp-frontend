@@ -13,6 +13,7 @@ import { ApolloProvider } from "@apollo/client";
 import { client } from "./apollo";
 import Layout from "./components/Layout";
 import Profile from "./screens/Profile";
+import { NotMatch } from "./pages/NotMatch";
 
 function App() {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
@@ -49,9 +50,9 @@ function App() {
                   <Profile />
                 </Layout>
               </Route>
-              {/* <Route path={routes.upload}>
-                <LoadPhoto />
-              </Route> */}
+              <Route path={routes.notMath}>
+                <NotMatch />
+              </Route>
               <Route>
                 <NotFound />
               </Route>
