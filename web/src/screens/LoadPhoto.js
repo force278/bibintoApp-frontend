@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { BaseBox } from "../components/shared";
 import { gql, useLazyQuery, useMutation } from "@apollo/client";
 import { useState } from "react";
-import Header from "../components/Header";
+import { Header } from "../components/Header";
 
 const SFormBox = styled(BaseBox)`
   display: flex;

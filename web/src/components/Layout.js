@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Header from "./Header";
+import { Header } from "./Header";
 
 const Content = styled.div`
   margin: 0 auto;

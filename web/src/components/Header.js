@@ -15,57 +15,8 @@ import routes from "../routes";
 import UploadPopUp from "../screens/UploadPopUp";
 import searchGray from "../assets/img/header/searchGray.svg"
 
-const SHeader = styled.header`
-  width: 100%;
-  border-bottom: 1px solid ${(props) => props.theme.borderColor};
-  background-color: ${(props) => props.theme.bgColor};
-  padding: 18px 0px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  position: fixed;
-  z-index: 100;
-`;
 
-const Wrapper = styled.div`
-  max-width: 930px;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const Column = styled.div``;
-
-const Icon = styled.span`
-  margin-left: 15px;
-`;
-
-const Button = styled.span`
-  background-color: ${(props) => props.theme.accent};
-  color: white;
-  padding: 5px 15px;
-  border-radius: 4px;
-  font-weight: 600;
-`;
-
-const IconContainer = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const StyledFileInput = styled.input`
-  opacity: 0;
-  visibility: hidden;
-  position: absolute;
-`;
-
-const StyledFileInputLabel = styled.label`
-  cursor: pointer;
-`;
-
-function Header() {
+export function Header() {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const { data } = useMe();
   const history = useHistory();
@@ -76,7 +27,6 @@ function Header() {
     setShowModal(!showModal);
   };
   const logOut = () => {
-    //TODO: ужасное решение, все нужно переписать
     localStorage.removeItem('TOKEN')
     history.push('/');
     window.location.reload();
@@ -124,98 +74,90 @@ function Header() {
 
   return (
     <>
-      <SHeader>
-        <Wrapper>
-          <Column>
-            <Link to={routes.home}>
-              <div>
-                <img src={logo} width='100' alt='Бибинто'></img>
-              </div>
-            </Link>
-          </Column>
-
-          {/* TODO: Реализовать строку поиска (min: стили) */}
-
-          <Column>
-            {isLoggedIn ? (
-              <IconContainer>
-                <div className="inputSearch">
-                  <input type="text" className="inputSearch__input" placeholder="Поиск" />
-                  <img src={searchGray} alt="search" className="inputSearch__icon" />
-                </div>
-                <Icon>
-                  <Link to={routes.home}>
-                    <img src={homeIcon} alt='home' />
-                  </Link>
-                </Icon>
-                <Icon>
-                  <Link to={routes.home}>
-                    <img src={messageIcon} alt='message' />
-                  </Link>
-                </Icon>
-                {/* TODO: стилизовать input */}
-                <Icon>
-                  <StyledFileInput
-                    id='imageInput'
-                    type='file'
-                    accept='image/jpeg, image/png'
-                    onChange={handleUploadImage}
-                  />
-                  <StyledFileInputLabel htmlFor='imageInput'>
-                    <img src={uploadIcon} alt='upload' />
-                  </StyledFileInputLabel>
-                </Icon>
-                <Icon>
-                  <Link to={routes.home}>
-                    <img src={likeIcon} alt='like' />
-                  </Link>
-                </Icon>
-                <Icon>
-                  {/*<Link to={`/users/${data?.me?.username}`}>*/}
-                  <button className="border-0 bg-transparent" onClick={handleShowModal}>
-                    <img src={userIcon} alt='user' />
-                  </button>
-                  <div className={`position-relative ${showModal? 'd-block' : 'd-none'}`}>
-                    <div className="position-absolute"
-                         style={{
-                           width: '250px',
-                           height: '130px',
-                           background: '#F4F4F4',
-                           borderRadius: '17px',
-                           top:'66px',
-                           left: '50%',
-                           transform: 'translate(-50%, -50%)',
-                    }}>
-                      {showModal && (
-                          <div className="d-flex flex-column" ref={modalRef}>
-                            <button className="m-2 z-2 border-0 p-3 bg-white rounded">
-                              <Link to={`/users/${data?.me?.username}`}>
-                                Мой профиль
-                              </Link>
-                            </button>
-                            <button className="m-2 z-2 border-0 p-3 bg-white text-danger rounded" onClick={logOut}>
-                              <Link to={`/users/${data?.me?.username}`}>
-                                Выйти из профиля
-                              </Link>
-                            </button>
+      <div className="w-100 border-bottom bg-white pt-3 pb-3 d-flex align-items-center justify-content-center position-fixed z-1"
+           style={{boxShadow: '0 0 10px rgba(0, 0, 0, 0.3)' }}>
+        <div className="w-100 d-flex justify-content-between align-items-center"
+             style={{maxWidth: '930px'}}>
+          <div className="d-flex justify-content-between w-100">
+                {isLoggedIn ?(
+                    <div className="d-flex align-items-center justify-content-between w-100">
+                      <div>
+                        <Link to={routes.home}>
+                          <div>
+                            <img src={logo} width='100' alt='Бибинто'></img>
                           </div>
-                      )}
+                        </Link>
+                      </div>
+                      <div className="inputSearch">
+                        <input type="text" className="inputSearch__input" placeholder="Поиск" />
+                        <img src={searchGray} alt="search" className="inputSearch__icon" />
+                      </div>
+                      <div>
+                        <span className="ms-3">
+                        <Link to={routes.home}>
+                          <img src={homeIcon} alt='home' />
+                        </Link>
+                      </span>
+                        <span className="ms-3">
+                        <Link to={routes.home}>
+                          <img src={messageIcon} alt='message' />
+                        </Link>
+                      </span>
+                        <span className="ms-3">
+                        <input style={{opacity: 0, visibility: 'hidden', position: 'absolute'}} id='imageInput' type='file' accept='image/jpeg, image/png' onChange={handleUploadImage} />
+                        <label className="cursor-pointer" htmlFor='imageInput'>
+                          <img src={uploadIcon} alt='upload' />
+                        </label>
+                      </span>
+                        <span className="ms-3">
+                        <Link to={routes.home}>
+                          <img src={likeIcon} alt='like' />
+                        </Link>
+                      </span>
+                        <span className="ms-3">
+                        <button className="border-0 bg-transparent" onClick={handleShowModal}>
+                          <img src={userIcon} alt='user' />
+                        </button>
+                        <div className={`position-relative ${showModal? 'd-block' : 'd-none'}`}>
+                          <div className="position-absolute"
+                               style={{
+                                 width: '250px',
+                                 height: '130px',
+                                 background: '#F4F4F4',
+                                 borderRadius: '17px',
+                                 top:'66px',
+                                 left: '50%',
+                                 transform: 'translate(-50%, -50%)',
+                               }}>
+                            {showModal && (
+                                <div className="d-flex flex-column" ref={modalRef}>
+                                  <button className="m-2 z-2 border-0 p-3 bg-white rounded">
+                                    <Link to={`/users/${data?.me?.username}`}>
+                                      Мой профиль
+                                    </Link>
+                                  </button>
+                                  <button className="m-2 z-2 border-0 p-3 bg-white text-danger rounded" onClick={logOut}>
+                                    <Link to={`/users/${data?.me?.username}`}>
+                                      Выйти из профиля
+                                    </Link>
+                                  </button>
+                                </div>
+                            )}
+                          </div>
+                        </div>
+                      </span>
+                      </div>
+
                     </div>
-                  </div>
-                  {/*</Link>*/}
-                </Icon>
-              </IconContainer>
-            ) : (
-              <Link href={routes.home}>
-                <Button>Войти</Button>
-              </Link>
-            )}
-          </Column>
-        </Wrapper>
-      </SHeader>
+                ):(<Link href={routes.home}>
+                    <button className="bg-danger text-white pt-2 pb-2 ps-3 pe-3 font-weight-bold" style={{borderRadius: '4px'}}>Войти</button>
+                  </Link>
+                )}
+          </div>
+        </div>
+      </div>
 
       {uploadModalActive && <UploadPopUp onClose={handleClosePopUp} />}
     </>
   );
 }
-export default Header;

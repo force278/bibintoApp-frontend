@@ -43,7 +43,8 @@
   position: relative;
   background: #EFEFEF;
   border-radius: 8px;
-  padding: 8px 12px 8px 40px; /* Увеличьте левый паддинг для учета иконки */
+  padding: 8px 12px 8px 40px;
+  min-width: 250px;
 }
 
 .inputSearch__input {
