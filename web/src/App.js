@@ -35,7 +35,7 @@ function App() {
                   <Login />
                 )}
               </Route>
-              <Route path='/recomendations'>
+              <Route path='/recommendations'>
                 <Layout>
                   <Home />
                 </Layout>

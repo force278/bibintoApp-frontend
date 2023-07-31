@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Link, Switch, Route } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, Switch, Route, useLocation } from "react-router-dom";
 import { gql, useQuery } from "@apollo/client";
 import styled from "styled-components";
 import Post from "../components/feed/Post";
@@ -28,18 +28,6 @@ const SEE_FEED_QUERY = gql`
   ${COMMENTS_FRAGMENT}
 `;
 
-// const StyledHomeContainer = styled.div`
-//   position: relative;
-//   display: grid;
-//   grid-template-columns: 2fr 1fr;
-//   column-gap: 23px;
-//
-//   @media screen and (max-width: 560px) {
-//     grid-template-columns: 1fr;
-//     column-gap: unset;
-//   }
-// `;
-
 const StyledSubHeader = styled.div`
   font-weight: 700;
   font-size: 20px;
@@ -59,17 +47,13 @@ const StyledSubHeader = styled.div`
 `;
 
 function Home() {
-  const [activeTab, setActiveTab] = useState(0);
+  const useActiveLink = (path) => {
+    const location = useLocation();
+    return location.pathname === path;
+  }
+  const isRecommendationsActive = useActiveLink('/recommendations');
+  const isSubscriptionsActive = useActiveLink('/');
 
-  const handleClickSubscribe = () => {
-    if (activeTab === 0) return;
-    setActiveTab(0);
-  };
-
-  const handleClickRecomenations = () => {
-    if (activeTab === 1) return;
-    setActiveTab(1);
-  };
 
   const { data, refetch } = useQuery(SEE_FEED_QUERY, {
     variables: { offset: 0 },
@@ -93,8 +77,7 @@ function Home() {
           <StyledSubHeader>
             <Link
               to='/'
-              onClick={handleClickSubscribe}
-              className={`${activeTab === 0 ? "active" : ""}`}
+              className={isSubscriptionsActive ? 'active' : ''}
             >
               Подписки
             </Link>
@@ -104,9 +87,8 @@ function Home() {
               </svg>
             </span>
             <Link
-              to='/recomendations'
-              onClick={handleClickRecomenations}
-              className={`${activeTab === 1 ? "active" : ""}`}
+              to='/recommendations'
+              className={isRecommendationsActive ? 'active' : ''}
             >
               Рекомендации
             </Link>
@@ -118,9 +100,6 @@ function Home() {
                   <Post key={post.id} {...post} />
                 ))}
               </>
-            </Route>
-            <Route exact path='/recomendations'>
-              <></>
             </Route>
           </Switch>
         </div>
