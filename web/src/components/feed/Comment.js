@@ -2,8 +2,12 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { BoldText } from "../shared";
 import { Link } from "react-router-dom";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { gql, useMutation } from "@apollo/client";
+import more from "../../assets/img/post/more.svg";
+import remove from "../../assets/img/post/remove.png"
+import edit from "../../assets/img/post/edit.svg"
+import {useState} from "react";
 
 const DELETE_COMMENT_MUTATION = gql`
   mutation deleteComment($id: Int!) {
@@ -13,12 +17,9 @@ const DELETE_COMMENT_MUTATION = gql`
   }
 `;
 
-const CommentContainer = styled.div`
-  margin-bottom: 7px;
-`;
-
 const CommentCaption = styled.span`
   margin-left: 10px;
+  overflow-wrap: anywhere;
   a {
     background-color: inherit;
     color: ${(props) => props.theme.accent};
@@ -29,7 +30,14 @@ const CommentCaption = styled.span`
   }
 `;
 
+
 function Comment({ id, isMine, photoId, author, payload }) {
+  const [showModal, setShowModal] = useState(false);
+  const modalRef = useRef();
+  const handleShowModal = (event) => {
+    event.stopPropagation();
+    setShowModal(!showModal);
+  };
   const updateDeleteComment = (cache, result) => {
     const {
       data: {
@@ -49,6 +57,21 @@ function Comment({ id, isMine, photoId, author, payload }) {
     }
   };
 
+
+  useEffect(() => {
+    const handleClickOutsideModal = (event) => {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        setShowModal(false);
+      }
+    };
+
+    document.addEventListener('click', handleClickOutsideModal);
+
+    return () => {
+      document.removeEventListener('click', handleClickOutsideModal);
+    };
+  }, []);
+
   const [deleteComment] = useMutation(DELETE_COMMENT_MUTATION, {
     variables: {
       id,
@@ -59,25 +82,44 @@ function Comment({ id, isMine, photoId, author, payload }) {
   const onDeleteClick = () => {
     deleteComment();
   };
-
+  const editText = () => {
+    alert("Редактирование текста пока что невозможно")
+  }
   return (
-    <CommentContainer>
-      <Link to={`/users/${author}`}>
-        <BoldText>{author}</BoldText>
-      </Link>
-      <CommentCaption>
-        {payload?.split(" ").map((word, index) =>
-          /#[а-яА-Я]+/.test(word) ? (
-            <React.Fragment key={index}>
-              <Link to={`/hashtags/${word}`}>{word}</Link>{" "}
-            </React.Fragment>
-          ) : (
-            <React.Fragment key={index}>{word} </React.Fragment>
-          )
-        )}
-      </CommentCaption>
-      {isMine ? <button onClick={onDeleteClick}>❌</button> : null}
-    </CommentContainer>
+    <div className="d-flex justify-content-between mb-2">
+      <div>
+        <Link to={`/users/${author}`}>
+          <BoldText>{author}</BoldText>
+        </Link>
+        <CommentCaption>
+          {payload?.split(" ").map((word, index) =>
+              /#[а-яА-Я]+/.test(word) ? (
+                  <span key={index}>
+                    <Link to={`/hashtags/${word}`}>{word}</Link>
+                  </span>
+              ) : (
+                  <span key={index}>{word}</span>
+              )
+          )}
+        </CommentCaption>
+      </div>
+      <div>
+        {isMine ? <button className="border-0 bg-transparent" onClick={handleShowModal}>
+          <img className="cursor-pointer" style={{width: '12px'}} src={more} alt="Удалить"/>
+        </button> : null}
+      </div>
+      {showModal && (
+          <div ref={modalRef}>
+            <button className="text-secondary border-0 bg-transparent" onClick={onDeleteClick}>
+              <img src={remove} alt="удалить" className="cursor-pointer" style={{width: '13px'}}/>
+            </button>
+            <button className="text-warning border-0 bg-transparent" onClick={editText}>
+              <img src={edit} alt="редактировать" className="cursor-pointer" style={{width: '13px'}} />
+            </button>
+          </div>
+      )}
+
+    </div>
   );
 }
 

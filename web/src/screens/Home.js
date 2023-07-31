@@ -28,17 +28,17 @@ const SEE_FEED_QUERY = gql`
   ${COMMENTS_FRAGMENT}
 `;
 
-const StyledHomeContainer = styled.div`
-  position: relative;
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  column-gap: 23px;
-
-  @media screen and (max-width: 560px) {
-    grid-template-columns: 1fr;
-    column-gap: unset;
-  }
-`;
+// const StyledHomeContainer = styled.div`
+//   position: relative;
+//   display: grid;
+//   grid-template-columns: 2fr 1fr;
+//   column-gap: 23px;
+//
+//   @media screen and (max-width: 560px) {
+//     grid-template-columns: 1fr;
+//     column-gap: unset;
+//   }
+// `;
 
 const StyledSubHeader = styled.div`
   font-weight: 700;
@@ -88,7 +88,7 @@ function Home() {
   return (
     <>
       <PageTitle title='Лента' />
-      <StyledHomeContainer>
+      <div className="d-flex">
         <div>
           <StyledSubHeader>
             <Link
@@ -125,7 +125,7 @@ function Home() {
           </Switch>
         </div>
         <RecomendationAside currentUsername="" />
-      </StyledHomeContainer>
+      </div>
     </>
   );
 }

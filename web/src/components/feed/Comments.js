@@ -2,8 +2,10 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import Comment from "./Comment";
 import { useForm } from "react-hook-form";
+import {useRef} from "react";
 import { gql, useMutation } from "@apollo/client";
 import useMe from "../../hooks/useMe";
+import send_message from "../../assets/img/post/send_message.svg"
 
 const CommentsContainer = styled.div`
   margin-top: 20px;
@@ -18,6 +20,7 @@ const CommentsNumber = styled.span`
 `;
 
 const PostCommentContainer = styled.div`
+  display: flex;
   margin-top: 10px;
   padding-top: 15px;
   padding-bottom: 10px;
@@ -44,6 +47,7 @@ const CREATE_COMMENT_MUTATION = gql`
 function Comments({ photoId, author, caption, commentsNumber, comments }) {
   const { data: userData } = useMe();
   const { register, handleSubmit, setValue, getValues } = useForm();
+
   const createCommentUpdate = (cache, result) => {
     const { payload } = getValues();
     setValue("payload", "");
@@ -124,12 +128,15 @@ function Comments({ photoId, author, caption, commentsNumber, comments }) {
         />
       ))}
       <PostCommentContainer>
-        <form onSubmit={handleSubmit(onValid)}>
-          <PostCommentInput
-            {...register("payload", { required: true })}
-            type="text"
-            placeholder="Добавьте комментарий..."
-          />
+        <form onSubmit={handleSubmit(onValid)} className="d-flex w-100">
+          <div className="d-flex justify-content-between w-100">
+            <PostCommentInput
+                {...register("payload", { required: true })}
+                type="text"
+                placeholder="Добавьте комментарий..."
+            />
+            <button type="submit" className="bg-transparent border-0"><img src={send_message} alt="Отправить сообщение"  /></button>
+          </div>
         </form>
       </PostCommentContainer>
     </CommentsContainer>

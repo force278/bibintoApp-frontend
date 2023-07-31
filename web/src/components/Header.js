@@ -128,6 +128,7 @@ export function Header() {
                                  top:'66px',
                                  left: '50%',
                                  transform: 'translate(-50%, -50%)',
+                                 filter: 'drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))',
                                }}>
                             {showModal && (
                                 <div className="d-flex flex-column" ref={modalRef}>

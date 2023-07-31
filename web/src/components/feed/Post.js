@@ -30,11 +30,8 @@ const TOGGLE_LIKE_MUTATION = gql`
 const PostContainer = styled.div`
   background-color: white;
   border: 1px solid ${(props) => props.theme.borderColor};
-  border-radius: 10px;
   margin-bottom: 60px;
   max-width: 585px;
-  // background-color: rgb(250, 250, 250);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 `;
 
 const PostHeader = styled.div`

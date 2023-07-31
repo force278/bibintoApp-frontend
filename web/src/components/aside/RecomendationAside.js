@@ -3,20 +3,6 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import ProfileItem from "./ProfileItem";
 
-const StyledAside = styled.div`
-  display: flex;
-  flex-direction: column;
-  background-color: rgb(250, 250, 250);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  padding: 20px;
-  margin-top: 65px;
-  border-radius: 10px;
-  max-height: 390px;
-  position: fixed;
-  right: 10em;
-  
-`;
-
 const StyledLinks = styled.div`
   display: flex;
   justify-content: space-between;
@@ -38,7 +24,7 @@ const StyledCopyright = styled.small`
 
 const RecomendationAside = ({ currentUsername }) => {
   return (
-    <StyledAside>
+    <div className="d-flex flex-column position-fixed aside">
       <ProfileItem
         linkText='Редактировать'
         linkTo={`*`}
@@ -71,7 +57,7 @@ const RecomendationAside = ({ currentUsername }) => {
         small
       />
       <StyledCopyright>BIBINTO © 2023</StyledCopyright>
-    </StyledAside>
+    </div>
   );
 };
 
