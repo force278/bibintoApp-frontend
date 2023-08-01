@@ -92,29 +92,29 @@ export function Header() {
                         <input type="text" className="inputSearch__input" placeholder="Поиск" />
                         <img src={searchGray} alt="search" className="inputSearch__icon" />
                       </div>
-                      <div>
-                        <span className="ms-3">
+                      <div className="d-flex" style={{gap: '35px'}}>
+                        <span>
                         <Link to={routes.home}>
                           <img src={homeIcon} alt='home' />
                         </Link>
                       </span>
-                        <span className="ms-3">
+                        <span>
                         <Link to={routes.home}>
                           <img src={messageIcon} alt='message' />
                         </Link>
                       </span>
-                        <span className="ms-3">
+                        <span>
                         <input style={{opacity: 0, visibility: 'hidden', position: 'absolute'}} id='imageInput' type='file' accept='image/jpeg, image/png' onChange={handleUploadImage} />
                         <label className="cursor-pointer" htmlFor='imageInput'>
                           <img src={uploadIcon} alt='upload' />
                         </label>
                       </span>
-                        <span className="ms-3">
+                        <span>
                         <Link to={routes.home}>
                           <img src={likeIcon} alt='like' />
                         </Link>
                       </span>
-                        <span className="ms-3">
+                        <span >
                         <button className="border-0 bg-transparent" onClick={handleShowModal}>
                           <img src={userIcon} alt='user' />
                         </button>
@@ -132,12 +132,12 @@ export function Header() {
                                }}>
                             {showModal && (
                                 <div className="d-flex flex-column" ref={modalRef}>
-                                  <button className="m-2 z-2 border-0 p-3 bg-white rounded">
+                                  <button className="m-2 z-2 border-0 p-3 bg-white" style={{borderRadius: '11px'}}>
                                     <Link to={`/users/${data?.me?.username}`}>
                                       Мой профиль
                                     </Link>
                                   </button>
-                                  <button className="m-2 z-2 border-0 p-3 bg-white text-danger rounded" onClick={logOut}>
+                                  <button className="m-2 z-2 border-0 p-3 bg-white text-danger" style={{borderRadius: '11px'}} onClick={logOut}>
                                     <Link to={`/users/${data?.me?.username}`}>
                                       Выйти из профиля
                                     </Link>

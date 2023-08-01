@@ -5,7 +5,6 @@ import Avatar from "../Avatar";
 import moreIcon from "../../assets/img/More.svg"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faBookmark,
   faComment,
   faHeart,
 } from "@fortawesome/free-regular-svg-icons";
@@ -32,6 +31,8 @@ const PostContainer = styled.div`
   border: 1px solid ${(props) => props.theme.borderColor};
   margin-bottom: 60px;
   max-width: 585px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 `;
 
 const PostHeader = styled.div`
@@ -151,9 +152,6 @@ function Post({
             <PostAction>
               <FontAwesomeIcon icon={faComment} />
             </PostAction>
-          </div>
-          <div>
-            <FontAwesomeIcon icon={faBookmark} />
           </div>
         </PostActions>
         <Likes>

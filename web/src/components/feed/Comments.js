@@ -135,7 +135,7 @@ function Comments({ photoId, author, caption, commentsNumber, comments }) {
                 type="text"
                 placeholder="Добавьте комментарий..."
             />
-            <button type="submit" className="bg-transparent border-0"><img src={send_message} alt="Отправить сообщение"  /></button>
+            <button type="submit" className="bg-transparent border-0" style={{color: "#2283F5", fontWeight: "600",}}>Опубликовать</button>
           </div>
         </form>
       </PostCommentContainer>

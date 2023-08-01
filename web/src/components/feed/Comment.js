@@ -86,7 +86,7 @@ function Comment({ id, isMine, photoId, author, payload }) {
     alert("Редактирование текста пока что невозможно")
   }
   return (
-    <div className="d-flex justify-content-between mb-2">
+    <div className="d-flex justify-content-between mb-2 position-relative">
       <div>
         <Link to={`/users/${author}`}>
           <BoldText>{author}</BoldText>
@@ -109,12 +109,20 @@ function Comment({ id, isMine, photoId, author, payload }) {
         </button> : null}
       </div>
       {showModal && (
-          <div ref={modalRef}>
-            <button className="text-secondary border-0 bg-transparent" onClick={onDeleteClick}>
-              <img src={remove} alt="удалить" className="cursor-pointer" style={{width: '13px'}}/>
+          <div className="position-absolute d-flex flex-column justify-content-around z-2" ref={modalRef}
+               style={{
+                 background: '#F4F4F4',
+                 borderRadius: '17px',
+                 right: "-60px",
+                 top: "25px",
+                 filter: 'drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))',}}>
+            <button className="text-secondary border-0 bg-white p-2 mt-2 ms-2 me-2 rounded" onClick={onDeleteClick}>
+              <img src={remove} alt="удалить" className="cursor-pointer me-2" style={{width: '13px'}}/>
+              Удалить
             </button>
-            <button className="text-warning border-0 bg-transparent" onClick={editText}>
-              <img src={edit} alt="редактировать" className="cursor-pointer" style={{width: '13px'}} />
+            <button className="text-warning border-0 bg-white p-2 m-2 rounded" onClick={editText}>
+              <img src={edit} alt="редактировать" className="cursor-pointer me-2" style={{width: '13px'}} />
+              Редактировать
             </button>
           </div>
       )}
