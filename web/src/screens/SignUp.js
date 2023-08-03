@@ -4,7 +4,6 @@ import AuthLayout from "../components/auth/AuthLayout";
 import Button from "../components/auth/Button";
 import Input from "../components/auth/Input";
 import FormBox from "../components/auth/FormBox";
-import { BoldLink } from "../components/shared";
 import PageTitle from "../components/PageTitle";
 import { useForm } from "react-hook-form";
 import { gql, useMutation } from "@apollo/client";
@@ -17,12 +16,6 @@ const HeaderContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-`;
-
-const Subtitle = styled(BoldLink)`
-  margin-top: 20px;
-  font-size: 16px;
-  text-align: center;
 `;
 
 const CREATE_ACCOUNT_MUTATION = gql`
