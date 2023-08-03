@@ -1,11 +1,9 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom"
-import routes from "../routes";
 import AuthLayout from "../components/auth/AuthLayout";
 import Button from "../components/auth/Button";
 import Input from "../components/auth/Input";
 import FormBox from "../components/auth/FormBox";
-import BottomBox from "../components/auth/BottomBox";
 import PageTitle from "../components/PageTitle";
 import { useForm } from "react-hook-form";
 import FormError from "../components/auth/FormError";
@@ -63,7 +61,7 @@ function Login() {
       password: location?.state?.password || "",
     },
   });
-  const onSubmitValid = (data) => {
+  const onSubmitValid = () => {
     if (loading) return;
     const { username, password } = getValues();
     login({

@@ -2,10 +2,8 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import Comment from "./Comment";
 import { useForm } from "react-hook-form";
-import {useRef} from "react";
 import { gql, useMutation } from "@apollo/client";
 import useMe from "../../hooks/useMe";
-import send_message from "../../assets/img/post/send_message.svg"
 
 const CommentsContainer = styled.div`
   margin-top: 20px;

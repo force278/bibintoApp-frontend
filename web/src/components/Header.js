@@ -1,8 +1,6 @@
-// TODO: Поудалять ненужные переменные
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useReactiveVar } from "@apollo/client";
-import styled from "styled-components";
 import userIcon from "../assets/img/user.svg";
 import likeIcon from "../assets/img/like.svg";
 import uploadIcon from "../assets/img/upload.svg";

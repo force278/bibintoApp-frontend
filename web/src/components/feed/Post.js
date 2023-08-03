@@ -136,7 +136,7 @@ function Post({
         </Link>
         
         <More onClick={() => setModalActive(true)}>
-          <img src={moreIcon} />
+          <img src={moreIcon} alt="more" />
         </More>
       </PostHeader>
       <PostContent src={file} />
