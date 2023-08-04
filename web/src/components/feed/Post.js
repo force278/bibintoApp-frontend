@@ -18,8 +18,8 @@ import { useState } from "react";
 import ModalContent from "../modal/ModalContent";
 
 const TOGGLE_LIKE_MUTATION = gql`
-  mutation toggleLike($id: Int!) {
-    toggleLike(id: $id) {
+  mutation toggleLike($id: Int!, $value: Int!) {
+    toggleLike(id: $id, value: $value) {
       ok
       error
     }
@@ -120,7 +120,7 @@ function Post({
     }
   };
   const [toogleLike] = useMutation(TOGGLE_LIKE_MUTATION, {
-    variables: { id },
+    variables: { id, value: 10 },
     update: updateToggleLike,
   });
   const [modalActive, setModalActive] = useState(false);
@@ -133,8 +133,7 @@ function Post({
         </Link>
         <Link to={`/users/${user?.username}`}>
           <Username>{user?.username}</Username>
-        </Link>
-        
+        </Link>  
         <More onClick={() => setModalActive(true)}>
           <img src={moreIcon} alt="more" />
         </More>

@@ -36,7 +36,7 @@ const httpLink = createHttpLink({
   uri:
     process.env.NODE_ENV === "production"
       ? "https://intense-shelf-26389.herokuapp.com/graphql"
-      : "http://82.146.46.39:4000/graphql",
+      : "http://localhost:4000/graphql",
 });
 
 const authLink = setContext((_, { headers }) => {
