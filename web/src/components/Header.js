@@ -103,7 +103,7 @@ export function Header() {
                       </span>
                         <span>
                         <input style={{opacity: 0, visibility: 'hidden', position: 'absolute'}} id='imageInput' type='file' accept='image/jpeg, image/png' onChange={handleUploadImage} />
-                        <label className="cursor-pointer" htmlFor='imageInput'>
+                        <label style={{cursor: "pointer"}} htmlFor='imageInput'>
                           <img src={uploadIcon} alt='upload' />
                         </label>
                       </span>

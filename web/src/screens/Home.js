@@ -28,6 +28,27 @@ const SEE_FEED_QUERY = gql`
   ${COMMENTS_FRAGMENT}
 `;
 
+const SEE_REC_QUERY = gql`
+  query seeRec {
+    seeRec {
+      ...PostFragment
+      caption
+      comments {
+        ...CommentFragment
+      }
+      user {
+        username
+        avatar
+      }
+      createdAt
+      isMine
+      isLiked
+    }
+  }
+  ${POST_FRAGMENT}
+  ${COMMENTS_FRAGMENT}
+`;
+
 const StyledSubHeader = styled.div`
   font-weight: 700;
   font-size: 20px;
@@ -55,10 +76,12 @@ function Home() {
   const isSubscriptionsActive = useActiveLink('/');
 
 
-  const { data, refetch } = useQuery(SEE_FEED_QUERY, {
+  const { data } = useQuery(SEE_FEED_QUERY, {
     variables: { offset: 0 },
   });
 
+  const data_rec = useQuery(SEE_REC_QUERY);
+  /*
   useEffect(
     () => {
       const interval = setInterval(() => refetch({ offset: 0 }), 5000);
@@ -68,7 +91,7 @@ function Home() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [] // empty array
   );
-
+  */
   return (
     <>
       <PageTitle title='Лента' />
@@ -97,6 +120,13 @@ function Home() {
             <Route exact path='/'>
               <>
                 {data?.seeFeed?.map((post) => (
+                  <Post key={post.id} {...post} />
+                ))}
+              </>
+            </Route>
+            <Route exact path='/recommendations'>
+              <>
+                {data_rec?.data?.seeRec?.map((post) => (
                   <Post key={post.id} {...post} />
                 ))}
               </>
