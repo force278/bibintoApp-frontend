@@ -71,7 +71,7 @@
 .inputSearch__placeholder {
   position: absolute;
   top: 50%;
-  left: 40px; /* Увеличьте левый отступ для учета иконки */
+  left: 40px;
   transform: translateY(-50%);
   color: #a7a7a7;
   pointer-events: none;
@@ -79,4 +79,16 @@
 
 .inputSearch__input:focus + .inputSearch__placeholder {
   display: none;
+}
+
+.active_profile::before {
+  content: "";
+  display: block;
+  width: 3px;
+  height: 100%;
+  background-color: #000;
+  position: absolute;
+  border-radius: 2px;
+  left: -0.8rem;
+  top: 0;
 }

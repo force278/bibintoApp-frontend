@@ -14,6 +14,7 @@ import { client } from "./apollo";
 import Layout from "./components/Layout";
 import Profile from "./screens/Profile";
 import { NotMatch } from "./pages/NotMatch";
+import { EditProfile } from "./screens/EditProfile";
 
 function App() {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
@@ -38,6 +39,11 @@ function App() {
               <Route path='/recommendations'>
                 <Layout>
                   <Home />
+                </Layout>
+              </Route>
+              <Route path="/account/">
+                <Layout>
+                  <EditProfile/>
                 </Layout>
               </Route>
               {!isLoggedIn ? (
