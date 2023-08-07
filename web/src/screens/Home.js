@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Link, Switch, Route, useLocation } from "react-router-dom";
 import { gql, useQuery } from "@apollo/client";
 import styled from "styled-components";
@@ -95,7 +95,7 @@ function Home() {
   return (
     <>
       <PageTitle title='Лента' />
-      <div className="d-flex">
+      <div className="d-flex justify-content-center" style={{marginLeft: '70px'}}>
         <div>
           <StyledSubHeader>
             <Link
