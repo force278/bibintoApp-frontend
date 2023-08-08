@@ -118,18 +118,18 @@ function Home() {
           </StyledSubHeader>
           <Switch>
             <Route exact path='/'>
-              <>
+              <div style={{width:'585px'}}>
                 {data?.seeFeed?.map((post) => (
                   <Post key={post.id} {...post} />
                 ))}
-              </>
+              </div>
             </Route>
             <Route exact path='/recommendations'>
-              <>
+              <div style={{width:'585px'}}>
                 {data_rec?.data?.seeRec?.map((post) => (
                   <Post key={post.id} {...post} />
                 ))}
-              </>
+              </div>
             </Route>
           </Switch>
         </div>
