@@ -15,6 +15,8 @@ import Layout from "./components/Layout";
 import Profile from "./screens/Profile";
 import { NotMatch } from "./pages/NotMatch";
 import { EditProfile } from "./screens/EditProfile";
+import ChangeEditProfile from "./components/ProfileEdit/ChangeEditProfile";
+import { ChangePassword } from "./components/ProfileEdit/ChangePassword";
 
 function App() {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
@@ -41,10 +43,16 @@ function App() {
                   <Home />
                 </Layout>
               </Route>
-              <Route path="/account/">
+              <Route path="/account/accountEditProfile" exact>
                 <Layout>
-                  <EditProfile/>
+                  <EditProfile children={<ChangeEditProfile/>}
+                  />
                 </Layout>
+              </Route>
+              <Route path="/account/accountChangePassword" exact>
+                  <Layout>
+                    <EditProfile children={<ChangePassword/>}/>
+                  </Layout>
               </Route>
               {!isLoggedIn ? (
                 <Route path={routes.signUp}>

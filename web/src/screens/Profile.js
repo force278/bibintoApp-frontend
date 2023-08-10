@@ -1,7 +1,7 @@
 import { gql, useApolloClient, useMutation, useQuery } from "@apollo/client";
 import { faComment, faHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { BoldText } from "../components/shared";
 import { POST_FRAGMENT } from "../fragments";
@@ -211,7 +211,7 @@ function Profile() {
 
   const getButton = (seeProfile) => {
     const { isMe, isFollowing } = seeProfile;
-    if (isMe) return <ProfileBtn>Редактировать профиль</ProfileBtn>;
+    if (isMe) return <ProfileBtn><Link to="/account/accountEditProfile">Редактировать профиль</Link></ProfileBtn>;
     if (isFollowing)
       return <ProfileBtn onClick={unfollowUser}>Отписаться</ProfileBtn>;
     else return <ProfileBtn onClick={followUser}>Подписаться</ProfileBtn>;

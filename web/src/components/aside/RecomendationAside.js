@@ -27,7 +27,7 @@ const RecomendationAside = ({ currentUsername }) => {
     <div className="d-flex flex-column aside">
       <ProfileItem
         linkText='Редактировать'
-        linkTo={`/account/`}
+        linkTo="/account/accountEditProfile"
         name='Разрабатывается...'
         username="Мой профиль"
       />
