@@ -97,7 +97,7 @@ export function Header() {
                         </Link>
                       </span>
                         <span>
-                        <Link to={routes.home}>
+                        <Link to="/*">
                           <img src={messageIcon} alt='message' />
                         </Link>
                       </span>
@@ -108,7 +108,7 @@ export function Header() {
                         </label>
                       </span>
                         <span>
-                        <Link to={routes.home}>
+                        <Link to="/*">
                           <img src={likeIcon} alt='like' />
                         </Link>
                       </span>
