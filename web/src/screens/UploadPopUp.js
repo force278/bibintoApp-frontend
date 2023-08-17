@@ -35,7 +35,7 @@ const Image = styled.div`
   border-radius: 0 0 0 32px;
 `;
 
-const PostImage = ({ data }) => {
+export const PostImage = ({ data }) => {
   const [imageUrl, setImageUrl] = useState(null);
 
   useEffect(() => {
@@ -77,7 +77,7 @@ const PostImage = ({ data }) => {
 //   return <PostImage data={data} />;
 // };
 
-const UploadPopUp = ({ onClose }) => {
+export const UploadPopUp = ({ onClose }) => {
   const history = useHistory();
 
   const [getUploadUrl, { called, loading, data }] =

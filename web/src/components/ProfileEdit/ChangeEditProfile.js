@@ -1,18 +1,58 @@
-import React from 'react'
-import avatar from "../../assets/img/editProfile/avatart.svg";
+import React, { useRef, useState } from 'react'
+import { CropperModal } from "./CropperModal";
+import defaultAvatar from "../../assets/img/editProfile/defaultAvatar.png";
 
 export default function ChangeEditProfile() {
+    const [src, setSrc] = useState(null);
+    const [modalOpen, setModalOpen] = useState(false);
+    const [preview, setPreview] = useState(null);
+    const inputRef = useRef(null);
+
+    const handleInputClick = (e) => {
+        e.preventDefault();
+        inputRef.current.click();
+    };
+
+    const handleImgChange = (e) => {
+        setSrc(URL.createObjectURL(e.target.files[0]));
+        setModalOpen(true);
+    };
     return (
         <>
             <div className="col-8">
                 <div className="row">
                     <div className="d-flex mb-3" style={{marginTop: "33px"}}>
                         <div className="col-2 d-flex justify-content-end">
-                            <img src={avatar} style={{width:"38px", height: "38px", borderRadius: "50%"}} alt="avatar"/>
+                            <div className="img-container">
+                                <img
+                                    style={{cursor: "pointer", borderRadius: '50%' }}
+                                    onClick={handleInputClick}
+                                    src={
+                                        preview ||
+                                        defaultAvatar
+                                    }
+                                    alt=""
+                                    width="38px"
+                                    height="38px"
+                                />
+                                <CropperModal
+                                    modalOpen={modalOpen}
+                                    src={src}
+                                    setPreview={setPreview}
+                                    setModalOpen={setModalOpen}
+                                />
+                                <input
+                                    style={{display: 'none'}}
+                                    type="file"
+                                    accept="image/*"
+                                    ref={inputRef}
+                                    onChange={handleImgChange}
+                                />
+                            </div>
                         </div>
                         <div className="d-flex flex-column col-10 ps-4">
                             <span className="fs-5">alexeev</span>
-                            <button className="text-primary bg-transparent border-0 d-flex justify-content-start">Загрузите новое фото</button>
+                            <button onClick={handleInputClick} className="text-primary bg-transparent border-0 d-flex justify-content-start ps-0">Загрузите новое фото</button>
                         </div>
                     </div>
                     <div className="d-flex mb-2">

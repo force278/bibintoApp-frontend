@@ -1,6 +1,4 @@
-
 import React from "react";
-import avatar from "../../assets/img/editProfile/avatart.svg";
 
 export const ChangePassword = () => {
     return (
