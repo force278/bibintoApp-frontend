@@ -19,3 +19,11 @@ const Button = styled.input`
 `;
 
 export default Button;
+
+export const DefaultButton = styled.button`
+    width: 100%;
+    border: 1px solid #EFEFEF;
+    border-radius: 3px;
+    display: flex;
+    justify-content: center;
+`
