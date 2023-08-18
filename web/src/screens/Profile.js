@@ -5,7 +5,7 @@ import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { BoldText } from "../components/shared";
 import { POST_FRAGMENT } from "../fragments";
-import Button from "../components/auth/Button";
+import Button, { DefaultButton } from "../components/auth/Button";
 import PageTitle from "../components/PageTitle";
 import useMe from "../hooks/useMe";
 
@@ -134,6 +134,15 @@ const ProfileBtn = styled(Button).attrs({
   cursor: pointer;
 `;
 
+const DefaultBtn = styled(DefaultButton).attrs({
+  as: "span"
+})`
+  margin-left: 10px;
+  margin-top: 0px;
+  padding: 8px 10px;
+  cursor: pointer;
+`
+
 function Profile() {
   const { username } = useParams();
   const { data: userData } = useMe();
@@ -211,9 +220,9 @@ function Profile() {
 
   const getButton = (seeProfile) => {
     const { isMe, isFollowing } = seeProfile;
-    if (isMe) return <ProfileBtn><Link to="/account/accountEditProfile">Редактировать профиль</Link></ProfileBtn>;
+    if (isMe) return <DefaultBtn><Link to="/account/accountEditProfile">Редактировать профиль</Link></DefaultBtn>;
     if (isFollowing)
-      return <ProfileBtn onClick={unfollowUser}>Отписаться</ProfileBtn>;
+      return <DefaultBtn onClick={unfollowUser}>Отписаться</DefaultBtn>;
     else return <ProfileBtn onClick={followUser}>Подписаться</ProfileBtn>;
   };
 
