@@ -1,4 +1,5 @@
 import React from "react";
+import "../../sass/common.scss";
 
 export const ChangePassword = () => {
     return (
@@ -30,7 +31,7 @@ export const ChangePassword = () => {
                         </div>
                     </div>
                     <div className="d-flex justify-content-center" style={{marginTop: '29px'}}>
-                        <button className="text-white border-0" style={{borderRadius: "4px", background: "#2283F5", padding: "8px 17px", filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",}}>Изменить</button>
+                        <button className="text-white border-0 change_btn" style={{borderRadius: "4px", background: "#2283F5", padding: "8px 17px", filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))"}}>Изменить</button>
                     </div>
                 </div>
             </div>

@@ -92,3 +92,11 @@
   left: -0.8rem;
   top: 0;
 }
+
+.change_btn{
+  &:active{
+    transform: scale(0.95);
+    transition: transform 0.2s ease;
+  }
+
+}

@@ -79,7 +79,6 @@ function Comments({ photoId, author, caption, commentsNumber, comments }) {
         `,
         data: newComment,
       });
-      console.log(newCachedComment);
       cache.modify({
         id: `Photo:${photoId}`,
         fields: {
