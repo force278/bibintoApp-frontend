@@ -48,10 +48,8 @@ export function Header() {
 
   useEffect(() => {
     if (history.location.search.includes("upload=true")) {
-      console.log("true");
       setUploadModalActive(true);
     } else {
-      console.log("false");
       setUploadModalActive(false);
     }
   }, [history.location.search]);

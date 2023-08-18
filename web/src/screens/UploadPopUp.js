@@ -42,10 +42,9 @@ export const PostImage = ({ data }) => {
     if (data) {
       (async function (data) {
         const imageInput = document.querySelector("#imageInput");
-
         const file = imageInput.files[0];
+        console.log(file, 'file')
 
-        console.log(data);
 
         await fetch(data.getUrlUploadPhoto, {
           method: "PUT",

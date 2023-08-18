@@ -1,12 +1,37 @@
 import React, { useRef, useState } from 'react'
 import { CropperModal } from "./CropperModal";
 import defaultAvatar from "../../assets/img/editProfile/defaultAvatar.png";
+import "../../sass/common.scss"
+// import { gql } from "@apollo/client";
+
+// const URL_UPLOAD_QUERY = gql`
+//     query {
+//         getUrlUploadPhoto
+//     }
+// `;
 
 export default function ChangeEditProfile() {
     const [src, setSrc] = useState(null);
     const [modalOpen, setModalOpen] = useState(false);
     const [preview, setPreview] = useState(null);
     const inputRef = useRef(null);
+    const [data, setData] = useState(null);
+
+    //TODO: реализовать загрузку аватара
+
+    //  const loadAvatar = async ({data}) => {
+    //     const idImageInput = inputRef.current;
+    //     const file = idImageInput.files[0];
+    //     const res = await fetch(data.getUrlUploadPhoto, {
+    //         method: "PUT",
+    //         headers: {
+    //             "Content-Type": "multipart/form-data",
+    //         },
+    //         body: file,
+    //     });
+    //     const imageUrl = data.getUrlUploadPhoto.split("?")[0];
+    //      setData(imageUrl);
+    // }
 
     const handleInputClick = (e) => {
         e.preventDefault();
@@ -45,6 +70,7 @@ export default function ChangeEditProfile() {
                                     style={{display: 'none'}}
                                     type="file"
                                     accept="image/*"
+                                    id="avatar"
                                     ref={inputRef}
                                     onChange={handleImgChange}
                                 />
@@ -105,7 +131,8 @@ export default function ChangeEditProfile() {
                         <div className="col-10 ps-4">
                             <input type="text" value="мужской" onChange={(e) => e.target.value }  className="border border-1 pt-1 pb-1 ps-2 w-50" />
                             <div className="mt-5">
-                                <button className="text-white border-0"
+                                <button className="text-white border-0 change_btn"
+                                        // onClick={loadAvatar}
                                         style={{borderRadius: "4px", background: "#2283F5", padding: "8px 17px", filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",}}>Изменить</button>
                             </div>
                         </div>
