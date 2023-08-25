@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 
 export const EditProfile = ({children})  => {
     return (
-        <div className="border-1 border bg-white w-100 container" style={{height: "647px", marginTop: '32px'}}>
+        <div className="border-1 border bg-white w-100 container" style={{height: "647px", marginTop: '32px', borderRadius: '6px'}}>
             <div className="row h-100">
                 <div className="col-4 border-1 border-end">
                     <div className="pt-3 pb-3 position-relative ps-5">
