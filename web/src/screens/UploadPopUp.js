@@ -234,7 +234,7 @@ const StyledPopUpActionButton = styled.button`
 
 const StyledPopUpBody = styled.div`
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: git1fr;
 
   height: calc(100% - 61px);
   max-height: calc(100% - 61px);
@@ -255,6 +255,7 @@ const StyledPopUpLeft = styled.div`
 `;
 
 const StyledPopUpRight = styled.div`
+  display: none;
   border-radius: 0 0 32px 0;
   height: 100%;
 `;

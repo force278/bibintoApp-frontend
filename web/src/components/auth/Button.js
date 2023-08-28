@@ -12,6 +12,10 @@ const Button = styled.input`
   font-weight: 500;
   background: linear-gradient(90deg, #6CF2FE, #2936FF, #FE2DB7);
   border-radius: 5px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   opacity: ${(props) => (props.disabled ? "0.5" : "1")};
   &:internal-autofill-selected{
     background-color: red !important;
@@ -26,4 +30,6 @@ export const DefaultButton = styled.button`
     border-radius: 5px;
     display: flex;
     justify-content: center;
+    align-items: center;
+    height: 40px
 `

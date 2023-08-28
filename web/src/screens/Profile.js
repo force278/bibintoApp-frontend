@@ -8,6 +8,7 @@ import { POST_FRAGMENT } from "../fragments";
 import Button, { DefaultButton } from "../components/auth/Button";
 import PageTitle from "../components/PageTitle";
 import useMe from "../hooks/useMe";
+import defaultAvatar from "../assets/img/editProfile/defaultAvatar.png"
 
 const SEE_PROFILE_QUERY = gql`
   query seeProfile($username: String!) {
@@ -234,7 +235,9 @@ function Profile() {
         }
       />
       <Header>
-        <Avatar src={data?.seeProfile?.avatar} />
+        {data?.seeProfile?.avatar ?
+            <Avatar src={data?.seeProfile?.avatar} /> :
+            <Avatar src={defaultAvatar} alt="default avatar" /> }
         <Column>
           <Row>
             <Username>{data?.seeProfile?.username}</Username>

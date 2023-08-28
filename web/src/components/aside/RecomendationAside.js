@@ -24,7 +24,7 @@ const StyledCopyright = styled.small`
 
 const RecomendationAside = ({ currentUsername }) => {
   return (
-    <div className="d-flex flex-column aside">
+    <div className="d-none flex-column aside">
       <ProfileItem
         linkText='Редактировать'
         linkTo="/account/accountEditProfile"
