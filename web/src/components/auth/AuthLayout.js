@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { darkModeVar, disableDarkMode, enableDarkMode } from "../../apollo";
 
 const Container = styled.div`
-   
+   overflow: hidden; 
 `;
 
 const Wrapper = styled.div`

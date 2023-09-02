@@ -95,7 +95,7 @@ function Home() {
   return (
     <>
       <PageTitle title='Лента' />
-      <div className="d-flex justify-content-center" style={{marginLeft: '70px'}}>
+      <div className="d-flex justify-content-center">
         <div>
           <StyledSubHeader>
             <Link

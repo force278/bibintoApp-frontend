@@ -92,15 +92,15 @@ function Comment({ id, isMine, photoId, author, payload }) {
           <BoldText>{author}</BoldText>
         </Link>
         <CommentCaption>
-          {payload?.split(" ").map((word, index) =>
-              /#[а-яА-Я]+/.test(word) ? (
-                  <span key={index}>
+          {payload?.split(" ").map((word, index) => (
+              <span key={index}>
+                {/#[а-яА-Я]+/.test(word) ? (
                     <Link to={`/hashtags/${word}`}>{word}</Link>
-                  </span>
-              ) : (
-                  <span key={index}>{word}</span>
-              )
-          )}
+                ) : (
+                    `${word} `
+                )}
+              </span>
+          ))}
         </CommentCaption>
       </div>
       <div>
@@ -111,18 +111,12 @@ function Comment({ id, isMine, photoId, author, payload }) {
       {showModal && (
           <div className="position-absolute d-flex flex-column justify-content-around z-2" ref={modalRef}
                style={{
-                 background: '#F4F4F4',
                  borderRadius: '17px',
                  right: "-60px",
                  top: "25px",
                  filter: 'drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))',}}>
-            <button className="text-secondary border-0 bg-white p-2 mt-2 ms-2 me-2 rounded" onClick={onDeleteClick}>
-              <img src={remove} alt="удалить" className="cursor-pointer me-2" style={{width: '13px'}}/>
+            <button className="text-danger border-0 p-2 ms-2 me-2 rounded" onClick={onDeleteClick}>
               Удалить
-            </button>
-            <button className="text-warning border-0 bg-white p-2 m-2 rounded" onClick={editText}>
-              <img src={edit} alt="редактировать" className="cursor-pointer me-2" style={{width: '13px'}} />
-              Редактировать
             </button>
           </div>
       )}
