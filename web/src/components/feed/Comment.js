@@ -5,8 +5,6 @@ import { Link } from "react-router-dom";
 import React, { useEffect, useRef } from "react";
 import { gql, useMutation } from "@apollo/client";
 import more from "../../assets/img/post/more.svg";
-import remove from "../../assets/img/post/remove.png"
-import edit from "../../assets/img/post/edit.svg"
 import {useState} from "react";
 
 const DELETE_COMMENT_MUTATION = gql`
@@ -82,9 +80,6 @@ function Comment({ id, isMine, photoId, author, payload }) {
   const onDeleteClick = () => {
     deleteComment();
   };
-  const editText = () => {
-    alert("Редактирование текста пока что невозможно")
-  }
   return (
     <div className="d-flex justify-content-between mb-2 position-relative">
       <div>
