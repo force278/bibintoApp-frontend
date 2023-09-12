@@ -17,6 +17,7 @@ import { NotMatch } from "./pages/NotMatch";
 import { EditProfile } from "./screens/EditProfile";
 import ChangeEditProfile from "./components/ProfileEdit/ChangeEditProfile";
 import { ChangePassword } from "./components/ProfileEdit/ChangePassword";
+import PrivacyPolicy from "./components/privacyPolicy/PrivacyPolicy";
 
 function App() {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
@@ -42,6 +43,9 @@ function App() {
                 <Layout>
                   <Home />
                 </Layout>
+              </Route>
+              <Route path='/privacy-policy'>
+                  <PrivacyPolicy />
               </Route>
               <Route path="/account/accountEditProfile" exact>
                 <Layout>

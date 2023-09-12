@@ -14,7 +14,7 @@ const Wrapper = styled.div`
    margin-right: -0.75rem;
    min-width: 100%;
    justify-content: center;
-   height: 100vh;
+   height: 100%;
    align-items: center;
    margin-left: -0.75rem;
 `;

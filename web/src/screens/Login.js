@@ -11,7 +11,7 @@ import { gql, useMutation } from "@apollo/client";
 import { LoginUser } from "../apollo";
 import { useLocation } from "react-router-dom";
 import logoIcon from "../assets/img/bibinto.svg";
-import phones from "../assets/img/phones.svg"
+import phones3 from "../assets/img/header/phones3.svg"
 import "../sass/common.scss";
 import signGooglePlay from "../assets/img/sign-GooglePlay.svg";
 import appleIcon from "../assets/img/appleLogo.svg"
@@ -79,7 +79,7 @@ function Login() {
   return (
     <AuthLayout>
       <div className="col-sm-7 d-none d-lg-block p-5">
-        <img src={phones} alt="телефоны"/>
+        <img src={phones3} alt="телефоны"/>
       </div>
       <div className="col-12 col-lg-3 d-flex align-items-center justify-content-center flex-column ">
         <PageTitle title="Вход в аккаунт" />
@@ -142,7 +142,11 @@ function Login() {
       </div>
       <div className="col-sm-12 mt-2">
         <div className="d-flex justify-content-center row">
-          <span className="col-sm-12 col-lg-3 d-flex justify-content-center  me-2">Политика конфиденциальности</span>
+          <span className="col-sm-12 col-lg-3 d-flex justify-content-center  me-2">
+            <Link to='/privacy-policy'>
+              Политика конфиденциальности
+            </Link>
+          </span>
           <span className="col-sm-12 col-lg-3 d-flex justify-content-center  me-2">Условия использования</span>
           <span className="col-sm-12 col-lg-3 d-flex justify-content-center  me-2">English</span>
         </div>
