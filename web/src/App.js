@@ -18,6 +18,7 @@ import { EditProfile } from "./screens/EditProfile";
 import ChangeEditProfile from "./components/ProfileEdit/ChangeEditProfile";
 import { ChangePassword } from "./components/ProfileEdit/ChangePassword";
 import PrivacyPolicy from "./components/privacyPolicy/PrivacyPolicy";
+import { TermsOfUse } from "./components/termsOfUse/TermsOfUse";
 
 function App() {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
@@ -46,6 +47,9 @@ function App() {
               </Route>
               <Route path='/privacy-policy'>
                   <PrivacyPolicy />
+              </Route>
+              <Route path='/termsOfUse'>
+                <TermsOfUse />
               </Route>
               <Route path="/account/accountEditProfile" exact>
                 <Layout>

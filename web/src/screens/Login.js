@@ -147,7 +147,11 @@ function Login() {
               Политика конфиденциальности
             </Link>
           </span>
-          <span className="col-sm-12 col-lg-3 d-flex justify-content-center  me-2">Условия использования</span>
+          <span className="col-sm-12 col-lg-3 d-flex justify-content-center  me-2">
+            <Link to="/termsOfUse">
+              Условия использования
+            </Link>
+          </span>
           <span className="col-sm-12 col-lg-3 d-flex justify-content-center  me-2">English</span>
         </div>
         <div className="d-flex justify-content-center mt-3">
