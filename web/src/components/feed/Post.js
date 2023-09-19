@@ -128,10 +128,10 @@ function Post({
   return (
     <PostContainer key={id}>
       <PostHeader>
-        <Link to={`/users/${user?.username}`}>
+        <Link to={`/${user?.username}`}>
           <Avatar url={user?.avatar} lg={true} />
         </Link>
-        <Link to={`/users/${user?.username}`}>
+        <Link to={`/${user?.username}`}>
           <Username>{user?.username}</Username>
         </Link>  
         <More onClick={() => setModalActive(true)}>

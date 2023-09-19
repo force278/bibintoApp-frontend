@@ -67,7 +67,7 @@ function App() {
                   <SignUp />
                 </Route>
               ) : null}
-              <Route path={`/users/:username`}>
+              <Route path={`/:username`}>
                 <Layout>
                   <Profile />
                 </Layout>
