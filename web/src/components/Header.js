@@ -129,12 +129,12 @@ export function Header() {
                             {showModal && (
                                 <div className="d-flex flex-column" ref={modalRef}>
                                   <button className="m-2 z-2 border-0 p-3 bg-white" style={{borderRadius: '11px'}}>
-                                    <Link to={`/users/${data?.me?.username}`}>
+                                    <Link to={`/${data?.me?.username}`}>
                                       Мой профиль
                                     </Link>
                                   </button>
                                   <button className="m-2 z-2 border-0 p-3 bg-white text-danger" style={{borderRadius: '11px'}} onClick={logOut}>
-                                    <Link to={`/users/${data?.me?.username}`}>
+                                    <Link to={`/${data?.me?.username}`}>
                                       Выйти из профиля
                                     </Link>
                                   </button>
