@@ -78,10 +78,7 @@ function Login() {
 
   return (
     <AuthLayout>
-      <div className="col-sm-7 d-none d-lg-block p-5">
-        <img src={phones3} alt="телефоны"/>
-      </div>
-      <div className="col-12 col-lg-3 d-flex align-items-center justify-content-center flex-column ">
+      <div className="d-flex align-items-center justify-content-center flex-column ">
         <PageTitle title="Вход в аккаунт" />
         <FormBox>
           <div>
@@ -131,16 +128,16 @@ function Login() {
         </FormBox>
         <p className="text-secondary">Установите приложение</p>
         <div className="d-flex justify-content-around w-100 mt-3">
-          <button className="border-1 rounded pt-3 pb-3 ps-5 pe-5 d-flex align-items-center bg-transparent nexa-bold">
+          <button className="border-1 m-2 rounded pt-3 pb-3 ps-5 pe-5 d-flex align-items-center bg-transparent nexa-bold">
             <img className="me-1" src={appleIcon} alt="установить через AppStore"/>
             App Store
           </button>
-          <button className="border-1 border rounded pt-3 pb-3 ps-5 pe-5 d-flex align-items-center bg-transparent">
+          <button className="border-1 m-2 border rounded pt-3 pb-3 ps-5 pe-5 d-flex align-items-center bg-transparent">
             <img className="me-1" src={signGooglePlay} alt="установить через Play Market"/>
           </button>
         </div>
       </div>
-      <div className="col-sm-12 mt-2">
+      <div className="position-absolute w-100" style={{height: '80px', bottom: 0, left: 0}}>
         <div className="d-flex justify-content-center row">
           <span className="col-sm-12 col-lg-3 d-flex justify-content-center  me-2">
             <Link to='/privacy-policy'>
