@@ -31,20 +31,19 @@ const Image = styled.div`
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
-  background-color: rgba(0, 0, 0, 0.7);
   border-radius: 0 0 0 32px;
 `;
 
-export const PostImage = ({ data }) => {
+export const PostImage = ({ data, uploadInputRef }) => {
   const [imageUrl, setImageUrl] = useState(null);
 
   useEffect(() => {
     if (data) {
       (async function (data) {
-        const imageInput = document.querySelector("#imageInput");
-        const file = imageInput.files[0];
-        console.log(file, 'file')
+        const file = uploadInputRef.current.files[0];
 
+        const randomValue = Math.random();
+        const updatedUrl = `${data.getUrlUploadPhoto.split("?")[0]}?cache=${randomValue}`;
 
         await fetch(data.getUrlUploadPhoto, {
           method: "PUT",
@@ -54,12 +53,11 @@ export const PostImage = ({ data }) => {
           body: file,
         });
 
-        const imageUrl = data.getUrlUploadPhoto.split("?")[0];
 
-        setImageUrl(imageUrl);
+        setImageUrl(updatedUrl);
       })(data);
     }
-  }, [data]);
+  }, [data, uploadInputRef]);
 
   if (!imageUrl) {
     return <p>Загрузка</p>;
@@ -76,7 +74,7 @@ export const PostImage = ({ data }) => {
 //   return <PostImage data={data} />;
 // };
 
-export const UploadPopUp = ({ onClose }) => {
+export const UploadPopUp = ({ onClose, uploadInputRef  }) => {
   const history = useHistory();
 
   const [getUploadUrl, { called, loading, data }] =
@@ -106,6 +104,7 @@ export const UploadPopUp = ({ onClose }) => {
   const handleGoBack = useCallback(() => {
     history.goBack();
     onClose();
+    // window.location.reload();
   }, [history, onClose]);
 
   return (
@@ -126,7 +125,7 @@ export const UploadPopUp = ({ onClose }) => {
             {called && loading ? (
               <div>Загрузка...</div>
             ) : (
-              <PostImage data={data} />
+              <PostImage data={data} uploadInputRef={uploadInputRef}  />
             )}
           </StyledPopUpLeft>
           <StyledPopUpRight>
@@ -156,9 +155,9 @@ const StyledOverlay = styled.div`
 const StyledPopUpContainer = styled.div`
   background: #ffffff;
   border-radius: 32px;
-  width: 90%;
+  width: 55rem;
   height: 90%;
-  max-width: 90%;
+  max-width: 100%;
   max-height: 90%;
 `;
 

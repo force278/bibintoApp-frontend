@@ -11,7 +11,6 @@ import { gql, useMutation } from "@apollo/client";
 import { LoginUser } from "../apollo";
 import { useLocation } from "react-router-dom";
 import logoIcon from "../assets/img/bibinto.svg";
-import phones3 from "../assets/img/header/phones3.svg"
 import "../sass/common.scss";
 import signGooglePlay from "../assets/img/sign-GooglePlay.svg";
 import appleIcon from "../assets/img/appleLogo.svg"

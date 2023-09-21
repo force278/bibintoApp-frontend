@@ -20,6 +20,7 @@ export function Header() {
   const history = useHistory();
   const [showModal, setShowModal] = useState(false);
   const modalRef = useRef();
+  const uploadInputRef = useRef(null);
   const handleShowModal = (event) => {
     event.stopPropagation();
     setShowModal(!showModal);
@@ -100,7 +101,7 @@ export function Header() {
                         </Link>
                       </span>
                         <span>
-                        <input style={{opacity: 0, visibility: 'hidden', position: 'absolute'}} id='imageInput' type='file' accept='image/jpeg, image/png' onChange={handleUploadImage} />
+                        <input style={{opacity: 0, visibility: 'hidden', position: 'absolute'}} id='imageInput' type='file' accept='image/jpeg, image/png' ref={uploadInputRef} onChange={handleUploadImage} />
                         <label htmlFor='imageInput'>
                           <img src={uploadIcon} alt='upload' style={{cursor: "pointer"}} />
                         </label>
@@ -154,7 +155,7 @@ export function Header() {
         </div>
       </div>
 
-      {uploadModalActive && <UploadPopUp onClose={handleClosePopUp} />}
+      {uploadModalActive && <UploadPopUp onClose={handleClosePopUp} uploadInputRef={uploadInputRef} />}
     </>
   );
 }
