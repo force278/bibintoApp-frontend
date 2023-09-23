@@ -144,7 +144,7 @@ function Post({
           <div>
             <PostAction onClick={toogleLike}>
               <FontAwesomeIcon
-                style={{ color: isLiked ? "tomato" : "inherit" }}
+                style={{ color: isLiked ? "#E0193F" : "inherit" }}
                 icon={isLiked ? SolidHeart : faHeart}
               />
             </PostAction>
