@@ -9,6 +9,7 @@ import Button, { DefaultButton } from "../components/auth/Button";
 import PageTitle from "../components/PageTitle";
 import useMe from "../hooks/useMe";
 import defaultAvatar from "../assets/img/editProfile/defaultAvatar.png"
+import { ModalMUI } from "../components/MUI/Modal";
 
 const SEE_PROFILE_QUERY = gql`
   query seeProfile($username: String!) {
@@ -100,7 +101,7 @@ const Photo = styled.div`
   position: relative;
 `;
 
-const Icons = styled.div`
+export const Icons = styled.div`
   position: absolute;
   display: flex;
   justify-content: center;
@@ -271,6 +272,7 @@ function Profile() {
         {data?.seeProfile?.photos.map((photo) => (
           <Photo key={photo.id} bg={photo.file}>
             <Icons>
+              <ModalMUI  liked={photo.likes} selectedPhoto={photo.id} photo={photo.file} style={{cursor:'pointer'}}/>
               <Icon>
                 <FontAwesomeIcon icon={faHeart} />
                 {photo.likes}

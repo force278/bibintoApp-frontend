@@ -26,7 +26,7 @@ const TOGGLE_LIKE_MUTATION = gql`
   }
 `;
 
-const PostContainer = styled.div`
+export const PostContainer = styled.div`
   background-color: white;
   border: 1px solid ${(props) => props.theme.borderColor};
   margin-bottom: 60px;
@@ -35,27 +35,27 @@ const PostContainer = styled.div`
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 `;
 
-const PostHeader = styled.div`
+export const PostHeader = styled.div`
   display: flex;
   align-items: center;
   padding: 15px;
   border-bottom: 1px solid rgb(239, 239, 239);
 `;
 
-const Username = styled(BoldText)`
+export const Username = styled(BoldText)`
   margin-left: 15px;
 `;
 
-const PostContent = styled.img`
+export const PostContent = styled.img`
   max-width: 100%;
   min-width: 100%;
 `;
 
-const PostFooter = styled.div`
+export const PostFooter = styled.div`
   padding: 12px 15px;
 `;
 
-const PostActions = styled.div`
+export const PostActions = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -68,17 +68,17 @@ const PostActions = styled.div`
   }
 `;
 
-const PostAction = styled.div`
+export const PostAction = styled.div`
   margin-right: 15px;
   cursor: pointer;
 `;
 
-const Likes = styled(BoldText)`
+export const Likes = styled(BoldText)`
   display: block;
   margin-top: 15px;
 `;
 
-const More = styled.div`
+ export const More = styled.div`
   display: flex;
   cursor: pointer;
   margin-left: auto;
@@ -144,7 +144,7 @@ function Post({
           <div>
             <PostAction onClick={toogleLike}>
               <FontAwesomeIcon
-                style={{ color: isLiked ? "tomato" : "inherit" }}
+                style={{ color: isLiked ? "#F0355B" : "inherit" }}
                 icon={isLiked ? SolidHeart : faHeart}
               />
             </PostAction>

@@ -6,6 +6,7 @@ import Post from "../components/feed/Post";
 import PageTitle from "../components/PageTitle";
 import RecomendationAside from "../components/aside/RecomendationAside";
 import { COMMENTS_FRAGMENT, POST_FRAGMENT } from "../fragments";
+import { RecommendationPost } from "../components/feed/RecommendationPost";
 
 const SEE_FEED_QUERY = gql`
   query seeFeed($offset: Int!) {
@@ -127,7 +128,7 @@ function Home() {
             <Route exact path='/recommendations'>
               <div style={{width:'585px'}}>
                 {data_rec?.data?.seeRec?.map((post) => (
-                  <Post key={post.id} {...post} />
+                  <RecommendationPost key={post.id} {...post} />
                 ))}
               </div>
             </Route>
