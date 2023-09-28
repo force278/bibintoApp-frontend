@@ -11,6 +11,9 @@ const SFormBox = styled(BaseBox)`
    @media (min-width: 767px) {
     max-width: 374px;
   }
+  @media (max-width: 767px) {
+    max-width: 374px;
+  }
   form {
     display: flex;
     flex-direction: column;

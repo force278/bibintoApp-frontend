@@ -1,5 +1,6 @@
 @import '~bootstrap/scss/bootstrap';
 @import "recomendation";
+@import "mobileStyles";
 
 @mixin textLineMixin($bottom) {
   content: "";

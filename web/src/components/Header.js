@@ -78,14 +78,14 @@ export function Header() {
           <div className="d-flex justify-content-between w-100">
                 {isLoggedIn ?(
                     <div className="d-flex align-items-center justify-content-between w-100">
-                      <div>
+                      <div className="headerMobile">
                         <Link to={routes.home}>
                           <div>
                             <img src={logo} width='100' alt='Бибинто'></img>
                           </div>
                         </Link>
                       </div>
-                      <div className="inputSearch">
+                      <div className="inputSearch headerMobile">
                         <input type="text" className="inputSearch__input" placeholder="Поиск" />
                         <img src={searchGray} alt="search" className="inputSearch__icon" />
                       </div>
