@@ -96,7 +96,7 @@ export function Header() {
                         </Link>
                       </span>
                         <span>
-                        <Link to="/*">
+                        <Link to="/messanger">
                           <img src={messageIcon} alt='message' />
                         </Link>
                       </span>

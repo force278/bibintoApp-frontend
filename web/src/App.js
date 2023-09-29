@@ -45,6 +45,11 @@ function App() {
                   <Home />
                 </Layout>
               </Route>
+              <Route path='/messanger'>
+                <Layout>
+                  <h1>Messanger</h1>
+                </Layout>
+              </Route>
               <Route path='/privacy-policy'>
                   <PrivacyPolicy />
               </Route>
