@@ -71,21 +71,21 @@ export function Header() {
 
   return (
     <>
-      <div className="w-100 border-bottom bg-white pt-3 pb-3 d-flex align-items-center justify-content-center position-fixed z-1"
+      <div className="w-100 border-bottom bg-white pt-3 pb-3 d-flex align-items-center justify-content-center position-fixed z-1 headerMobile"
            style={{boxShadow: '0 0 10px rgba(0, 0, 0, 0.3)' }}>
         <div className="w-100 d-flex justify-content-between align-items-center"
              style={{maxWidth: '930px'}}>
           <div className="d-flex justify-content-between w-100">
                 {isLoggedIn ?(
-                    <div className="d-flex align-items-center justify-content-between w-100">
-                      <div className="headerMobile">
+                    <div className="d-flex align-items-center justify-content-between w-100 justifyContentCenterForMobile">
+                      <div className="hideElement">
                         <Link to={routes.home}>
                           <div>
                             <img src={logo} width='100' alt='Бибинто'></img>
                           </div>
                         </Link>
                       </div>
-                      <div className="inputSearch headerMobile">
+                      <div className="inputSearch hideElement">
                         <input type="text" className="inputSearch__input" placeholder="Поиск" />
                         <img src={searchGray} alt="search" className="inputSearch__icon" />
                       </div>
@@ -116,7 +116,7 @@ export function Header() {
                           <img src={userIcon} alt='user' />
                         </button>
                         <div className={`position-relative ${showModal? 'd-block' : 'd-none'}`}>
-                          <div className="position-absolute"
+                          <div className="position-absolute modalWindowForMobile"
                                style={{
                                  width: '250px',
                                  height: '130px',

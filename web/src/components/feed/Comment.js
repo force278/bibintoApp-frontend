@@ -104,7 +104,7 @@ function Comment({ id, isMine, photoId, author, payload }) {
         </button> : null}
       </div>
       {showModal && (
-          <div className="position-absolute d-flex flex-column justify-content-around z-2" ref={modalRef}
+          <div className="position-absolute d-flex flex-column justify-content-around z-2 buttonMoreForMobile" ref={modalRef}
                style={{
                  borderRadius: '17px',
                  right: "-60px",

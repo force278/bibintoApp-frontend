@@ -101,18 +101,18 @@ export default function ChangeEditProfile() {
     };
     return (
         <>
-            <div className="col-8">
+            <div className="col-sm-12 col-lg-8">
                 <div className="row">
-                    <div className="d-flex mb-3" style={{marginTop: "33px"}}>
-                        <div className="col-2 d-flex justify-content-end">
+                    <div className="d-flex mb-3 align-items-center-mobile flex-direction-column-mobile" style={{marginTop: "33px"}}>
+                        <div className="col-2 d-flex justify-content-end justifyContentCenterForMobile">
                             <div className="img-container">
                                 <img
                                     style={{cursor: "pointer", borderRadius: '50%' }}
                                     onClick={handleInputClick}
                                     src={preview || meData?.me?.avatar || defaultAvatar}
                                     alt=""
-                                    width="38px"
-                                    height="38px"
+                                    width="70px"
+                                    height="70px"
                                 />
                                 <CropperModal
                                     modalOpen={modalOpen}
@@ -130,12 +130,12 @@ export default function ChangeEditProfile() {
                                 />
                             </div>
                         </div>
-                        <div className="d-flex flex-column col-10 ps-4">
-                            <span className="fs-5">{loading ? "Загрузка..." : `${meData?.me?.username}`}</span>
-                            <button onClick={handleInputClick} className="text-primary bg-transparent border-0 d-flex justify-content-start ps-0">Загрузите новое фото</button>
+                        <div className="d-flex flex-column col-10 ps-sm-0 ps-lg-4 justifyContentCenterForMobile align-items-center-mobile">
+                            <span className="fs-5 mt-2">{loading ? "Загрузка..." : `${meData?.me?.username}`}</span>
+                            <button onClick={handleInputClick} className="text-primary bg-transparent border-0 d-flex justify-content-start ps-0 mt-2">Загрузите новое фото</button>
                         </div>
                     </div>
-                    <div className="d-flex mb-2">
+                    <div className="d-flex hideElement mb-2">
                         <div className="col-2 d-flex justify-content-end">
                             <span className="fs-6 pt-2" style={{fontFamily: "Roboto, sans-serif"}}>Имя</span>
                         </div>
@@ -147,7 +147,7 @@ export default function ChangeEditProfile() {
                             </div>
                         </div>
                     </div>
-                    <div className="d-flex mb-2">
+                    <div className="d-flex hideElement mb-2">
                         <div className="col-2 d-flex justify-content-end">
                             <span className="fs-6 pt-2" style={{fontFamily: "Roboto, sans-serif"}}>Никнейм</span>
                         </div>
@@ -158,7 +158,7 @@ export default function ChangeEditProfile() {
                             </div>
                         </div>
                     </div>
-                    <div className="d-flex mb-4">
+                    <div className="d-flex hideElement mb-4">
                         <div className="col-2 d-flex justify-content-end">
                             <span className="fs-6 pt-2" style={{fontFamily: "Roboto, sans-serif"}}>Описание</span>
                         </div>
@@ -170,7 +170,7 @@ export default function ChangeEditProfile() {
                             </div>
                         </div>
                     </div>
-                    <div className="d-flex mb-3">
+                    <div className="d-flex hideElement mb-3">
                         <div className="col-2 d-flex justify-content-end">
                             <span className="fs-6 pt-2" style={{fontFamily: "Roboto, sans-serif"}}>Почта</span>
                         </div>
@@ -181,18 +181,18 @@ export default function ChangeEditProfile() {
                                    className="border border-1 pt-1 pb-1 ps-2 w-50" />
                         </div>
                     </div>
-                    <div className="d-flex">
+                    <div className="d-flex hideElement">
                         <div className="col-2 d-flex justify-content-end">
                             <span className="fs-6 pt-2" style={{fontFamily: "Roboto, sans-serif"}}>Пол</span>
                         </div>
                         <div className="col-10 ps-4">
                             <input type="text" value={meData?.me?.bio || 'Данные отсутствуют'} onChange={(e) => e.target.value }  className="border border-1 pt-1 pb-1 ps-2 w-50" />
-                            <div className="mt-5">
-                                <button className="text-white border-0 change_btn"
-                                        onClick={getUrl}
-                                        style={{borderRadius: "4px", background: "#2283F5", padding: "8px 17px", filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",}}>Изменить</button>
-                            </div>
                         </div>
+                    </div>
+                    <div className="d-flex justify-content-center mt-sm-0 mt-lg-4 mb-5">
+                        <button className="text-white border-0 change_btn"
+                                onClick={getUrl}
+                                style={{borderRadius: "4px", background: "#2283F5", padding: "8px 17px", filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",}}>Изменить</button>
                     </div>
                 </div>
             </div>
