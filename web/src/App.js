@@ -19,6 +19,7 @@ import ChangeEditProfile from "./components/ProfileEdit/ChangeEditProfile";
 import { ChangePassword } from "./components/ProfileEdit/ChangePassword";
 import PrivacyPolicy from "./components/privacyPolicy/PrivacyPolicy";
 import { TermsOfUse } from "./components/termsOfUse/TermsOfUse";
+import {Messanger} from "./components/Messanger";
 
 function App() {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
@@ -47,7 +48,7 @@ function App() {
               </Route>
               <Route path='/messanger'>
                 <Layout>
-                  <h1>Messanger</h1>
+                  <Messanger/>
                 </Layout>
               </Route>
               <Route path='/privacy-policy'>
