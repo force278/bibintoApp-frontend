@@ -1,5 +1,5 @@
 import { Box, Icon, Modal, Typography } from "@mui/material";
-
+import styles from "./Modal.module.scss"
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLightbulb } from "@fortawesome/free-solid-svg-icons";
@@ -38,7 +38,7 @@ export function ModalMUI({photo, liked}) {
             >
                 <Box sx={style}>
                     <div>
-                        <img style={{width: '500px'}} src={photo} alt='' />
+                        <img className={styles.imageModal} src={photo} alt='' />
                     </div>
                     <Typography id="modal-modal-title" variant="h6" component="h2">
                         Общее число лайков: <FontAwesomeIcon icon={SolidHeart} style={{color: '#F0355B',}} /> {liked}
