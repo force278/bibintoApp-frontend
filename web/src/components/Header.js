@@ -96,7 +96,7 @@ export function Header() {
                         </Link>
                       </span>
                         <span>
-                        <Link to="/*">
+                        <Link to="message">
                           <img src={messageIcon} alt='message' />
                         </Link>
                       </span>
@@ -107,7 +107,7 @@ export function Header() {
                         </label>
                       </span>
                         <span>
-                        <Link to="/*">
+                        <Link to="likes">
                           <img src={likeIcon} alt='like' />
                         </Link>
                       </span>

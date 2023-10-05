@@ -45,6 +45,19 @@ function App() {
                   <Home />
                 </Layout>
               </Route>
+              <Route path={"/likes"}>
+                <Layout>
+                  <NotMatch />
+                </Layout>
+              </Route>
+              <Route path={"/message"}>
+                <Layout>
+                  <NotMatch />
+                </Layout>
+              </Route>
+              <Route>
+                <NotFound />
+              </Route>
               <Route path='/privacy-policy'>
                   <PrivacyPolicy />
               </Route>
@@ -71,12 +84,6 @@ function App() {
                 <Layout>
                   <Profile />
                 </Layout>
-              </Route>
-              <Route path={routes.notMath}>
-                <NotMatch />
-              </Route>
-              <Route>
-                <NotFound />
               </Route>
             </Switch>
           </Router>
