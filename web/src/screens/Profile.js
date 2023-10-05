@@ -241,7 +241,7 @@ function Profile() {
 
   const getButton = (seeProfile) => {
     const { isMe, isFollowing } = seeProfile;
-    if (isMe) return <DefaultBtn><Link to="/account/accountEditProfile">Редактировать профиль</Link></DefaultBtn>;
+    if (isMe) return <DefaultBtn><Link to="/accountEditProfile">Редактировать профиль</Link></DefaultBtn>;
     if (isFollowing)
       return <DefaultBtn onClick={unfollowUser}>Отписаться</DefaultBtn>;
     else return <ProfileBtn onClick={followUser}>Подписаться</ProfileBtn>;

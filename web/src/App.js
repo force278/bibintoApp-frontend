@@ -55,16 +55,13 @@ function App() {
                   <NotMatch />
                 </Layout>
               </Route>
-              <Route>
-                <NotFound />
-              </Route>
               <Route path='/privacy-policy'>
                   <PrivacyPolicy />
               </Route>
               <Route path='/termsOfUse'>
                 <TermsOfUse />
               </Route>
-              <Route path="/account/accountEditProfile" exact>
+              <Route path="/accountEditProfile" exact>
                 <Layout>
                   <EditProfile children={<ChangeEditProfile/>}
                   />
@@ -75,16 +72,19 @@ function App() {
                     <EditProfile children={<ChangePassword/>}/>
                   </Layout>
               </Route>
-              {!isLoggedIn ? (
-                <Route path={routes.signUp}>
-                  <SignUp />
-                </Route>
-              ) : null}
               <Route path={`/:username`}>
                 <Layout>
                   <Profile />
                 </Layout>
               </Route>
+              <Route path={`*`}>
+                <NotFound />
+              </Route>
+              {!isLoggedIn ? (
+                <Route path={routes.signUp}>
+                  <SignUp />
+                </Route>
+              ) : null}
             </Switch>
           </Router>
         </ThemeProvider>

@@ -9,7 +9,7 @@ export const EditProfile = ({children})  => {
                 <div className="col-sm-12 col-lg-4 border-1 border-end">
                     <div className="pt-3 pb-3 position-relative ps-5">
                         <span className="fs-6 fw-medium" style={{fontFamily: "Roboto, sans-serif"}}>
-                            <NavLink to="/account/accountEditProfile" activeClassName="active_profile">Редактировать профиль</NavLink>
+                            <NavLink to="/accountEditProfile" activeClassName="active_profile">Редактировать профиль</NavLink>
                         </span>
                     </div>
                     <div className="pt-3 pb-3 position-relative ps-5 hideElement">
