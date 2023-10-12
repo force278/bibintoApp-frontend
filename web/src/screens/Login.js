@@ -136,7 +136,7 @@ function Login() {
           </button>
         </div>
       </div>
-      <div className="position-absolute w-100" style={{bottom: 0, left: 0}}>
+      <div className="w-100" style={{bottom: 0, left: 0}}>
         <div className="d-flex justify-content-center row">
           <span className="col-sm-12 col-lg-3 d-flex justify-content-center  me-2">
             <Link to='/privacy-policy'>

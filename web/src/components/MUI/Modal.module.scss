@@ -1,0 +1,8 @@
+@import "src/sass/common" ;
+
+.imageModal{
+  max-width: 450px;
+  @include mobile {
+    max-width: 250px;
+  }
+}

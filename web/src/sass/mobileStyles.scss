@@ -2,7 +2,32 @@
   .blockButtons{
     max-width: 374px;
   }
-  .headerMobile{
-    display: none;
+  .hideElement{
+    display: none !important;
+  }
+  .headerMobile {
+    bottom: -3px;
+  }
+  .align-items-center-mobile {
+    align-items: center;
+  }
+  .flex-direction-column-mobile {
+    flex-direction: column;
+  }
+  .justifyContentCenterForMobile{
+    justify-content: center !important;
+  }
+  .modalWindowForMobile {
+    width: 190px !important;
+    height: 130px !important;
+    top: -102px !important;
+    left: -34% !important;
+  }
+  .mobilePostContainer{
+    max-width: 23rem;
+  }
+  .buttonMoreForMobile{
+    right: -21px !important;
+    top: -39px !important;
   }
 }

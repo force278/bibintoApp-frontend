@@ -26,6 +26,11 @@
     width: 30vw;
     transition: 0.4s all;
 }
+@media (max-width: 768px) {
+    .postmodal_content {
+        width: 40vw;
+    }
+}
 
 .postmodal_content.active {
     transform: scale(1);

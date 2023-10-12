@@ -53,6 +53,12 @@ const StyledProfileContainer = styled.div`
 
 const Header = styled.div`
   display: flex;
+  @media (max-width: 768px) {
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
 `;
 const Avatar = styled.img`
   margin-left: 50px;
@@ -62,8 +68,16 @@ const Avatar = styled.img`
   margin-right: 150px;
   background-color: #2c2c2c;
   object-fit: cover;
+  @media (max-width: 768px) {
+    margin: 0;
+    
+  }
 `;
-const Column = styled.div``;
+const Column = styled.div`
+  @media (max-width: 768px) {
+    margin-top: 30px;
+  }
+`;
 const Username = styled.h3`
   font-size: 28px;
   font-weight: 400;
@@ -93,6 +107,11 @@ const Grid = styled.div`
   grid-template-columns: repeat(3, 1fr);
   gap: 30px;
   margin-top: 50px;
+  @media (max-width: 768px) {
+    grid-auto-rows: 150px;
+    margin: 30px;
+    gap: 7px;
+  }
 `;
 
 const Photo = styled.div`
@@ -222,7 +241,7 @@ function Profile() {
 
   const getButton = (seeProfile) => {
     const { isMe, isFollowing } = seeProfile;
-    if (isMe) return <DefaultBtn><Link to="/account/accountEditProfile">Редактировать профиль</Link></DefaultBtn>;
+    if (isMe) return <DefaultBtn><Link to="/accountEditProfile">Редактировать профиль</Link></DefaultBtn>;
     if (isFollowing)
       return <DefaultBtn onClick={unfollowUser}>Отписаться</DefaultBtn>;
     else return <ProfileBtn onClick={followUser}>Подписаться</ProfileBtn>;
