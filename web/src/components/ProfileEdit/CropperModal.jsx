@@ -39,7 +39,6 @@ export const CropperModal = ({src, modalOpen, setModalOpen, setPreview}) => {
                     image={src}
                     style={{width: "100%", height: "100%"}}
                     border={50}
-                    borderRadius={150}
                     color={[0, 0, 0, 0.72]}
                     scale={slideValue / 10}
                     rotate={0}
