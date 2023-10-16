@@ -1,0 +1,13 @@
+.termsOfUse{
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    font-size: 120%;
+}
+
+@media (max-width: 768px) {
+    .termsOfUse {
+      width: 100%;
+      font-size: 120%;
+    }
+  }

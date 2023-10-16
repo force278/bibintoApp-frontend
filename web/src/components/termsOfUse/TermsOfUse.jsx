@@ -1,8 +1,8 @@
 import React from 'react'
-
+import s from './TermsOfUse.module.css'
 export function TermsOfUse() {
     return (
-        <div className="p-2">
+        <div className={`${s.termsOfUse} p-5`}>
             <h1 className="fw-bold fs-5">Пользовательское Соглашение</h1>
 
             <p className="mt-4 mb-4">Настоящее Пользовательское Соглашение (Далее Соглашение) регулирует отношения между владельцем bibinto.com (далее Бибинто или Администрация) с одной стороны и пользователем сайта с другой.
