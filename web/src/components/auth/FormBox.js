@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { BaseBox } from "../shared";
+import styled from "styled-components"
+import { BaseBox } from "../shared"
 
 const SFormBox = styled(BaseBox)`
   display: flex;
@@ -8,7 +8,7 @@ const SFormBox = styled(BaseBox)`
   align-items: center;
   padding: 35px 20px 35px 20px;
   margin-bottom: 20px;
-   @media (min-width: 767px) {
+  @media (min-width: 767px) {
     max-width: 374px;
   }
   @media (max-width: 767px) {
@@ -22,10 +22,10 @@ const SFormBox = styled(BaseBox)`
     margin-top: 40px;
     width: 100%;
   }
-`;
+`
 
 function FormBox({ children }) {
-  return <SFormBox>{children}</SFormBox>;
+  return <SFormBox>{children}</SFormBox>
 }
 
-export default FormBox;
+export default FormBox

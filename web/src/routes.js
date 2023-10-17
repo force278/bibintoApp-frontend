@@ -1,8 +1,8 @@
 const routes = {
   home: "/",
   signUp: "/sign-up",
-  notMath: "*"
+  notMath: "*",
   // upload: "/upload",
-};
+}
 
-export default routes;
+export default routes

@@ -1,21 +1,18 @@
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { BoldText } from "../shared";
-import Avatar from "../Avatar";
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import { BoldText } from "../shared"
+import Avatar from "../Avatar"
 import moreIcon from "../../assets/img/More.svg"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faComment,
-  faHeart,
-} from "@fortawesome/free-regular-svg-icons";
-import { faHeart as SolidHeart } from "@fortawesome/free-solid-svg-icons";
-import { gql, useMutation } from "@apollo/client";
-import Comments from "./Comments";
-import { Link } from "react-router-dom";
-import React from "react";
-import Modal from "../modal/Modal";
-import { useState } from "react";
-import ModalContent from "../modal/ModalContent";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faComment, faHeart } from "@fortawesome/free-regular-svg-icons"
+import { faHeart as SolidHeart } from "@fortawesome/free-solid-svg-icons"
+import { gql, useMutation } from "@apollo/client"
+import Comments from "./Comments"
+import { Link } from "react-router-dom"
+import React from "react"
+import Modal from "../modal/Modal"
+import { useState } from "react"
+import ModalContent from "../modal/ModalContent"
 
 const TOGGLE_LIKE_MUTATION = gql`
   mutation toggleLike($id: Int!, $value: Int!) {
@@ -24,7 +21,7 @@ const TOGGLE_LIKE_MUTATION = gql`
       error
     }
   }
-`;
+`
 
 export const PostContainer = styled.div`
   background-color: white;
@@ -33,27 +30,27 @@ export const PostContainer = styled.div`
   max-width: 585px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-`;
+`
 
 export const PostHeader = styled.div`
   display: flex;
   align-items: center;
   padding: 15px;
   border-bottom: 1px solid rgb(239, 239, 239);
-`;
+`
 
 export const Username = styled(BoldText)`
   margin-left: 15px;
-`;
+`
 
 export const PostContent = styled.img`
   max-width: 100%;
   min-width: 100%;
-`;
+`
 
 export const PostFooter = styled.div`
   padding: 12px 15px;
-`;
+`
 
 export const PostActions = styled.div`
   display: flex;
@@ -66,23 +63,23 @@ export const PostActions = styled.div`
   svg {
     font-size: 20px;
   }
-`;
+`
 
 export const PostAction = styled.div`
   margin-right: 15px;
   cursor: pointer;
-`;
+`
 
 export const Likes = styled(BoldText)`
   display: block;
   margin-top: 15px;
-`;
+`
 
- export const More = styled.div`
+export const More = styled.div`
   display: flex;
   cursor: pointer;
   margin-left: auto;
-`;
+`
 
 function Post({
   id,
@@ -100,30 +97,30 @@ function Post({
       data: {
         toggleLike: { ok },
       },
-    } = result;
+    } = result
     if (ok) {
-      const fragmentId = `Photo:${id}`;
+      const fragmentId = `Photo:${id}`
       cache.modify({
         id: fragmentId,
         fields: {
           isLiked(prev) {
-            return !prev;
+            return !prev
           },
           likes(prev) {
             if (isLiked) {
-              return prev - 1;
+              return prev - 1
             }
-            return prev + 1;
+            return prev + 1
           },
         },
-      });
+      })
     }
-  };
+  }
   const [toogleLike] = useMutation(TOGGLE_LIKE_MUTATION, {
     variables: { id, value: 10 },
     update: updateToggleLike,
-  });
-  const [modalActive, setModalActive] = useState(false);
+  })
+  const [modalActive, setModalActive] = useState(false)
 
   return (
     <PostContainer key={id}>
@@ -133,7 +130,7 @@ function Post({
         </Link>
         <Link to={`/${user?.username}`}>
           <Username>{user?.username}</Username>
-        </Link>  
+        </Link>
         <More onClick={() => setModalActive(true)}>
           <img src={moreIcon} alt="more" />
         </More>
@@ -165,13 +162,10 @@ function Post({
         />
       </PostFooter>
       <Modal active={modalActive} setActive={setModalActive}>
-          <ModalContent
-            id={id}
-            isMine={isMine}
-          />
-        </Modal>
+        <ModalContent id={id} isMine={isMine} />
+      </Modal>
     </PostContainer>
-  );
+  )
 }
 
 Post.propTypes = {
@@ -194,8 +188,8 @@ Post.propTypes = {
       }),
       createdAt: PropTypes.string,
       isMine: PropTypes.bool,
-    })
+    }),
   ),
-};
+}
 
-export default Post;
+export default Post

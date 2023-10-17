@@ -1,9 +1,9 @@
 @font-face {
-    font-family: nexa;
-    src: url(../assets/fonts/Nexa-Trial-Bold.otf)
+  font-family: nexa;
+  src: url(../assets/fonts/Nexa-Trial-Bold.otf);
 }
 
 .nexa-bold {
-    font-family: nexa;
-    font-weight: 700;
+  font-family: nexa;
+  font-weight: 700;
 }

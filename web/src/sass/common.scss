@@ -1,4 +1,4 @@
-@import '~bootstrap/scss/bootstrap';
+@import "~bootstrap/scss/bootstrap";
 @import "recomendation";
 @import "mobileStyles";
 
@@ -6,7 +6,7 @@
   content: "";
   bottom: $bottom;
   position: absolute;
-  border-bottom: 1px solid #EBEBEB;
+  border-bottom: 1px solid #ebebeb;
   width: 40%;
 }
 
@@ -46,16 +46,14 @@
   }
 }
 
-
 .line {
-  border: 1px solid #EBEBEB;
+  border: 1px solid #ebebeb;
   width: 72px;
 }
 
-
 .inputSearch {
   position: relative;
-  background: #EFEFEF;
+  background: #efefef;
   border-radius: 8px;
   padding: 8px 12px 8px 40px;
   min-width: 250px;
@@ -106,10 +104,9 @@
   top: 0;
 }
 
-.change_btn{
-  &:active{
+.change_btn {
+  &:active {
     transform: scale(0.95);
     transition: transform 0.2s ease;
   }
-
 }

@@ -1,22 +1,22 @@
 .modalHeader {
-    font-weight:bold;
-    font-size: large;
+  font-weight: bold;
+  font-size: large;
 }
 .hr {
-    border: none; /* Убираем границу */
-    background-color: black; /* Цвет линии */
-    color: black; /* Цвет линии для IE6-7 */
-    height: 1px; /* Толщина линии */
-    width: 100%;
+  border: none; /* Убираем границу */
+  background-color: black; /* Цвет линии */
+  color: black; /* Цвет линии для IE6-7 */
+  height: 1px; /* Толщина линии */
+  width: 100%;
 }
 .Delete {
-    cursor: pointer;
-    font-weight:bold;
-    color: tomato;
+  cursor: pointer;
+  font-weight: bold;
+  color: tomato;
 }
 
 .Report {
-    cursor: pointer;
-    font-weight:bold;
-    color: #DC3545;
+  cursor: pointer;
+  font-weight: bold;
+  color: #dc3545;
 }

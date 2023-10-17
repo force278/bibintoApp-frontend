@@ -1,14 +1,14 @@
-import styled from "styled-components";
-import routes from "../routes";
-import AuthLayout from "../components/auth/AuthLayout";
-import Button from "../components/auth/Button";
-import Input from "../components/auth/Input";
-import FormBox from "../components/auth/FormBox";
-import PageTitle from "../components/PageTitle";
-import { useForm } from "react-hook-form";
-import { gql, useMutation } from "@apollo/client";
-import FormError from "../components/auth/FormError";
-import { Link, useHistory } from "react-router-dom";
+import styled from "styled-components"
+import routes from "../routes"
+import AuthLayout from "../components/auth/AuthLayout"
+import Button from "../components/auth/Button"
+import Input from "../components/auth/Input"
+import FormBox from "../components/auth/FormBox"
+import PageTitle from "../components/PageTitle"
+import { useForm } from "react-hook-form"
+import { gql, useMutation } from "@apollo/client"
+import FormError from "../components/auth/FormError"
+import { Link, useHistory } from "react-router-dom"
 import logoIcon from "../assets/img/bibinto.svg"
 
 const HeaderContainer = styled.div`
@@ -16,7 +16,7 @@ const HeaderContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-`;
+`
 
 const CREATE_ACCOUNT_MUTATION = gql`
   mutation createAccount(
@@ -37,39 +37,39 @@ const CREATE_ACCOUNT_MUTATION = gql`
       error
     }
   }
-`;
+`
 
 function SignUp() {
-  const history = useHistory();
+  const history = useHistory()
 
   const onCompleted = (data) => {
     const {
       createAccount: { ok, error },
-    } = data;
-    if (!ok) return setError("result", { message: error });
-    const { username, password } = getValues();
+    } = data
+    if (!ok) return setError("result", { message: error })
+    const { username, password } = getValues()
     history.push(routes.home, {
       message: "Пользователь зарегистрирован. Пожалуйста, войдите в аккаунт.",
       username,
       password,
-    });
-  };
+    })
+  }
 
   const { register, handleSubmit, formState, setError, getValues } = useForm({
     mode: "onBlur",
-  });
+  })
   const [signUp, { loading }] = useMutation(CREATE_ACCOUNT_MUTATION, {
     onCompleted,
-  });
+  })
 
   const onSubmitValid = (data) => {
-    if (loading) return;
+    if (loading) return
     signUp({
       variables: {
         ...data,
       },
-    });
-  };
+    })
+  }
 
   return (
     <AuthLayout>
@@ -80,7 +80,10 @@ function SignUp() {
             <img src={logoIcon} width="180" height="60" alt="логотип"></img>
           </div>
         </HeaderContainer>
-        <form onSubmit={handleSubmit(onSubmitValid)} className="position-relative">
+        <form
+          onSubmit={handleSubmit(onSubmitValid)}
+          className="position-relative"
+        >
           <Input
             {...register("email", {
               required: "Email обязателен для заполнения",
@@ -138,15 +141,21 @@ function SignUp() {
       </FormBox>
       <div className="col-sm-12 mt-2">
         <div className="d-flex justify-content-center row">
-          <span className="col-sm-12 col-lg-3 d-flex justify-content-center  me-2">Политика конфиденциальности</span>
-          <span className="col-sm-12 col-lg-3 d-flex justify-content-center  me-2">Условия использования</span>
-          <span className="col-sm-12 col-lg-3 d-flex justify-content-center  me-2">English</span>
+          <span className="col-sm-12 col-lg-3 d-flex justify-content-center  me-2">
+            Политика конфиденциальности
+          </span>
+          <span className="col-sm-12 col-lg-3 d-flex justify-content-center  me-2">
+            Условия использования
+          </span>
+          <span className="col-sm-12 col-lg-3 d-flex justify-content-center  me-2">
+            English
+          </span>
         </div>
         <div className="d-flex justify-content-center mt-3">
           <span>BIBINTO © 2023 </span>
         </div>
       </div>
     </AuthLayout>
-  );
+  )
 }
-export default SignUp;
+export default SignUp

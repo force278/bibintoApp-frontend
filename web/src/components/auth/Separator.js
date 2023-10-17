@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 const SSeparator = styled.div`
   margin: 20px 0 30px 0;
@@ -18,7 +18,7 @@ const SSeparator = styled.div`
     font-size: 12px;
     color: #8e8e8e;
   }
-`;
+`
 
 function Separator() {
   return (
@@ -27,7 +27,7 @@ function Separator() {
       <span>или</span>
       <div></div>
     </SSeparator>
-  );
+  )
 }
 
-export default Separator;
+export default Separator

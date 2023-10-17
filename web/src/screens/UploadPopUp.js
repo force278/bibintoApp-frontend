@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { useHistory } from "react-router-dom";
-import styled from "styled-components";
+import React, { useState, useEffect, useCallback } from "react"
+import { useHistory } from "react-router-dom"
+import styled from "styled-components"
 
-import { gql, useLazyQuery, useMutation } from "@apollo/client";
+import { gql, useLazyQuery, useMutation } from "@apollo/client"
 
 // TODO: Реализовать pop up
 
@@ -10,7 +10,7 @@ const URL_UPLOAD_QUERY = gql`
   query {
     getUrlUploadPhoto
   }
-`;
+`
 
 const POST_PHOTO = gql`
   mutation uploadPhoto($file: String!) {
@@ -18,7 +18,7 @@ const POST_PHOTO = gql`
       id
     }
   }
-`;
+`
 
 // const Image = ({ data }) => {
 //   return <img src={data} alt='Фото' />;
@@ -32,18 +32,20 @@ const Image = styled.div`
   background-position: center;
   background-size: contain;
   border-radius: 0 0 0 32px;
-`;
+`
 
 export const PostImage = ({ data, uploadInputRef }) => {
-  const [imageUrl, setImageUrl] = useState(null);
+  const [imageUrl, setImageUrl] = useState(null)
 
   useEffect(() => {
     if (data) {
-      (async function (data) {
-        const file = uploadInputRef.current.files[0];
+      ;(async function (data) {
+        const file = uploadInputRef.current.files[0]
 
-        const randomValue = Math.random();
-        const updatedUrl = `${data.getUrlUploadPhoto.split("?")[0]}?cache=${randomValue}`;
+        const randomValue = Math.random()
+        const updatedUrl = `${
+          data.getUrlUploadPhoto.split("?")[0]
+        }?cache=${randomValue}`
 
         await fetch(data.getUrlUploadPhoto, {
           method: "PUT",
@@ -51,18 +53,17 @@ export const PostImage = ({ data, uploadInputRef }) => {
             "Content-Type": "multipart/form-data",
           },
           body: file,
-        });
+        })
 
-
-        setImageUrl(updatedUrl);
-      })(data);
+        setImageUrl(updatedUrl)
+      })(data)
     }
-  }, [data, uploadInputRef]);
+  }, [data, uploadInputRef])
 
   if (!imageUrl) {
-    return <p>Загрузка</p>;
-  } else return <Image data={imageUrl} />;
-};
+    return <p>Загрузка</p>
+  } else return <Image data={imageUrl} />
+}
 
 // const UploadImage = () => {
 //   const [getUploadUrl, { called, loading, data }] =
@@ -74,49 +75,49 @@ export const PostImage = ({ data, uploadInputRef }) => {
 //   return <PostImage data={data} />;
 // };
 
-export const UploadPopUp = ({ onClose, uploadInputRef  }) => {
-  const history = useHistory();
+export const UploadPopUp = ({ onClose, uploadInputRef }) => {
+  const history = useHistory()
 
   const [getUploadUrl, { called, loading, data }] =
-    useLazyQuery(URL_UPLOAD_QUERY);
+    useLazyQuery(URL_UPLOAD_QUERY)
 
   const [uploadDB] = useMutation(POST_PHOTO, {
     variables: { file: data?.getUrlUploadPhoto.split("?")[0] },
-  });
+  })
 
   useEffect(() => {
     try {
       if (!called) {
-        getUploadUrl();
+        getUploadUrl()
       }
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
-  }, [called, getUploadUrl]);
+  }, [called, getUploadUrl])
 
   const handleUploadPhoto = useCallback(() => {
     if (called && data) {
-      uploadDB();
-      onClose();
+      uploadDB()
+      onClose()
     }
-  }, [called, data, onClose, uploadDB]);
+  }, [called, data, onClose, uploadDB])
 
   const handleGoBack = useCallback(() => {
-    history.goBack();
-    onClose();
+    history.goBack()
+    onClose()
     // window.location.reload();
-  }, [history, onClose]);
+  }, [history, onClose])
 
   return (
     <StyledOverlay>
       <StyledPopUpContainer>
         <StyledPopUpHeader>
           <StyledBackButtonContainer>
-            <StyledBackButton type='button' onClick={handleGoBack}>
-              <StyledArrow className='arrow-left' />
+            <StyledBackButton type="button" onClick={handleGoBack}>
+              <StyledArrow className="arrow-left" />
             </StyledBackButton>
           </StyledBackButtonContainer>
-          <StyledPopUpActionButton type='button' onClick={handleUploadPhoto}>
+          <StyledPopUpActionButton type="button" onClick={handleUploadPhoto}>
             Опубликовать
           </StyledPopUpActionButton>
         </StyledPopUpHeader>
@@ -125,17 +126,17 @@ export const UploadPopUp = ({ onClose, uploadInputRef  }) => {
             {called && loading ? (
               <div>Загрузка...</div>
             ) : (
-              <PostImage data={data} uploadInputRef={uploadInputRef}  />
+              <PostImage data={data} uploadInputRef={uploadInputRef} />
             )}
           </StyledPopUpLeft>
           <StyledPopUpRight>
-            <StyledPopUpTextArea placeholder='Добавить описание...' />
+            <StyledPopUpTextArea placeholder="Добавить описание..." />
           </StyledPopUpRight>
         </StyledPopUpBody>
       </StyledPopUpContainer>
     </StyledOverlay>
-  );
-};
+  )
+}
 
 const StyledOverlay = styled.div`
   width: 100vw;
@@ -150,7 +151,7 @@ const StyledOverlay = styled.div`
   align-items: center;
 
   z-index: 1000;
-`;
+`
 
 const StyledPopUpContainer = styled.div`
   background: #ffffff;
@@ -159,7 +160,7 @@ const StyledPopUpContainer = styled.div`
   height: 90%;
   max-width: 100%;
   max-height: 90%;
-`;
+`
 
 const StyledPopUpHeader = styled.div`
   display: flex;
@@ -168,12 +169,12 @@ const StyledPopUpHeader = styled.div`
   border-bottom: 1px solid #efefef;
   height: 61px;
   padding: 15px 25px;
-`;
+`
 
 const StyledBackButtonContainer = styled.div`
   width: 30px;
   height: 30px;
-`;
+`
 
 const StyledBackButton = styled.button`
   cursor: pointer;
@@ -203,7 +204,7 @@ const StyledBackButton = styled.button`
 
     transition: all 0.3s ease;
   }
-`;
+`
 
 const StyledArrow = styled.div`
   width: 9px;
@@ -215,7 +216,7 @@ const StyledArrow = styled.div`
   &.arrow-left {
     transform: rotate(225deg);
   }
-`;
+`
 
 const StyledPopUpActionButton = styled.button`
   background-color: transparent;
@@ -229,7 +230,7 @@ const StyledPopUpActionButton = styled.button`
   cursor: pointer;
 
   color: #2283f5;
-`;
+`
 
 const StyledPopUpBody = styled.div`
   display: grid;
@@ -237,7 +238,7 @@ const StyledPopUpBody = styled.div`
 
   height: calc(100% - 61px);
   max-height: calc(100% - 61px);
-`;
+`
 
 const StyledPopUpLeft = styled.div`
   display: flex;
@@ -251,13 +252,13 @@ const StyledPopUpLeft = styled.div`
     object-fit: contain;
     height: 100%;
   }
-`;
+`
 
 const StyledPopUpRight = styled.div`
   display: none;
   border-radius: 0 0 32px 0;
   height: 100%;
-`;
+`
 
 const StyledPopUpTextArea = styled.textarea`
   width: 100%;
@@ -266,6 +267,6 @@ const StyledPopUpTextArea = styled.textarea`
   resize: none;
   border: none;
   padding: 20px;
-`;
+`
 
-export default UploadPopUp;
+export default UploadPopUp

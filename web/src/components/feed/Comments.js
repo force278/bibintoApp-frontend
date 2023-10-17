@@ -1,13 +1,13 @@
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import Comment from "./Comment";
-import { useForm } from "react-hook-form";
-import { gql, useMutation } from "@apollo/client";
-import useMe from "../../hooks/useMe";
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import Comment from "./Comment"
+import { useForm } from "react-hook-form"
+import { gql, useMutation } from "@apollo/client"
+import useMe from "../../hooks/useMe"
 
 const CommentsContainer = styled.div`
   margin-top: 20px;
-`;
+`
 
 const CommentsNumber = styled.span`
   opacity: 0.7;
@@ -15,7 +15,7 @@ const CommentsNumber = styled.span`
   display: block;
   font-size: 12px;
   font-weight: 600;
-`;
+`
 
 const PostCommentContainer = styled.div`
   display: flex;
@@ -23,14 +23,14 @@ const PostCommentContainer = styled.div`
   padding-top: 15px;
   padding-bottom: 10px;
   border-top: 1px solid ${(props) => props.theme.borderColor};
-`;
+`
 
 const PostCommentInput = styled.input`
   width: 100%;
   &::placeholder {
     font-size: 12px;
   }
-`;
+`
 
 const CREATE_COMMENT_MUTATION = gql`
   mutation createComment($photoId: Int!, $payload: String!) {
@@ -40,20 +40,20 @@ const CREATE_COMMENT_MUTATION = gql`
       error
     }
   }
-`;
+`
 
 function Comments({ photoId, author, caption, commentsNumber, comments }) {
-  const { data: userData } = useMe();
-  const { register, handleSubmit, setValue, getValues } = useForm();
+  const { data: userData } = useMe()
+  const { register, handleSubmit, setValue, getValues } = useForm()
 
   const createCommentUpdate = (cache, result) => {
-    const { payload } = getValues();
-    setValue("payload", "");
+    const { payload } = getValues()
+    setValue("payload", "")
     const {
       data: {
         createComment: { ok, id },
       },
-    } = result;
+    } = result
     if (ok && userData?.me) {
       const newComment = {
         __typename: "Comment",
@@ -64,7 +64,7 @@ function Comments({ photoId, author, caption, commentsNumber, comments }) {
         user: {
           ...userData.me,
         },
-      };
+      }
       const newCachedComment = cache.writeFragment({
         fragment: gql`
           fragment newComment on Comment {
@@ -78,34 +78,34 @@ function Comments({ photoId, author, caption, commentsNumber, comments }) {
           }
         `,
         data: newComment,
-      });
+      })
       cache.modify({
         id: `Photo:${photoId}`,
         fields: {
           comments(prev) {
-            return [...prev, newCachedComment];
+            return [...prev, newCachedComment]
           },
           commentsNumber(prev) {
-            return prev + 1;
+            return prev + 1
           },
         },
-      });
+      })
     }
-  };
+  }
 
   const [createComment, { loading }] = useMutation(CREATE_COMMENT_MUTATION, {
     update: createCommentUpdate,
-  });
+  })
   const onValid = (data) => {
-    const { payload } = data;
-    if (loading) return;
+    const { payload } = data
+    if (loading) return
     createComment({
       variables: {
         photoId,
         payload,
       },
-    });
-  };
+    })
+  }
   return (
     <CommentsContainer>
       <Comment author={author} payload={caption} />
@@ -128,16 +128,22 @@ function Comments({ photoId, author, caption, commentsNumber, comments }) {
         <form onSubmit={handleSubmit(onValid)} className="d-flex w-100">
           <div className="d-flex justify-content-between w-100">
             <PostCommentInput
-                {...register("payload", { required: true })}
-                type="text"
-                placeholder="Добавьте комментарий..."
+              {...register("payload", { required: true })}
+              type="text"
+              placeholder="Добавьте комментарий..."
             />
-            <button type="submit" className="bg-transparent border-0" style={{color: "#2283F5", fontWeight: "600",}}>Опубликовать</button>
+            <button
+              type="submit"
+              className="bg-transparent border-0"
+              style={{ color: "#2283F5", fontWeight: "600" }}
+            >
+              Опубликовать
+            </button>
           </div>
         </form>
       </PostCommentContainer>
     </CommentsContainer>
-  );
+  )
 }
 
 Comments.propTypes = {
@@ -153,8 +159,8 @@ Comments.propTypes = {
       }),
       createdAt: PropTypes.string,
       isMine: PropTypes.bool,
-    })
+    }),
   ),
-};
+}
 
-export default Comments;
+export default Comments

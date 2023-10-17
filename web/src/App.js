@@ -1,28 +1,28 @@
-import { useReactiveVar } from "@apollo/client";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { ThemeProvider } from "styled-components";
-import { darkModeVar, isLoggedInVar } from "./apollo";
-import Home from "./screens/Home";
-import Login from "./screens/Login";
-import NotFound from "./screens/NotFound";
-import SignUp from "./screens/SignUp";
-import { darkTheme, GlobalStyles, lightTheme } from "./styles";
-import routes from "./routes";
-import { HelmetProvider } from "react-helmet-async";
-import { ApolloProvider } from "@apollo/client";
-import { client } from "./apollo";
-import Layout from "./components/Layout";
-import Profile from "./screens/Profile";
-import { NotMatch } from "./pages/NotMatch";
-import { EditProfile } from "./screens/EditProfile";
-import ChangeEditProfile from "./components/ProfileEdit/ChangeEditProfile";
-import { ChangePassword } from "./components/ProfileEdit/ChangePassword";
-import PrivacyPolicy from "./components/privacyPolicy/PrivacyPolicy";
-import { TermsOfUse } from "./components/termsOfUse/TermsOfUse";
+import { useReactiveVar } from "@apollo/client"
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
+import { ThemeProvider } from "styled-components"
+import { darkModeVar, isLoggedInVar } from "./apollo"
+import Home from "./screens/Home"
+import Login from "./screens/Login"
+import NotFound from "./screens/NotFound"
+import SignUp from "./screens/SignUp"
+import { darkTheme, GlobalStyles, lightTheme } from "./styles"
+import routes from "./routes"
+import { HelmetProvider } from "react-helmet-async"
+import { ApolloProvider } from "@apollo/client"
+import { client } from "./apollo"
+import Layout from "./components/Layout"
+import Profile from "./screens/Profile"
+import { NotMatch } from "./pages/NotMatch"
+import { EditProfile } from "./screens/EditProfile"
+import ChangeEditProfile from "./components/ProfileEdit/ChangeEditProfile"
+import { ChangePassword } from "./components/ProfileEdit/ChangePassword"
+import PrivacyPolicy from "./components/privacyPolicy/PrivacyPolicy"
+import { TermsOfUse } from "./components/termsOfUse/TermsOfUse"
 
 function App() {
-  const isLoggedIn = useReactiveVar(isLoggedInVar);
-  const darkMode = useReactiveVar(darkModeVar);
+  const isLoggedIn = useReactiveVar(isLoggedInVar)
+  const darkMode = useReactiveVar(darkModeVar)
 
   return (
     <ApolloProvider client={client}>
@@ -40,7 +40,7 @@ function App() {
                   <Login />
                 )}
               </Route>
-              <Route path='/recommendations'>
+              <Route path="/recommendations">
                 <Layout>
                   <Home />
                 </Layout>
@@ -55,22 +55,21 @@ function App() {
                   <NotMatch />
                 </Layout>
               </Route>
-              <Route path='/privacy-policy'>
-                  <PrivacyPolicy />
+              <Route path="/privacy-policy">
+                <PrivacyPolicy />
               </Route>
-              <Route path='/termsOfUse'>
+              <Route path="/termsOfUse">
                 <TermsOfUse />
               </Route>
               <Route path="/accountEditProfile" exact>
                 <Layout>
-                  <EditProfile children={<ChangeEditProfile/>}
-                  />
+                  <EditProfile children={<ChangeEditProfile />} />
                 </Layout>
               </Route>
               <Route path="/account/accountChangePassword" exact>
-                  <Layout>
-                    <EditProfile children={<ChangePassword/>}/>
-                  </Layout>
+                <Layout>
+                  <EditProfile children={<ChangePassword />} />
+                </Layout>
               </Route>
               <Route path={`/:username`}>
                 <Layout>
@@ -90,7 +89,7 @@ function App() {
         </ThemeProvider>
       </HelmetProvider>
     </ApolloProvider>
-  );
+  )
 }
 
-export default App;
+export default App

@@ -1,10 +1,10 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 const Input = styled.input`
   width: 100%;
   padding: 14px 16px;
   background-color: rgba(196, 196, 196, 0.1) !important;
-  color: #5A686C;
+  color: #5a686c;
   // border: 0.5px solid
   //   ${(props) => (props.hasError ? "tomato" : props.theme.borderColor)};
   margin-bottom: 13px;
@@ -17,6 +17,6 @@ const Input = styled.input`
   &:focus {
     border-color: rgb(38, 38, 38);
   }
-`;
+`
 
-export default Input;
+export default Input

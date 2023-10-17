@@ -1,7 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import { Link } from "react-router-dom";
-
+import React from "react"
+import styled from "styled-components"
+import { Link } from "react-router-dom"
 
 //Todo:styled-component переписать на bootstrap и в отдельный файл с css стилям, чтобы был порядок
 const StyledProfileItem = styled.div`
@@ -10,20 +9,20 @@ const StyledProfileItem = styled.div`
   align-items: center;
   padding: ${(props) => (props.small ? "12.5px" : "19px")} 0;
   gap: 12px;
-`;
+`
 
 const StyledMiniInfo = styled.div`
   display: flex;
   gap: 12px;
   cursor: pointer;
-`;
+`
 
 const StyledLink = styled.div`
   display: flex;
   color: blue;
   font-size: 12px;
   cursor: pointer;
-`;
+`
 
 const StyledImageContainer = styled.div`
   display: flex;
@@ -41,7 +40,7 @@ const StyledImageContainer = styled.div`
     height: 100%;
     object-fit: cover;
   }
-`;
+`
 const StyledText = styled.div`
   display: flex;
   flex-direction: column;
@@ -58,9 +57,9 @@ const StyledText = styled.div`
     color: gray;
     letter-spacing: 0px;
   }
-`;
+`
 
-const StyledAvatar = styled.div``;
+const StyledAvatar = styled.div``
 
 const ProfileItem = ({ linkText, linkTo, name, username, small = false }) => {
   return (
@@ -79,7 +78,7 @@ const ProfileItem = ({ linkText, linkTo, name, username, small = false }) => {
         <Link to={linkTo}>{linkText}</Link>
       </StyledLink>
     </StyledProfileItem>
-  );
-};
+  )
+}
 
-export default ProfileItem;
+export default ProfileItem
