@@ -31,6 +31,11 @@ function App() {
           <GlobalStyles />
           <Router>
             <Switch>
+              {!isLoggedIn ? (
+                <Route path={routes.signUp}>
+                  <SignUp />
+                </Route>
+              ) : null}
               <Route path={routes.home} exact>
                 {isLoggedIn ? (
                   <Layout>
@@ -79,11 +84,6 @@ function App() {
               <Route path={`*`}>
                 <NotFound />
               </Route>
-              {!isLoggedIn ? (
-                <Route path={routes.signUp}>
-                  <SignUp />
-                </Route>
-              ) : null}
             </Switch>
           </Router>
         </ThemeProvider>
