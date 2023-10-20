@@ -1,79 +1,29 @@
-import styled from "styled-components"
+import React from "react"
+import AuthLayout from "../../components/auth/AuthLayout"
+import Button from "../../components/auth/Button"
+import Input from "../../components/auth/Input"
+import FormBox from "../../components/auth/FormBox"
+import PageTitle from "../../components/PageTitle"
+import FormError from "../../components/auth/FormError"
 import { Link } from "react-router-dom"
-import AuthLayout from "../components/auth/AuthLayout"
-import Button from "../components/auth/Button"
-import Input from "../components/auth/Input"
-import FormBox from "../components/auth/FormBox"
-import PageTitle from "../components/PageTitle"
-import { useForm } from "react-hook-form"
-import FormError from "../components/auth/FormError"
-import { gql, useMutation } from "@apollo/client"
-import { LoginUser } from "../apollo"
-import { useLocation } from "react-router-dom"
-import logoIcon from "../assets/img/bibinto.svg"
-import "../sass/common.scss"
-import signGooglePlay from "../assets/img/sign-GooglePlay.svg"
-import appleIcon from "../assets/img/appleLogo.svg"
-import "../styles/styles.css"
+import logoIcon from "../../assets/img/bibinto.svg"
+import "../../sass/common.scss"
+import signGooglePlay from "../../assets/img/sign-GooglePlay.svg"
+import appleIcon from "../../assets/img/appleLogo.svg"
+import "../../styles/styles.css"
+import Notification from "./Notification/Notification"
+import InfoFooter from "../InfoFooter"
 
-const Notification = styled.div`
-  color: #27ae60;
-  text-align: center;
-`
 
-const LOGIN_MUTATTION = gql`
-  mutation login($username: String!, $password: String!) {
-    login(username: $username, password: $password) {
-      ok
-      error
-      token
-    }
-  }
-`
-
-function Login() {
-  const location = useLocation()
-  const onCompleted = (data) => {
-    const {
-      login: { ok, error, token },
-    } = data
-    if (!ok) {
-      return setError("result", { message: error })
-    }
-    if (token) {
-      LoginUser(token)
-    }
-  }
-
-  const [login, { loading }] = useMutation(LOGIN_MUTATTION, { onCompleted })
-  const {
+function Login({
     register,
     handleSubmit,
+    clearLoginErrors,
     formState,
-    getValues,
-    setError,
-    clearErrors,
-  } = useForm({
-    mode: "onBlur",
-    defaultValues: {
-      username: location?.state?.username || "",
-      password: location?.state?.password || "",
-    },
-  })
-  const onSubmitValid = () => {
-    if (loading) return
-    const { username, password } = getValues()
-    login({
-      variables: {
-        username,
-        password,
-      },
-    })
-  }
-
-  const clearLoginErrors = () => {
-    clearErrors("result")
-  }
+    onSubmitValid,
+    loading,
+    location}) {
+  
 
   return (
     <AuthLayout>
@@ -83,7 +33,7 @@ function Login() {
           <div>
             <img src={logoIcon} width="180" height="60" alt="Бибинто"></img>
           </div>
-          <Notification>{location?.state?.message}</Notification>
+          <Notification location={location}/>
           <form
             onSubmit={handleSubmit(onSubmitValid)}
             className="position-relative"
@@ -149,22 +99,7 @@ function Login() {
           </button>
         </div>
       </div>
-      <div className="w-100" style={{ bottom: 0, left: 0 }}>
-        <div className="d-flex justify-content-center row">
-          <span className="col-sm-12 col-lg-3 d-flex justify-content-center  me-2">
-            <Link to="/privacy-policy">Политика конфиденциальности</Link>
-          </span>
-          <span className="col-sm-12 col-lg-3 d-flex justify-content-center  me-2">
-            <Link to="/termsOfUse">Условия использования</Link>
-          </span>
-          <span className="col-sm-12 col-lg-3 d-flex justify-content-center  me-2">
-            English
-          </span>
-        </div>
-        <div className="d-flex justify-content-center mt-3">
-          <span>BIBINTO © 2023 </span>
-        </div>
-      </div>
+      <InfoFooter/>
       {/*<BottomBox*/}
       {/*  cta="У вас ещё нет аккаунта?"*/}
       {/*  link={routes.signUp}*/}

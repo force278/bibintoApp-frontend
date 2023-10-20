@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
 import { ThemeProvider } from "styled-components"
 import { darkModeVar, isLoggedInVar } from "./apollo"
 import Home from "./screens/Home"
-import Login from "./screens/Login"
+import LoginContainer from "./screens/Login/LoginContainer"
 import NotFound from "./screens/NotFound"
 import SignUp from "./screens/SignUp"
 import { darkTheme, GlobalStyles, lightTheme } from "./styles"
@@ -42,7 +42,7 @@ function App() {
                     <Home />
                   </Layout>
                 ) : (
-                  <Login />
+                  <LoginContainer />
                 )}
               </Route>
               <Route path="/recommendations">

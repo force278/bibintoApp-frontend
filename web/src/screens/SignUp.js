@@ -10,7 +10,7 @@ import { gql, useMutation } from "@apollo/client"
 import FormError from "../components/auth/FormError"
 import { Link, useHistory } from "react-router-dom"
 import logoIcon from "../assets/img/bibinto.svg"
-
+import InfoFooter from "./InfoFooter"
 const HeaderContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -139,22 +139,7 @@ function SignUp() {
           </button>
         </form>
       </FormBox>
-      <div className="col-sm-12 mt-2">
-        <div className="d-flex justify-content-center row">
-          <span className="col-sm-12 col-lg-3 d-flex justify-content-center  me-2">
-            Политика конфиденциальности
-          </span>
-          <span className="col-sm-12 col-lg-3 d-flex justify-content-center  me-2">
-            Условия использования
-          </span>
-          <span className="col-sm-12 col-lg-3 d-flex justify-content-center  me-2">
-            English
-          </span>
-        </div>
-        <div className="d-flex justify-content-center mt-3">
-          <span>BIBINTO © 2023 </span>
-        </div>
-      </div>
+      <InfoFooter/>
     </AuthLayout>
   )
 }
