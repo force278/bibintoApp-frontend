@@ -139,7 +139,7 @@ function SignUp() {
           </button>
         </form>
       </FormBox>
-      <InfoFooter/>
+      <InfoFooter />
     </AuthLayout>
   )
 }

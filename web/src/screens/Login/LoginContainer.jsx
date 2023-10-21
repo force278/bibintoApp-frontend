@@ -58,15 +58,15 @@ function LoginContainer() {
     clearErrors("result")
   }
 
-  return(
+  return (
     <Login
-        register ={register}
-        handleSubmit ={handleSubmit}
-        clearLoginErrors ={clearLoginErrors}
-        formState={formState}
-        onSubmitValid ={onSubmitValid}
-        loading={loading}
-        location={location}
+      register={register}
+      handleSubmit={handleSubmit}
+      clearLoginErrors={clearLoginErrors}
+      formState={formState}
+      onSubmitValid={onSubmitValid}
+      loading={loading}
+      location={location}
     />
   )
 }

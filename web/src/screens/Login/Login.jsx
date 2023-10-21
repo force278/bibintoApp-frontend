@@ -14,17 +14,15 @@ import "../../styles/styles.css"
 import Notification from "./Notification/Notification"
 import InfoFooter from "../InfoFooter"
 
-
 function Login({
-    register,
-    handleSubmit,
-    clearLoginErrors,
-    formState,
-    onSubmitValid,
-    loading,
-    location}) {
-  
-
+  register,
+  handleSubmit,
+  clearLoginErrors,
+  formState,
+  onSubmitValid,
+  loading,
+  location,
+}) {
   return (
     <AuthLayout>
       <div className="d-flex align-items-center justify-content-center flex-column ">
@@ -33,7 +31,7 @@ function Login({
           <div>
             <img src={logoIcon} width="180" height="60" alt="Бибинто"></img>
           </div>
-          <Notification location={location}/>
+          <Notification location={location} />
           <form
             onSubmit={handleSubmit(onSubmitValid)}
             className="position-relative"
@@ -99,7 +97,7 @@ function Login({
           </button>
         </div>
       </div>
-      <InfoFooter/>
+      <InfoFooter />
       {/*<BottomBox*/}
       {/*  cta="У вас ещё нет аккаунта?"*/}
       {/*  link={routes.signUp}*/}
