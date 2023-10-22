@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components";
-import { Link } from "react-router-dom";
-import ProfileItem from "./ProfileItem";
+import React from "react"
+import styled from "styled-components"
+import { Link } from "react-router-dom"
+import ProfileItem from "./ProfileItem"
 
 const StyledLinks = styled.div`
   display: flex;
@@ -12,7 +12,7 @@ const StyledLinks = styled.div`
     color: blue;
     cursor: pointer;
   }
-`;
+`
 
 const StyledCopyright = styled.small`
   font-weight: 400;
@@ -20,45 +20,45 @@ const StyledCopyright = styled.small`
   line-height: 18px;
   color: #8e8e8e;
   margin-top: 15px;
-`;
+`
 
 const RecomendationAside = ({ currentUsername }) => {
   return (
     <div className="d-none flex-column aside">
       <ProfileItem
-        linkText='Редактировать'
+        linkText="Редактировать"
         linkTo="/accountEditProfile"
-        name='Разрабатывается...'
+        name="Разрабатывается..."
         username="Мой профиль"
       />
       <StyledLinks>
         <h2>Рекомендуемые профили</h2>
-        <Link to='/recomended-profiles'>Все</Link>
+        <Link to="/recomended-profiles">Все</Link>
       </StyledLinks>
       <ProfileItem
-        linkText='Подписаться'
+        linkText="Подписаться"
         linkTo={`/users/${currentUsername}/edit`}
-        name='Konstantin Karpov'
-        username='konstantin__karpov'
+        name="Konstantin Karpov"
+        username="konstantin__karpov"
         small
       />
       <ProfileItem
-        linkText='Подписаться'
+        linkText="Подписаться"
         linkTo={`/users/${currentUsername}/edit`}
-        name='Sylanty Sylanty'
-        username='silanty013'
+        name="Sylanty Sylanty"
+        username="silanty013"
         small
       />
       <ProfileItem
-        linkText='Подписаться'
+        linkText="Подписаться"
         linkTo={`/users/${currentUsername}/edit`}
-        name='Pavel Durov'
-        username='durov_official'
+        name="Pavel Durov"
+        username="durov_official"
         small
       />
       <StyledCopyright>BIBINTO © 2023</StyledCopyright>
     </div>
-  );
-};
+  )
+}
 
-export default RecomendationAside;
+export default RecomendationAside

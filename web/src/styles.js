@@ -1,17 +1,17 @@
-import { createGlobalStyle } from "styled-components";
-import reset from "styled-reset";
+import { createGlobalStyle } from "styled-components"
+import reset from "styled-reset"
 
 export const lightTheme = {
   bgColor: "rgb(250,250,250)",
   accent: "#0095f6",
   borderColor: "rgb(219, 219, 219)",
   color: "rgb(38, 38, 38)",
-};
+}
 
 export const darkTheme = {
   color: "rgb(250,250,250)",
   bgColor: "black",
-};
+}
 
 export const GlobalStyles = createGlobalStyle`
     ${reset}
@@ -35,4 +35,4 @@ export const GlobalStyles = createGlobalStyle`
       color: inherit;
     }
 
-`;
+`

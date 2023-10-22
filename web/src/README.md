@@ -16,7 +16,7 @@
 
 ### `npm test`
 
-запускает тестовый раннер в интерактивном режиме просмотра.\
+Запускает тестовый раннер в интерактивном режиме просмотра.\
 Смотрите раздел [запуска тестов](https://facebook.github.io/create-react-app/docs/running-tests) для получения дополнительной информации.
 
 ### `npm run build`
@@ -37,4 +37,3 @@
 ## Узнать больше
 
 Документацию Create React App можно найти [здесь](https://facebook.github.io/create-react-app/docs/getting-started). Для изучения React можно посмотреть официальную документацию. [React documentation](https://reactjs.org/)
-

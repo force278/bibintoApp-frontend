@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 const Button = styled.input`
   width: 100%;
@@ -10,26 +10,26 @@ const Button = styled.input`
   font-family: Roboto, sans-serif;
   border: none;
   font-weight: 500;
-  background: linear-gradient(90deg, #6CF2FE, #2936FF, #FE2DB7);
+  background: linear-gradient(90deg, #6cf2fe, #2936ff, #fe2db7);
   border-radius: 5px;
   height: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
   opacity: ${(props) => (props.disabled ? "0.5" : "1")};
-  &:internal-autofill-selected{
+  &:internal-autofill-selected {
     background-color: red !important;
   }
-`;
+`
 
-export default Button;
+export default Button
 
 export const DefaultButton = styled.button`
-    width: 100%;
-    border: 3px solid #EFEFEF;
-    border-radius: 5px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 40px
+  width: 100%;
+  border: 3px solid #efefef;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
 `

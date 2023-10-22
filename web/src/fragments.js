@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from "@apollo/client"
 
 export const POST_FRAGMENT = gql`
   fragment PostFragment on Photo {
@@ -7,7 +7,7 @@ export const POST_FRAGMENT = gql`
     likes
     commentsNumber
   }
-`;
+`
 
 export const COMMENTS_FRAGMENT = gql`
   fragment CommentFragment on Comment {
@@ -19,4 +19,4 @@ export const COMMENTS_FRAGMENT = gql`
     createdAt
     isMine
   }
-`;
+`

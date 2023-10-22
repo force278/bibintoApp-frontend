@@ -1,15 +1,15 @@
-import { gql, useApolloClient, useMutation, useQuery } from "@apollo/client";
-import { faComment, faHeart } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link, useParams } from "react-router-dom";
-import styled from "styled-components";
-import { BoldText } from "../components/shared";
-import { POST_FRAGMENT } from "../fragments";
-import Button, { DefaultButton } from "../components/auth/Button";
-import PageTitle from "../components/PageTitle";
-import useMe from "../hooks/useMe";
+import { gql, useApolloClient, useMutation, useQuery } from "@apollo/client"
+import { faComment, faHeart } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { Link, useParams } from "react-router-dom"
+import styled from "styled-components"
+import { BoldText } from "../components/shared"
+import { POST_FRAGMENT } from "../fragments"
+import Button, { DefaultButton } from "../components/auth/Button"
+import PageTitle from "../components/PageTitle"
+import useMe from "../hooks/useMe"
 import defaultAvatar from "../assets/img/editProfile/defaultAvatar.png"
-import { ModalMUI } from "../components/MUI/Modal";
+import { ModalMUI } from "../components/MUI/Modal"
 
 const SEE_PROFILE_QUERY = gql`
   query seeProfile($username: String!) {
@@ -29,7 +29,7 @@ const SEE_PROFILE_QUERY = gql`
     }
   }
   ${POST_FRAGMENT}
-`;
+`
 
 const FOLLOW_USER_MUTATION = gql`
   mutation followUser($username: String!) {
@@ -37,7 +37,7 @@ const FOLLOW_USER_MUTATION = gql`
       ok
     }
   }
-`;
+`
 
 const UNFOLLOW_USER_MUTATION = gql`
   mutation unFollowUser($username: String!) {
@@ -45,11 +45,11 @@ const UNFOLLOW_USER_MUTATION = gql`
       ok
     }
   }
-`;
+`
 
 const StyledProfileContainer = styled.div`
   margin-top: 65px;
-`;
+`
 
 const Header = styled.div`
   display: flex;
@@ -59,7 +59,7 @@ const Header = styled.div`
     align-items: center;
     flex-direction: column;
   }
-`;
+`
 const Avatar = styled.img`
   margin-left: 50px;
   height: 160px;
@@ -70,36 +70,35 @@ const Avatar = styled.img`
   object-fit: cover;
   @media (max-width: 768px) {
     margin: 0;
-    
   }
-`;
+`
 const Column = styled.div`
   @media (max-width: 768px) {
     margin-top: 30px;
   }
-`;
+`
 const Username = styled.h3`
   font-size: 28px;
   font-weight: 400;
-`;
+`
 const Row = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 20px;
   font-size: 16px;
-`;
+`
 const List = styled.ul`
   display: flex;
-`;
+`
 const Item = styled.li`
   margin-right: 20px;
-`;
+`
 const Value = styled(BoldText)`
   font-size: 18px;
-`;
+`
 const Name = styled(BoldText)`
   font-size: 20px;
-`;
+`
 
 const Grid = styled.div`
   display: grid;
@@ -112,13 +111,13 @@ const Grid = styled.div`
     margin: 30px;
     gap: 7px;
   }
-`;
+`
 
 const Photo = styled.div`
   background-image: url(${(props) => props.bg});
   background-size: cover;
   position: relative;
-`;
+`
 
 export const Icons = styled.div`
   position: absolute;
@@ -133,7 +132,7 @@ export const Icons = styled.div`
   &:hover {
     opacity: 1;
   }
-`;
+`
 
 const Icon = styled.span`
   font-size: 18px;
@@ -144,7 +143,7 @@ const Icon = styled.span`
     font-size: 14px;
     margin-right: 5px;
   }
-`;
+`
 
 const ProfileBtn = styled(Button).attrs({
   as: "span",
@@ -153,10 +152,10 @@ const ProfileBtn = styled(Button).attrs({
   margin-top: 0px;
   padding: 8px 10px;
   cursor: pointer;
-`;
+`
 
 const DefaultBtn = styled(DefaultButton).attrs({
-  as: "span"
+  as: "span",
 })`
   margin-left: 10px;
   margin-top: 0px;
@@ -165,87 +164,92 @@ const DefaultBtn = styled(DefaultButton).attrs({
 `
 
 function Profile() {
-  const { username } = useParams();
-  const { data: userData } = useMe();
-  const client = useApolloClient();
+  const { username } = useParams()
+  const { data: userData } = useMe()
+  const client = useApolloClient()
   const { data, loading } = useQuery(SEE_PROFILE_QUERY, {
     variables: { username },
-  });
+  })
 
   const unfollowUserUpdate = (cache, result) => {
     const {
       data: {
         unFollowUser: { ok },
       },
-    } = result;
-    if (!ok) return;
+    } = result
+    if (!ok) return
     cache.modify({
       id: `User:${username}`,
       fields: {
         totalFollowers(prev) {
-          return prev - 1;
+          return prev - 1
         },
         isFollowing(prev) {
-          return false;
+          return false
         },
       },
-    });
-    const { me } = userData;
+    })
+    const { me } = userData
     cache.modify({
       id: `User:${me.username}`,
       fields: {
         totalFollowing(prev) {
-          return prev - 1;
+          return prev - 1
         },
       },
-    });
-  };
+    })
+  }
 
   const [unfollowUser] = useMutation(UNFOLLOW_USER_MUTATION, {
     variables: { username },
     update: unfollowUserUpdate,
-  });
+  })
 
   const followUserCompleted = (data) => {
     const {
       followUser: { ok },
-    } = data;
-    const { cache } = client;
-    if (!ok) return;
+    } = data
+    const { cache } = client
+    if (!ok) return
     cache.modify({
       id: `User:${username}`,
       fields: {
         totalFollowers(prev) {
-          return prev + 1;
+          return prev + 1
         },
         isFollowing(prev) {
-          return true;
+          return true
         },
       },
-    });
-    const { me } = userData;
+    })
+    const { me } = userData
     cache.modify({
       id: `User:${me.username}`,
       fields: {
         totalFollowing(prev) {
-          return prev + 1;
+          return prev + 1
         },
       },
-    });
-  };
+    })
+  }
 
   const [followUser] = useMutation(FOLLOW_USER_MUTATION, {
     variables: { username },
     onCompleted: followUserCompleted,
-  });
+  })
 
   const getButton = (seeProfile) => {
-    const { isMe, isFollowing } = seeProfile;
-    if (isMe) return <DefaultBtn><Link to="/accountEditProfile">Редактировать профиль</Link></DefaultBtn>;
+    const { isMe, isFollowing } = seeProfile
+    if (isMe)
+      return (
+        <DefaultBtn>
+          <Link to="/accountEditProfile">Редактировать профиль</Link>
+        </DefaultBtn>
+      )
     if (isFollowing)
-      return <DefaultBtn onClick={unfollowUser}>Отписаться</DefaultBtn>;
-    else return <ProfileBtn onClick={followUser}>Подписаться</ProfileBtn>;
-  };
+      return <DefaultBtn onClick={unfollowUser}>Отписаться</DefaultBtn>
+    else return <ProfileBtn onClick={followUser}>Подписаться</ProfileBtn>
+  }
 
   return (
     <StyledProfileContainer>
@@ -255,9 +259,11 @@ function Profile() {
         }
       />
       <Header>
-        {data?.seeProfile?.avatar ?
-            <Avatar src={data?.seeProfile?.avatar} /> :
-            <Avatar src={defaultAvatar} alt="default avatar" /> }
+        {data?.seeProfile?.avatar ? (
+          <Avatar src={data?.seeProfile?.avatar} />
+        ) : (
+          <Avatar src={defaultAvatar} alt="default avatar" />
+        )}
         <Column>
           <Row>
             <Username>{data?.seeProfile?.username}</Username>
@@ -291,7 +297,12 @@ function Profile() {
         {data?.seeProfile?.photos.map((photo) => (
           <Photo key={photo.id} bg={photo.file}>
             <Icons>
-              <ModalMUI  liked={photo.likes} selectedPhoto={photo.id} photo={photo.file} style={{cursor:'pointer'}}/>
+              <ModalMUI
+                liked={photo.likes}
+                selectedPhoto={photo.id}
+                photo={photo.file}
+                style={{ cursor: "pointer" }}
+              />
               <Icon>
                 <FontAwesomeIcon icon={faHeart} />
                 {photo.likes}
@@ -305,7 +316,7 @@ function Profile() {
         ))}
       </Grid>
     </StyledProfileContainer>
-  );
+  )
 }
 
-export default Profile;
+export default Profile

@@ -1,3 +1,4 @@
+
 import { useReactiveVar } from "@apollo/client";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
@@ -21,9 +22,10 @@ import PrivacyPolicy from "./components/privacyPolicy/PrivacyPolicy";
 import { TermsOfUse } from "./components/termsOfUse/TermsOfUse";
 import {Messanger} from "./components/Messanger";
 
+
 function App() {
-  const isLoggedIn = useReactiveVar(isLoggedInVar);
-  const darkMode = useReactiveVar(darkModeVar);
+  const isLoggedIn = useReactiveVar(isLoggedInVar)
+  const darkMode = useReactiveVar(darkModeVar)
 
   return (
     <ApolloProvider client={client}>
@@ -32,16 +34,21 @@ function App() {
           <GlobalStyles />
           <Router>
             <Switch>
+              {!isLoggedIn ? (
+                <Route path={routes.signUp}>
+                  <SignUp />
+                </Route>
+              ) : null}
               <Route path={routes.home} exact>
                 {isLoggedIn ? (
                   <Layout>
                     <Home />
                   </Layout>
                 ) : (
-                  <Login />
+                  <LoginContainer />
                 )}
               </Route>
-              <Route path='/recommendations'>
+              <Route path="/recommendations">
                 <Layout>
                   <Home />
                 </Layout>
@@ -53,22 +60,21 @@ function App() {
 
                 </Layout>
               </Route>
-              <Route path='/privacy-policy'>
-                  <PrivacyPolicy />
+              <Route path="/privacy-policy">
+                <PrivacyPolicy />
               </Route>
-              <Route path='/termsOfUse'>
+              <Route path="/termsOfUse">
                 <TermsOfUse />
               </Route>
               <Route path="/accountEditProfile" exact>
                 <Layout>
-                  <EditProfile children={<ChangeEditProfile/>}
-                  />
+                  <EditProfile children={<ChangeEditProfile />} />
                 </Layout>
               </Route>
               <Route path="/account/accountChangePassword" exact>
-                  <Layout>
-                    <EditProfile children={<ChangePassword/>}/>
-                  </Layout>
+                <Layout>
+                  <EditProfile children={<ChangePassword />} />
+                </Layout>
               </Route>
               <Route path={`/:username`}>
                 <Layout>
@@ -78,17 +84,12 @@ function App() {
               <Route path={`*`}>
                 <NotFound />
               </Route>
-              {!isLoggedIn ? (
-                <Route path={routes.signUp}>
-                  <SignUp />
-                </Route>
-              ) : null}
             </Switch>
           </Router>
         </ThemeProvider>
       </HelmetProvider>
     </ApolloProvider>
-  );
+  )
 }
 
-export default App;
+export default App
