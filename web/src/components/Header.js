@@ -79,80 +79,15 @@ export function Header() {
           style={{ maxWidth: "930px" }}
         >
           <div className="d-flex justify-content-between w-100">
-
-                {isLoggedIn ?(
-                    <div className="d-flex align-items-center justify-content-between w-100 justifyContentCenterForMobile">
-                      <div className="hideElement">
-                        <Link to={routes.home}>
-                          <div>
-                            <img src={logo} width='100' alt='Бибинто'></img>
-                          </div>
-                        </Link>
-                      </div>
-                      <div className="inputSearch hideElement">
-                        <input type="text" className="inputSearch__input" placeholder="Поиск" />
-                        <img src={searchGray} alt="search" className="inputSearch__icon" />
-                      </div>
-                      <div className="d-flex" style={{gap: '35px'}}>
-                        <span>
-                        <Link to={routes.home}>
-                          <img src={homeIcon} alt='home' />
-                        </Link>
-                      </span>
-                        <span>
-
-                        <Link to="/messanger">
-
-                          <img src={messageIcon} alt='message' />
-                        </Link>
-                      </span>
-                        <span>
-                        <input style={{opacity: 0, visibility: 'hidden', position: 'absolute'}} id='imageInput' type='file' accept='image/jpeg, image/png' ref={uploadInputRef} onChange={handleUploadImage} />
-                        <label htmlFor='imageInput'>
-                          <img src={uploadIcon} alt='upload' style={{cursor: "pointer"}} />
-                        </label>
-                      </span>
-                        <span>
-                        <Link to="likes">
-                          <img src={likeIcon} alt='like' />
-                        </Link>
-                      </span>
-                        <span >
-                        <button className="border-0 bg-transparent" onClick={handleShowModal}>
-                          <img src={userIcon} alt='user' />
-                        </button>
-                        <div className={`position-relative ${showModal? 'd-block' : 'd-none'}`}>
-                          <div className="position-absolute modalWindowForMobile"
-                               style={{
-                                 width: '250px',
-                                 height: '130px',
-                                 background: '#F4F4F4',
-                                 borderRadius: '17px',
-                                 top:'66px',
-                                 left: '50%',
-                                 transform: 'translate(-50%, -50%)',
-                                 filter: 'drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))',
-                               }}>
-                            {showModal && (
-                                <div className="d-flex flex-column" ref={modalRef}>
-                                  <button className="m-2 z-2 border-0 p-3 bg-white" style={{borderRadius: '11px'}}>
-                                    <Link to={`/${data?.me?.username}`} onClick={handleShowModal}>
-                                      Мой профиль
-                                    </Link>
-                                  </button>
-                                  <button className="m-2 z-2 border-0 p-3 bg-white text-danger" style={{borderRadius: '11px'}} onClick={logOut}>
-                                    <Link to={`/${data?.me?.username}`}>
-                                      Выйти из профиля
-                                    </Link>
-                                  </button>
-                                </div>
-                            )}
-                          </div>
-                        </div>
-                      </span>
-                      </div>
-
-
+            {isLoggedIn ? (
+              <div className="d-flex align-items-center justify-content-between w-100 justifyContentCenterForMobile">
+                <div className="hideElement">
+                  <Link to={routes.home}>
+                    <div>
+                      <img src={logo} width="100" alt="Бибинто"></img>
+                    </div>
+                  </Link>
+                </div>
                 <div className="inputSearch hideElement">
                   <input
                     type="text"
@@ -172,8 +107,8 @@ export function Header() {
                     </Link>
                   </span>
                   <span>
-                    <Link to="message">
-                      <img src={messageIcon} alt="message" />
+                    <Link to="/messenger">
+                      <img src={messageIcon} alt="messege" />
                     </Link>
                   </span>
                   <span>

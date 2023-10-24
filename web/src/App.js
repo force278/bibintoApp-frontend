@@ -1,27 +1,26 @@
-
-import { useReactiveVar } from "@apollo/client";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { ThemeProvider } from "styled-components";
-import { darkModeVar, isLoggedInVar } from "./apollo";
-import Home from "./screens/Home";
-import Login from "./screens/Login";
-import NotFound from "./screens/NotFound";
-import SignUp from "./screens/SignUp";
-import { darkTheme, GlobalStyles, lightTheme } from "./styles";
-import routes from "./routes";
-import { HelmetProvider } from "react-helmet-async";
-import { ApolloProvider } from "@apollo/client";
-import { client } from "./apollo";
-import Layout from "./components/Layout";
-import Profile from "./screens/Profile";
-import { NotMatch } from "./pages/NotMatch";
-import { EditProfile } from "./screens/EditProfile";
-import ChangeEditProfile from "./components/ProfileEdit/ChangeEditProfile";
-import { ChangePassword } from "./components/ProfileEdit/ChangePassword";
-import PrivacyPolicy from "./components/privacyPolicy/PrivacyPolicy";
-import { TermsOfUse } from "./components/termsOfUse/TermsOfUse";
-import {Messanger} from "./components/Messanger";
-
+import { useReactiveVar } from "@apollo/client"
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
+import { ThemeProvider } from "styled-components"
+import { darkModeVar, isLoggedInVar } from "./apollo"
+import Home from "./screens/Home"
+import Login from "./screens/Login"
+import NotFound from "./screens/NotFound"
+import SignUp from "./screens/SignUp"
+import { darkTheme, GlobalStyles, lightTheme } from "./styles"
+import routes from "./routes"
+import { HelmetProvider } from "react-helmet-async"
+import { ApolloProvider } from "@apollo/client"
+import { client } from "./apollo"
+import Layout from "./components/Layout"
+import Profile from "./screens/Profile"
+import { NotMatch } from "./pages/NotMatch"
+import { EditProfile } from "./screens/EditProfile"
+import ChangeEditProfile from "./components/ProfileEdit/ChangeEditProfile"
+import { ChangePassword } from "./components/ProfileEdit/ChangePassword"
+import PrivacyPolicy from "./components/privacyPolicy/PrivacyPolicy"
+import { TermsOfUse } from "./components/termsOfUse/TermsOfUse"
+import { Messenger } from "./components/messenger/Messenger"
+import LoginContainer from "./screens/Login/LoginContainer"
 
 function App() {
   const isLoggedIn = useReactiveVar(isLoggedInVar)
@@ -54,10 +53,9 @@ function App() {
                 </Layout>
               </Route>
 
-              <Route path='/messanger'>
+              <Route path="/messenger">
                 <Layout>
-                  <Messanger/>
-
+                  <Messenger />
                 </Layout>
               </Route>
               <Route path="/privacy-policy">
