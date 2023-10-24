@@ -93,7 +93,7 @@ export const Messenger = ({ children }) => {
             }`}
             style={{ paddingLeft: 17 }}
           >
-            <div className={`${styles.inputSearch} `}>
+            <div className={`${styles.inputSearch} ${styles.mobileInputSearch}`}>
               <input
                 type="text"
                 className={`${styles.inputMessage} `}
