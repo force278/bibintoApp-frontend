@@ -6,6 +6,8 @@ import alexeev from "../../assets/img/messenger/alexeev.png"
 import bibinto from "../../assets/img/messenger/bibinto.png"
 import emojies from "../../assets/img/messenger/Emoji.svg"
 import sendMessege from "../../assets/img/messenger/Send.svg"
+import backButton from "../../assets/img/messenger/Back.svg"
+
 export const Messenger = ({ children }) => {
   const data = [
     { username: "alexeev", lastLogin: "Заходил 1 час назад", avatar: alexeev },
@@ -16,10 +18,10 @@ export const Messenger = ({ children }) => {
     setHide((prevState) => !prevState)
   }
   return (
-    <div className="container">
+    <div className="container ">
       <div
         className="border-1 border bg-white w-100"
-        style={{ height: "647px", marginTop: "32px", borderRadius: "6px" }}
+        style={{ height: "85vh", marginTop: "32px", borderRadius: "6px" }}
       >
         <div className={` row h-100`}>
           <div
@@ -87,13 +89,16 @@ export const Messenger = ({ children }) => {
               </div>
             ))}
           </div>
+
           <div
             className={`col-lg-8 col-sm-12 d-flex flex-column-reverse ${
               hide ? "hideElement" : ""
             }`}
             style={{ paddingLeft: 17 }}
           >
-            <div className={`${styles.inputSearch} ${styles.mobileInputSearch}`}>
+            <div
+              className={`${styles.inputSearch} ${styles.mobileInputSearch}`}
+            >
               <input
                 type="text"
                 className={`${styles.inputMessage} `}
@@ -107,6 +112,13 @@ export const Messenger = ({ children }) => {
                 <img src={sendMessege} alt="search" />
               </div>
             </div>
+            <img
+              src={backButton}
+              alt="search"
+              onClick={toggleStyle}
+              className={styles.mobileButtonBack}
+              style={{ display: "none" }}
+            />
           </div>
         </div>
       </div>
