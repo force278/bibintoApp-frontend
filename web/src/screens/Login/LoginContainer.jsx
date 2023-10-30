@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form"
 import { LoginUser } from "../../apollo"
 import { useLocation } from "react-router-dom"
 import Login from "./Login"
+import { useState } from "react"
 
 const LOGIN_MUTATTION = gql`
   mutation login($username: String!, $password: String!) {
@@ -54,10 +55,15 @@ function LoginContainer() {
     })
   }
 
+  const [inputValue, setInputValue] = useState("")
   const clearLoginErrors = () => {
     clearErrors("result")
   }
-
+  const toLower = (event) => {
+    clearErrors("result")
+    const lowercaseValue = event.target.value.toLowerCase()
+    setInputValue(lowercaseValue)
+  }
   return (
     <Login
       register={register}
@@ -67,6 +73,8 @@ function LoginContainer() {
       onSubmitValid={onSubmitValid}
       loading={loading}
       location={location}
+      toLowWithClear={toLower}
+      value={inputValue}
     />
   )
 }

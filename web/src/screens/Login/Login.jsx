@@ -22,6 +22,8 @@ function Login({
   onSubmitValid,
   loading,
   location,
+  toLowWithClear,
+  value,
 }) {
   return (
     <AuthLayout>
@@ -38,15 +40,16 @@ function Login({
           >
             <Input
               {...register("username", {
-                required: "Имя пользователя обязательно для заполнения",
+                required: "Логин обязателен для заполнения",
                 minLength: {
                   value: 2,
-                  message: "Имя пользователя должно быть длиннее 2 символов",
+                  message: "Логин должен быть длиннее 2 символов",
                 },
               })}
               type="text"
-              placeholder="Имя пользователя"
-              onChange={clearLoginErrors}
+              placeholder="Логин"
+              value={value}
+              onChange={toLowWithClear}
               hasError={Boolean(formState.errors?.username?.message)}
             />
             <FormError message={formState.errors?.username?.message} />

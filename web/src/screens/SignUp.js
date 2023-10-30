@@ -11,6 +11,7 @@ import FormError from "../components/auth/FormError"
 import { Link, useHistory } from "react-router-dom"
 import logoIcon from "../assets/img/bibinto.svg"
 import InfoFooter from "./InfoFooter"
+import { useState } from "react"
 const HeaderContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -41,7 +42,12 @@ const CREATE_ACCOUNT_MUTATION = gql`
 
 function SignUp() {
   const history = useHistory()
+  const [inputValue, setInputValue] = useState("")
 
+  const handleInputChange = (event) => {
+    const lowercaseValue = event.target.value.toLowerCase()
+    setInputValue(lowercaseValue)
+  }
   const onCompleted = (data) => {
     const {
       createAccount: { ok, error },
@@ -111,11 +117,13 @@ function SignUp() {
           <FormError message={formState.errors?.lastName?.message} />
           <Input
             {...register("username", {
-              required: "Имя пользователя обязательно для заполнения",
+              required: "Логин обязателен для заполнения",
             })}
             type="text"
-            placeholder="Имя пользователя"
+            value={inputValue}
+            placeholder="Логин"
             hasError={Boolean(formState.errors?.username?.message)}
+            onChange={handleInputChange}
           />
           <FormError message={formState.errors?.username?.message} />
           <Input
@@ -125,6 +133,7 @@ function SignUp() {
             type="password"
             placeholder="Пароль"
             hasError={Boolean(formState.errors?.password?.message)}
+            onkeypress="this.value = this.value.toLowerCase();"
           />
           <FormError message={formState.errors?.password?.message} />
           <Button
