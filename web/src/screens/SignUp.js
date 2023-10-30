@@ -133,7 +133,6 @@ function SignUp() {
             type="password"
             placeholder="Пароль"
             hasError={Boolean(formState.errors?.password?.message)}
-            onkeypress="this.value = this.value.toLowerCase();"
           />
           <FormError message={formState.errors?.password?.message} />
           <Button
