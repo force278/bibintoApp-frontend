@@ -80,7 +80,7 @@ function Login({
         </FormBox>
         <p className="text-secondary">Установите приложение</p>
         <div className="d-flex justify-content-around w-100 mt-3 blockButtons">
-          <button className="border-1 m-2 rounded pt-3 pb-3 ps-5 pe-5 d-flex align-items-center bg-transparent nexa-bold">
+          <button className="border-1 m-2 rounded pt-3 pb-3 ps-4 pe-4 d-flex align-items-center bg-transparent nexa-bold">
             <img
               className="me-1"
               src={appleIcon}
