@@ -54,7 +54,7 @@ const authLink = setContext((_, { headers }) => {
 
 const wsLink = new GraphQLWsLink(
   createClient({
-    url: "ws://213.159.214.246:4000/",
+    url: "wss://ws.bibinto.com/",
     connectionParams: {
       token: localStorage.getItem(TOKEN),
     },
