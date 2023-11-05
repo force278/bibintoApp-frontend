@@ -22,6 +22,8 @@ function Login({
   onSubmitValid,
   loading,
   location,
+  toLowWithClear,
+  value,
 }) {
   return (
     <AuthLayout>
@@ -38,15 +40,16 @@ function Login({
           >
             <Input
               {...register("username", {
-                required: "Имя пользователя обязательно для заполнения",
+                required: "Логин обязателен для заполнения",
                 minLength: {
                   value: 2,
-                  message: "Имя пользователя должно быть длиннее 2 символов",
+                  message: "Логин должен быть длиннее 2 символов",
                 },
               })}
               type="text"
-              placeholder="Имя пользователя"
-              onChange={clearLoginErrors}
+              placeholder="Логин"
+              value={value}
+              onChange={toLowWithClear}
               hasError={Boolean(formState.errors?.username?.message)}
             />
             <FormError message={formState.errors?.username?.message} />
@@ -80,7 +83,7 @@ function Login({
         </FormBox>
         <p className="text-secondary">Установите приложение</p>
         <div className="d-flex justify-content-around w-100 mt-3 blockButtons">
-          <button className="border-1 m-2 rounded pt-3 pb-3 ps-5 pe-5 d-flex align-items-center bg-transparent nexa-bold">
+          <button className="border-1 m-2 rounded pt-3 pb-3 ps-4 pe-4 d-flex align-items-center bg-transparent nexa-bold">
             <img
               className="me-1"
               src={appleIcon}

@@ -3,8 +3,12 @@ import {
   createHttpLink,
   InMemoryCache,
   makeVar,
+  split,
 } from "@apollo/client"
 import { setContext } from "@apollo/client/link/context"
+import { GraphQLWsLink } from "@apollo/client/link/subscriptions"
+import { createClient } from "graphql-ws"
+import { getMainDefinition } from "@apollo/client/utilities"
 
 const TOKEN = "TOKEN"
 const DARK_MODE = "DARK_MODE"
@@ -35,8 +39,8 @@ export const disableDarkMode = () => {
 const httpLink = createHttpLink({
   uri:
     process.env.NODE_ENV === "production"
-      ? "https://intense-shelf-26389.herokuapp.com/graphql"
-      : "https://api.bibinto.com",
+      ? "https://api.bibinto.com/"
+      : "https://api.bibinto.com/",
 })
 
 const authLink = setContext((_, { headers }) => {
@@ -48,8 +52,31 @@ const authLink = setContext((_, { headers }) => {
   }
 })
 
+const wsLink = new GraphQLWsLink(
+  createClient({
+    url: "ws://213.159.214.246:4000/",
+    connectionParams: {
+      token: localStorage.getItem(TOKEN),
+    },
+  }),
+)
+
+const httpLinks = authLink.concat(httpLink)
+
+const splitLink = split(
+  ({ query }) => {
+    const definition = getMainDefinition(query)
+    return (
+      definition.kind === "OperationDefinition" &&
+      definition.operation === "subscription"
+    )
+  },
+  wsLink,
+  httpLinks,
+)
+
 export const client = new ApolloClient({
-  link: authLink.concat(httpLink),
+  link: splitLink,
   cache: new InMemoryCache({
     typePolicies: {
       User: {

@@ -1,5 +1,5 @@
 {
-  "name": "instaclone-web",
+  "name": "bibinto-web",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -38,10 +38,11 @@
     "sass": "^1.63.6",
     "styled-components": "^5.3.0",
     "styled-reset": "^4.3.4",
-    "web-vitals": "^1.1.2"
+    "web-vitals": "^1.1.2",
+    "graphql-ws": "^5.11.3"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "prettier --write . && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",

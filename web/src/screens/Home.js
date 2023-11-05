@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { Link, Switch, Route, useLocation } from "react-router-dom"
 import { gql, useQuery } from "@apollo/client"
 import styled from "styled-components"
@@ -50,6 +50,27 @@ const SEE_REC_QUERY = gql`
   ${COMMENTS_FRAGMENT}
 `
 
+const SUB_POST_UPDATES = gql`
+  subscription {
+    postUpdates {
+      ...PostFragment
+      caption
+      comments {
+        ...CommentFragment
+      }
+      user {
+        username
+        avatar
+      }
+      createdAt
+      isMine
+      isLiked
+    }
+  }
+  ${POST_FRAGMENT}
+  ${COMMENTS_FRAGMENT}
+`
+
 const StyledSubHeader = styled.div`
   font-weight: 700;
   font-size: 20px;
@@ -76,11 +97,30 @@ function Home() {
   const isRecommendationsActive = useActiveLink("/recommendations")
   const isSubscriptionsActive = useActiveLink("/")
 
-  const { data } = useQuery(SEE_FEED_QUERY, {
+  const { subscribeToMore, data } = useQuery(SEE_FEED_QUERY, {
     variables: { offset: 0 },
   })
 
+  useEffect(() => {
+    const unsubscribe = subscribeToMore({
+      document: SUB_POST_UPDATES,
+      updateQuery: (prev, { subscriptionData }) => {
+        if (!subscriptionData.data) return prev
+        const newPost = subscriptionData.data.postUpdates
+        return Object.assign({}, prev, {
+          seeFeed: [newPost, ...prev.seeFeed],
+        })
+      },
+    })
+
+    // Отписываемся от подписки при размонтировании компонента
+    return () => {
+      unsubscribe()
+    }
+  }, [subscribeToMore])
+
   const data_rec = useQuery(SEE_REC_QUERY)
+
   /*
   useEffect(
     () => {
