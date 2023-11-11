@@ -24,14 +24,14 @@ const CREATE_ACCOUNT_MUTATION = gql`
     $firstName: String!
     $lastName: String
     $username: String!
-    $email: String!
+    $phone: String!
     $password: String!
   ) {
     createAccount(
       firstName: $firstName
       lastName: $lastName
       username: $username
-      email: $email
+      phone: $phone
       password: $password
     ) {
       ok
@@ -91,14 +91,17 @@ function SignUp() {
           className="position-relative"
         >
           <Input
-            {...register("email", {
-              required: "Email обязателен для заполнения",
+            {...register("phone", {
+              required: "Телефон обязателен для заполнения",
             })}
-            type="email"
-            placeholder="Эл. адрес"
-            hasError={Boolean(formState.errors?.email?.message)}
+            type="tel"
+            placeholder="Номер телефона"
+            pattern="[0-9]{11}"
+            maxLength={11}
+            minLength={11}
+            hasError={Boolean(formState.errors?.phone?.message)}
           />
-          <FormError message={formState.errors?.email?.message} />
+          <FormError message={formState.errors?.phone?.message} />
           <Input
             {...register("firstName", {
               required: "Имя обязательно для заполнения",
