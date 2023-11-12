@@ -91,7 +91,7 @@ function Login({
             />
             App Store
           </button>
-          <button className="border-1 m-2 border rounded pt-3 pb-3 ps-5 pe-5 d-flex align-items-center bg-transparent">
+          <button className="border-1 m-2 border rounded pt-3 pb-3 ps-4 pe-4 d-flex align-items-center bg-transparent">
             <img
               className="me-1"
               src={signGooglePlay}
