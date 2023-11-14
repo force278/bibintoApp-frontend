@@ -1,8 +1,9 @@
-import React, { useRef, useState } from "react"
+import React, { useCallback, useEffect, useRef, useState } from "react"
 import { CropperModal } from "./CropperModal"
 import defaultAvatar from "../../assets/img/editProfile/defaultAvatar.png"
 import "../../sass/common.scss"
 import { gql, useLazyQuery, useMutation, useQuery } from "@apollo/client"
+import { Alert, AlertTitle, Box, Button } from "@mui/material"
 
 const URL_UPLOAD_QUERY = gql`
   query {
@@ -14,6 +15,30 @@ const UPLOAD_AVATAR = gql`
   mutation UploadAvatar($file: String!) {
     uploadAvatar(file: $file) {
       id
+    }
+  }
+`
+
+const EDIT_PROFILE_MUTATION = gql`
+  mutation EditProfile(
+    $firstName: String
+    $username: String
+    $lastName: String
+    $email: String
+    $bio: String
+    $password: String
+  ) {
+    editProfile(
+      firstName: $firstName
+      username: $username
+      lastName: $lastName
+      email: $email
+      bio: $bio
+      password: $password
+    ) {
+      ok
+      id
+      error
     }
   }
 `
@@ -81,6 +106,67 @@ export default function ChangeEditProfile() {
   const [preview, setPreview] = useState(null)
   const inputRef = useRef(null)
   const { data: meData, loading } = useQuery(ME_QUERY)
+  const [showAlert, setShowAlert] = useState(false)
+  const [firstName, setFirstName] = useState("")
+  const [lastName, setLastName] = useState("")
+  const [userName, setUserName] = useState("")
+  const [infoAboutMe, setInfoAboutMe] = useState("")
+  const [email, setEmail] = useState("")
+  const [showNotification, setShowNotification] = useState(false)
+  const [editProfile] = useMutation(EDIT_PROFILE_MUTATION)
+  useEffect(() => {
+    if (!loading) {
+      const { firstName, username, lastName, bio, email } = meData?.me || {}
+      setFirstName(firstName || "")
+      setUserName(username || "")
+      setLastName(lastName || "")
+      setInfoAboutMe(bio || "")
+      setEmail(email || "")
+    }
+    if (preview) {
+      setShowAlert(true)
+    }
+  }, [loading, meData, preview])
+
+  useEffect(() => {
+    if (showNotification) {
+      setTimeout(() => {
+        setShowNotification(false)
+        window.location.reload()
+      }, 2000)
+    }
+  }, [showNotification])
+
+  const handleChangeName = useCallback(
+    (e) => {
+      setFirstName(e.target.value)
+    },
+    [setFirstName],
+  )
+  const handleChangeUserName = useCallback(
+    (e) => {
+      setUserName(e.target.value)
+    },
+    [setUserName],
+  )
+  const handleChangeLastName = useCallback(
+    (e) => {
+      setLastName(e.target.value)
+    },
+    [setLastName],
+  )
+  const handleChangeInfoAboutMe = useCallback(
+    (e) => {
+      setInfoAboutMe(e.target.value)
+    },
+    [setInfoAboutMe],
+  )
+  const handleChangeEmail = useCallback(
+    (e) => {
+      setEmail(e.target.value)
+    },
+    [setEmail],
+  )
 
   const [getUrl, { data: uploadData }] = useLazyQuery(URL_UPLOAD_QUERY, {
     onCompleted: loadAvatar,
@@ -96,6 +182,38 @@ export default function ChangeEditProfile() {
   const handleImgChange = (e) => {
     setSrc(URL.createObjectURL(e.target.files[0]))
     setModalOpen(true)
+  }
+
+  const saveAvatar = () => {
+    setShowAlert(false)
+    getUrl()
+  }
+  const canselSaveAvatar = () => {
+    setShowAlert(false)
+    setPreview(null)
+  }
+
+  const saveAllChangesInProfile = async () => {
+    try {
+      const result = await editProfile({
+        variables: {
+          firstName: firstName,
+          username: userName,
+          lastName: lastName,
+          bio: infoAboutMe,
+          email: email,
+        },
+      })
+      if (result.data && result.data.editProfile) {
+        setShowNotification(true)
+      } else {
+        alert(
+          `При изменении профиля произошла ошибка, ${result.data.editProfile.error}`,
+        )
+      }
+    } catch (error) {
+      console.error("Ошибка при выполнении мутации:", error.message)
+    }
   }
   return (
     <>
@@ -142,6 +260,53 @@ export default function ChangeEditProfile() {
                 Загрузите новое фото
               </button>
             </div>
+            {showAlert && (
+              <Alert
+                severity="info"
+                className="d-flex justify-content-start slideInLeft"
+                style={{
+                  position: "fixed",
+                  top: "17%",
+                  left: "60%",
+                  zIndex: "2",
+                  borderRadius: "4px",
+                  padding: "8px 17px",
+                  filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",
+                }}
+                action={
+                  <Box>
+                    <Button color="inherit" size="small" onClick={saveAvatar}>
+                      Да
+                    </Button>
+                    <Button
+                      color="inherit"
+                      size="small"
+                      onClick={canselSaveAvatar}
+                    >
+                      Нет
+                    </Button>
+                  </Box>
+                }
+              >
+                <AlertTitle>Вы хотите изменить аватар?</AlertTitle>
+              </Alert>
+            )}
+            {showNotification && (
+              <Alert
+                style={{
+                  position: "fixed",
+                  bottom: "4%",
+                  left: "2%",
+                  zIndex: "2",
+                  borderRadius: "4px",
+                  padding: "8px 17px",
+                  filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",
+                }}
+                severity="success"
+              >
+                Ваши данные успешно изменены
+              </Alert>
+            )}
           </div>
           <div className="d-flex hideElement mb-2">
             <div className="col-2 d-flex justify-content-end">
@@ -155,8 +320,8 @@ export default function ChangeEditProfile() {
             <div className="col-10 ps-4">
               <input
                 type="text"
-                value={meData?.me?.firstName}
-                onChange={(e) => e.target.value}
+                value={firstName}
+                onChange={handleChangeName}
                 className="border border-1 pt-1 pb-1 ps-2 w-50"
               />
               <div className="p-0 m-0 text-secondary">
@@ -177,14 +342,32 @@ export default function ChangeEditProfile() {
                 className="fs-6 pt-2"
                 style={{ fontFamily: "Roboto, sans-serif" }}
               >
+                Фамилия
+              </span>
+            </div>
+            <div className="col-10 ps-4">
+              <input
+                type="text"
+                value={lastName}
+                onChange={handleChangeLastName}
+                className="border border-1 pt-1 pb-1 ps-2 w-50"
+              />
+            </div>
+          </div>
+          <div className="d-flex hideElement mb-2">
+            <div className="col-2 d-flex justify-content-end">
+              <span
+                className="fs-6 pt-2"
+                style={{ fontFamily: "Roboto, sans-serif" }}
+              >
                 Никнейм
               </span>
             </div>
             <div className="col-10 ps-4">
               <input
                 type="text"
-                value={meData?.me?.username}
-                onChange={(e) => e.target.value}
+                value={userName}
+                onChange={handleChangeUserName}
                 className="border border-1 pt-1 pb-1 ps-2 w-50"
               />
               <div className="mt-2">
@@ -206,9 +389,9 @@ export default function ChangeEditProfile() {
             <div className="col-10 ps-4">
               <textarea
                 style={{ resize: "none", height: "64px" }}
-                type="text"
-                value="..."
-                onChange={(e) => e.target.value}
+                placeholder="Описание о себе"
+                value={infoAboutMe}
+                onChange={handleChangeInfoAboutMe}
                 className="border border-1 pt-1 pb-1 ps-2 w-50 resize-none"
               />
               <div style={{ marginTop: "32px" }}>
@@ -234,26 +417,8 @@ export default function ChangeEditProfile() {
             <div className="col-10 ps-4">
               <input
                 type="text"
-                value={meData?.me?.email || "Данные отсутствуют"}
-                onChange={(e) => e.target.value}
-                className="border border-1 pt-1 pb-1 ps-2 w-50"
-              />
-            </div>
-          </div>
-          <div className="d-flex hideElement">
-            <div className="col-2 d-flex justify-content-end">
-              <span
-                className="fs-6 pt-2"
-                style={{ fontFamily: "Roboto, sans-serif" }}
-              >
-                Пол
-              </span>
-            </div>
-            <div className="col-10 ps-4">
-              <input
-                type="text"
-                value={meData?.me?.bio || "Данные отсутствуют"}
-                onChange={(e) => e.target.value}
+                value={email}
+                onChange={handleChangeEmail}
                 className="border border-1 pt-1 pb-1 ps-2 w-50"
               />
             </div>
@@ -261,7 +426,7 @@ export default function ChangeEditProfile() {
           <div className="d-flex justify-content-center mt-sm-0 mt-lg-4 mb-5">
             <button
               className="text-white border-0 change_btn"
-              onClick={getUrl}
+              onClick={saveAllChangesInProfile}
               style={{
                 borderRadius: "4px",
                 background: "#2283F5",
