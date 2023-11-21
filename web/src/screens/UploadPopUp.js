@@ -1,30 +1,21 @@
-import React, { useState, useEffect, useCallback } from "react"
-import { useHistory } from "react-router-dom"
+import React, { useState, useEffect, useCallback, useRef } from "react"
 import styled from "styled-components"
-
-import { gql, useLazyQuery, useMutation } from "@apollo/client"
-
-// TODO: Реализовать pop up
+import { gql, useQuery, useMutation } from "@apollo/client"
 
 const URL_UPLOAD_QUERY = gql`
   query {
     getUrlUploadPhoto
   }
 `
-
 const POST_PHOTO = gql`
-  mutation uploadPhoto($file: String!) {
-    uploadPhoto(file: $file) {
+  mutation uploadPhoto($file: String!, $person: Boolean!) {
+    uploadPhoto(file: $file, person: $person) {
       id
     }
   }
 `
 
-// const Image = ({ data }) => {
-//   return <img src={data} alt='Фото' />;
-// };
-
-const Image = styled.div`
+const ImageStyle = styled.div`
   width: 100%;
   height: 100%;
   background-image: url(${(props) => props.data});
@@ -34,79 +25,129 @@ const Image = styled.div`
   border-radius: 0 0 0 32px;
 `
 
-export const PostImage = ({ data, uploadInputRef }) => {
-  const [imageUrl, setImageUrl] = useState(null)
+const Canvas = styled.canvas`
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+`
 
-  useEffect(() => {
-    if (data) {
-      ;(async function (data) {
-        const file = uploadInputRef.current.files[0]
+const OutputImage = styled.img`
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border-radius: 0 0 0 32px;
+`
 
-        const randomValue = Math.random()
-        const updatedUrl = `${
-          data.getUrlUploadPhoto.split("?")[0]
-        }?cache=${randomValue}`
+function compressImage(uploadInputRef, CanvasRef, maxWidth, maxHeight) {
+  return new Promise((resolve, reject) => {
+    const img = new Image()
+    img.src = URL.createObjectURL(uploadInputRef.current.files[0])
+    const canvas = CanvasRef.current
+    const ctx = CanvasRef.current.getContext("2d")
+    img.onload = () => {
+      let width = img.width
+      let height = img.height
 
-        await fetch(data.getUrlUploadPhoto, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-          body: file,
-        })
+      if (width > height) {
+        if (width > maxWidth) {
+          height *= maxWidth / width
+          width = maxWidth
+        }
+      } else {
+        if (height > maxHeight) {
+          width *= maxHeight / height
+          height = maxHeight
+        }
+      }
 
-        setImageUrl(updatedUrl)
-      })(data)
+      canvas.width = width
+      canvas.height = height
+
+      ctx.drawImage(img, 0, 0, width, height)
+
+      canvas.toBlob(
+        (blob) => {
+          resolve(blob)
+        },
+        "image/jpeg",
+        1,
+      )
     }
-  }, [data, uploadInputRef])
-
-  if (!imageUrl) {
-    return <p>Загрузка</p>
-  } else return <Image data={imageUrl} />
+  })
 }
 
-// const UploadImage = () => {
-//   const [getUploadUrl, { called, loading, data }] =
-//     useLazyQuery(URL_UPLOAD_QUERY);
-//   if (called && loading) return <p>Загрузка ...</p>;
-//   if (!called) {
-//     return <button onClick={() => getUploadUrl()}>Загрузить фото</button>;
-//   }
-//   return <PostImage data={data} />;
-// };
-
 export const UploadPopUp = ({ onClose, uploadInputRef }) => {
-  const history = useHistory()
+  const CanvasRef = useRef(null)
+  const ImgRef = useRef(null)
+  const compressedBlob = useRef(null)
+  const [uploadingState, setUploadingState] = useState(false)
 
-  const [getUploadUrl, { called, loading, data }] =
-    useLazyQuery(URL_UPLOAD_QUERY)
+  async function postImage(updatedUrl, uploadDB) {
+    const file = new File([compressedBlob.current], "test.jpeg", {
+      type: "image/jpeg",
+    })
+    const formData = new FormData()
+    formData.append("file", file)
+    await fetch("https://neuro.bibinto.com/", {
+      method: "POST",
+      body: formData,
+    }).then(async (re) => {
+      await re.json().then(async (res) => {
+        await fetch(updatedUrl, {
+          method: "PUT",
+          headers: {
+            "Content-type": "multipart/form-data",
+          },
+          body: file,
+        }).then(() => {
+          uploadDB({
+            variables: { file: updatedUrl.split("?")[0], person: res.person },
+          })
+          onClose()
+          setUploadingState(false)
+        })
+      })
+    })
+  }
 
-  const [uploadDB] = useMutation(POST_PHOTO, {
-    variables: { file: data?.getUrlUploadPhoto.split("?")[0] },
+  // Получаем url для загрузки
+  const { called, data } = useQuery(URL_UPLOAD_QUERY, {
+    fetchPolicy: "network-only",
   })
 
-  useEffect(() => {
-    try {
-      if (!called) {
-        getUploadUrl()
-      }
-    } catch (error) {
-      console.error(error)
-    }
-  }, [called, getUploadUrl])
+  // Мутация в бд о новой фотке
+  const [uploadDB] = useMutation(POST_PHOTO)
 
-  const handleUploadPhoto = useCallback(() => {
+  // При нажатии опубликовать
+  const handleUploadPhoto = () => {
     if (called && data) {
-      uploadDB()
-      onClose()
+      setUploadingState(true)
+      postImage(data?.getUrlUploadPhoto, uploadDB)
     }
-  }, [called, data, onClose, uploadDB])
+  }
 
+  // При нажатии закрыть
   const handleGoBack = useCallback(() => {
-    history.goBack()
     onClose()
-    // window.location.reload();
-  }, [history, onClose])
+  }, [onClose])
+
+  // Сразу сжимаем фото
+  useEffect(() => {
+    async function createPhoto(uploadInputRef, CanvasRef, ImgRef) {
+      compressedBlob.current = await compressImage(
+        uploadInputRef,
+        CanvasRef,
+        1080,
+        1080,
+      )
+      const compressedImage = new Image()
+      compressedImage.src = URL.createObjectURL(compressedBlob.current)
+      ImgRef.current.src = compressedImage.src
+    }
+    createPhoto(uploadInputRef, CanvasRef, ImgRef)
+  }, [uploadInputRef])
 
   return (
     <StyledOverlay>
@@ -117,17 +158,20 @@ export const UploadPopUp = ({ onClose, uploadInputRef }) => {
               <StyledArrow className="arrow-left" />
             </StyledBackButton>
           </StyledBackButtonContainer>
-          <StyledPopUpActionButton type="button" onClick={handleUploadPhoto}>
-            Опубликовать
-          </StyledPopUpActionButton>
+          {uploadingState ? (
+            <StyledPopUpActionButton type="button">
+              Загрузка...
+            </StyledPopUpActionButton>
+          ) : (
+            <StyledPopUpActionButton type="button" onClick={handleUploadPhoto}>
+              Опубликовать
+            </StyledPopUpActionButton>
+          )}
         </StyledPopUpHeader>
         <StyledPopUpBody>
           <StyledPopUpLeft>
-            {called && loading ? (
-              <div>Загрузка...</div>
-            ) : (
-              <PostImage data={data} uploadInputRef={uploadInputRef} />
-            )}
+            <OutputImage ref={ImgRef}></OutputImage>
+            <Canvas ref={CanvasRef}></Canvas>
           </StyledPopUpLeft>
           <StyledPopUpRight>
             <StyledPopUpTextArea placeholder="Добавить описание..." />
@@ -245,7 +289,6 @@ const StyledPopUpLeft = styled.div`
   justify-content: center;
   align-items: center;
   height: 100%;
-  //   background-color: rgba(0, 0, 0, 0.4);
   border-radius: 0 0 0 32px;
 
   & > img {
