@@ -44,6 +44,7 @@ const SEE_REC_QUERY = gql`
       createdAt
       isMine
       isLiked
+      isDisliked
     }
   }
   ${POST_FRAGMENT}
@@ -65,6 +66,7 @@ const SUB_POST_UPDATES = gql`
       createdAt
       isMine
       isLiked
+      isDisliked
     }
   }
   ${POST_FRAGMENT}
