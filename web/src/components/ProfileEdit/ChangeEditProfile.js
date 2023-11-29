@@ -212,7 +212,9 @@ export default function ChangeEditProfile() {
         )
       }
     } catch (error) {
-      console.error("Ошибка при выполнении мутации:", error.message)
+      alert(
+        `Кажется, на сервере ошибка, попробуй поменять значения ${error.message}`,
+      )
     }
   }
   return (

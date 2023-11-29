@@ -50,15 +50,15 @@ export function RecommendationPost({
         id: fragmentId,
         fields: {
           isLiked(prev) {
-            return !prev
+            return isLiked ? !prev : prev
           },
           isDisliked(prev) {
-            return !prev
+            return isDisliked ? !prev : prev
           },
           likes(prev) {
             if (isLiked) {
-              return isDisliked ? prev : prev - 1
-            } else {
+              return isLiked ? prev : prev - 1
+            } else if (isDisliked) {
               return isDisliked ? prev + 1 : prev
             }
           },
