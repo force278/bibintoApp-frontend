@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useCallback, useRef } from "react"
 import styled from "styled-components"
 import { gql, useQuery, useMutation } from "@apollo/client"
+import CircularProgress from "@mui/material/CircularProgress"
+import { CropperModal } from "./Cropper.jsx"
 
 const URL_UPLOAD_QUERY = gql`
   query {
@@ -15,29 +17,10 @@ const POST_PHOTO = gql`
   }
 `
 
-const ImageStyle = styled.div`
-  width: 100%;
-  height: 100%;
-  background-image: url(${(props) => props.data});
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
-  border-radius: 0 0 0 32px;
-`
-
 const Canvas = styled.canvas`
   opacity: 0;
   visibility: hidden;
   position: absolute;
-`
-
-const OutputImage = styled.img`
-  width: 100%;
-  height: 100%;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
-  border-radius: 0 0 0 32px;
 `
 
 function compressImage(uploadInputRef, CanvasRef, maxWidth, maxHeight) {
@@ -49,7 +32,6 @@ function compressImage(uploadInputRef, CanvasRef, maxWidth, maxHeight) {
     img.onload = () => {
       let width = img.width
       let height = img.height
-
       if (width > height) {
         if (width > maxWidth) {
           height *= maxWidth / width
@@ -80,33 +62,45 @@ function compressImage(uploadInputRef, CanvasRef, maxWidth, maxHeight) {
 
 export const UploadPopUp = ({ onClose, uploadInputRef }) => {
   const CanvasRef = useRef(null)
-  const ImgRef = useRef(null)
   const compressedBlob = useRef(null)
+  const cropRef = useRef(null)
   const [uploadingState, setUploadingState] = useState(false)
+  const [src, setSrc] = useState(null)
+
+  const handleSave = async () => {
+    if (cropRef) {
+      const dataUrl = cropRef.current.getImage().toDataURL()
+      const result = await fetch(dataUrl)
+      const blob = await result.blob()
+      compressedBlob.current = blob
+    }
+  }
 
   async function postImage(updatedUrl, uploadDB) {
-    const file = new File([compressedBlob.current], "test.jpeg", {
-      type: "image/jpeg",
-    })
-    const formData = new FormData()
-    formData.append("file", file)
-    await fetch("https://neuro.bibinto.com/", {
-      method: "POST",
-      body: formData,
-    }).then(async (re) => {
-      await re.json().then(async (res) => {
-        await fetch(updatedUrl, {
-          method: "PUT",
-          headers: {
-            "Content-type": "multipart/form-data",
-          },
-          body: file,
-        }).then(() => {
-          uploadDB({
-            variables: { file: updatedUrl.split("?")[0], person: res.person },
+    await handleSave().then(async () => {
+      const file = new File([compressedBlob.current], "test.jpeg", {
+        type: "image/jpeg",
+      })
+      const formData = new FormData()
+      formData.append("file", file)
+      await fetch("https://neuro.bibinto.com/", {
+        method: "POST",
+        body: formData,
+      }).then(async (re) => {
+        await re.json().then(async (res) => {
+          await fetch(updatedUrl, {
+            method: "PUT",
+            headers: {
+              "Content-type": "multipart/form-data",
+            },
+            body: file,
+          }).then(() => {
+            uploadDB({
+              variables: { file: updatedUrl.split("?")[0], person: res.person },
+            })
+            onClose()
+            setUploadingState(false)
           })
-          onClose()
-          setUploadingState(false)
         })
       })
     })
@@ -135,7 +129,7 @@ export const UploadPopUp = ({ onClose, uploadInputRef }) => {
 
   // Сразу сжимаем фото
   useEffect(() => {
-    async function createPhoto(uploadInputRef, CanvasRef, ImgRef) {
+    async function createPhoto(uploadInputRef, CanvasRef) {
       compressedBlob.current = await compressImage(
         uploadInputRef,
         CanvasRef,
@@ -144,9 +138,9 @@ export const UploadPopUp = ({ onClose, uploadInputRef }) => {
       )
       const compressedImage = new Image()
       compressedImage.src = URL.createObjectURL(compressedBlob.current)
-      ImgRef.current.src = compressedImage.src
+      setSrc(compressedImage.src)
     }
-    createPhoto(uploadInputRef, CanvasRef, ImgRef)
+    createPhoto(uploadInputRef, CanvasRef)
   }, [uploadInputRef])
 
   return (
@@ -159,18 +153,24 @@ export const UploadPopUp = ({ onClose, uploadInputRef }) => {
             </StyledBackButton>
           </StyledBackButtonContainer>
           {uploadingState ? (
-            <StyledPopUpActionButton type="button">
-              Загрузка...
-            </StyledPopUpActionButton>
+            <div style={{ margin: "0 auto" }}>
+              <CircularProgress />
+            </div>
           ) : (
-            <StyledPopUpActionButton type="button" onClick={handleUploadPhoto}>
+            <StyledPopUpActionButton
+              type="button"
+              onClick={() => {
+                handleUploadPhoto()
+                handleSave()
+              }}
+            >
               Опубликовать
             </StyledPopUpActionButton>
           )}
         </StyledPopUpHeader>
         <StyledPopUpBody>
           <StyledPopUpLeft>
-            <OutputImage ref={ImgRef}></OutputImage>
+            <CropperModal src={src} cropRef={cropRef} />
             <Canvas ref={CanvasRef}></Canvas>
           </StyledPopUpLeft>
           <StyledPopUpRight>

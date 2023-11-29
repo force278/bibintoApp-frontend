@@ -46,25 +46,11 @@ export function Header() {
 
   const [uploadModalActive, setUploadModalActive] = useState(false)
 
-  useEffect(() => {
-    if (history.location.search.includes("upload=true")) {
-      setUploadModalActive(true)
-    } else {
-      setUploadModalActive(false)
-    }
-  }, [history.location.search])
-
   const handleUploadImage = () => {
-    history.push({
-      search: "?upload=true",
-    })
     setUploadModalActive(true)
   }
 
   const handleClosePopUp = useCallback(() => {
-    history.replace({
-      search: "",
-    })
     setUploadModalActive(false)
   }, [history])
 
