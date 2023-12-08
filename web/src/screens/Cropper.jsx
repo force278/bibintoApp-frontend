@@ -2,20 +2,18 @@ import { useState } from "react"
 import { Box, Slider } from "@mui/material"
 import AvatarEditor from "react-avatar-editor"
 
-const boxStyle = {
-  width: "100%",
-  height: "100%",
+const BoxStyle = {
   display: "flex",
   flexFlow: "column",
   justifyContent: "center",
   alignItems: "center",
 }
 
-export const CropperModal = ({ src, handleSave, cropRef, setPreview }) => {
+export const CropperModal = ({ src, cropRef }) => {
   const [slideValue, setSlideValue] = useState(10)
 
   return (
-    <Box sx={boxStyle}>
+    <div style={BoxStyle}>
       <AvatarEditor
         ref={cropRef}
         image={src}
@@ -23,12 +21,13 @@ export const CropperModal = ({ src, handleSave, cropRef, setPreview }) => {
         color={[0, 0, 0, 0.72]}
         scale={slideValue / 10}
         rotate={0}
-        width={500}
-        height={500}
+        width={600}
+        height={600}
+        style={{ width: "100%", height: "100%" }}
       />
       <Slider
         min={10}
-        max={50}
+        max={15}
         sx={{
           margin: "0 auto",
           width: "80%",
@@ -39,12 +38,6 @@ export const CropperModal = ({ src, handleSave, cropRef, setPreview }) => {
         value={slideValue}
         onChange={(e) => setSlideValue(e.target.value)}
       />
-      <Box
-        sx={{
-          display: "flex",
-          padding: "10px",
-        }}
-      ></Box>
-    </Box>
+    </div>
   )
 }

@@ -3,6 +3,7 @@ import styled from "styled-components"
 import { BoldText } from "../shared"
 import Avatar from "../Avatar"
 import moreIcon from "../../assets/img/More.svg"
+import defaultAvatar from "../../assets/img/DefaultAvatar.png"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faComment, faHeart } from "@fortawesome/free-regular-svg-icons"
 import { faHeart as SolidHeart } from "@fortawesome/free-solid-svg-icons"
@@ -126,7 +127,11 @@ function Post({
     <PostContainer key={id}>
       <PostHeader>
         <Link to={`/${user?.username}`}>
-          <Avatar url={user?.avatar} lg={true} />
+			{user && user.avatar ? (
+				<Avatar url={user?.avatar} lg={true} />
+			): (
+				<Avatar url={defaultAvatar} lg={true} />
+			)}
         </Link>
         <Link to={`/${user?.username}`}>
           <Username>{user?.username}</Username>

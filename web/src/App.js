@@ -20,6 +20,7 @@ import { ChangePassword } from "./components/ProfileEdit/ChangePassword"
 import PrivacyPolicy from "./components/privacyPolicy/PrivacyPolicy"
 import { TermsOfUse } from "./components/termsOfUse/TermsOfUse"
 import { Messenger } from "./components/messenger/Messenger"
+import ViewReport from "./screens/ViewReport"
 
 function App() {
   const isLoggedIn = useReactiveVar(isLoggedInVar)
@@ -76,6 +77,15 @@ function App() {
                 <Layout>
                   <EditProfile children={<ChangePassword />} />
                 </Layout>
+              </Route>
+              <Route path={routes.report} exact>
+                {isLoggedIn ? (
+                  <Layout>
+                    <ViewReport />
+                  </Layout>
+                ) : (
+                  <LoginContainer />
+                )}
               </Route>
               <Route path={`/:username`}>
                 <Layout>
