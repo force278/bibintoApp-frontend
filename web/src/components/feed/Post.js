@@ -127,11 +127,11 @@ function Post({
     <PostContainer key={id}>
       <PostHeader>
         <Link to={`/${user?.username}`}>
-			{user && user.avatar ? (
-				<Avatar url={user?.avatar} lg={true} />
-			): (
-				<Avatar url={defaultAvatar} lg={true} />
-			)}
+          {user && user.avatar ? (
+            <Avatar url={user?.avatar} lg={true} />
+          ) : (
+            <Avatar url={defaultAvatar} lg={true} />
+          )}
         </Link>
         <Link to={`/${user?.username}`}>
           <Username>{user?.username}</Username>
