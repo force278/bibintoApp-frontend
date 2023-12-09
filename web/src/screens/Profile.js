@@ -294,26 +294,29 @@ function Profile() {
         </Column>
       </Header>
       <Grid>
-        {data?.seeProfile?.photos.map((photo) => (
-          <Photo key={photo.id} bg={photo.file}>
-            <Icons>
-              <ModalMUI
-                liked={photo.likes}
-                selectedPhoto={photo.id}
-                photo={photo.file}
-                style={{ cursor: "pointer" }}
-              />
-              <Icon>
-                <FontAwesomeIcon icon={faHeart} />
-                {photo.likes}
-              </Icon>
-              <Icon>
-                <FontAwesomeIcon icon={faComment} />
-                {photo.commentsNumber}
-              </Icon>
-            </Icons>
-          </Photo>
-        ))}
+        {data?.seeProfile?.photos
+          .slice()
+          .reverse()
+          .map((photo) => (
+            <Photo key={photo.id} bg={photo.file}>
+              <Icons>
+                <ModalMUI
+                  liked={photo.likes}
+                  selectedPhoto={photo.id}
+                  photo={photo.file}
+                  style={{ cursor: "pointer" }}
+                />
+                <Icon>
+                  <FontAwesomeIcon icon={faHeart} />
+                  {photo.likes}
+                </Icon>
+                <Icon>
+                  <FontAwesomeIcon icon={faComment} />
+                  {photo.commentsNumber}
+                </Icon>
+              </Icons>
+            </Photo>
+          ))}
       </Grid>
     </StyledProfileContainer>
   )
