@@ -20,6 +20,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { gql, useMutation } from "@apollo/client"
+import defaultAvatar from "../../assets/img/DefaultAvatar.png"
 
 const TOGGLE_LIKE_MUTATION = gql`
   mutation toggleLike($id: Int!, $value: Int!) {
@@ -81,7 +82,11 @@ export function RecommendationPost({
     <PostContainer key={id}>
       <PostHeader>
         <Link to={`/${user?.username}`}>
-          <Avatar url={user?.avatar} lg={true} />
+          {user && user.avatar ? (
+            <Avatar url={user?.avatar} lg={true} />
+          ) : (
+            <Avatar url={defaultAvatar} lg={true} />
+          )}
         </Link>
         <Link to={`/${user?.username}`}>
           <Username>{user?.username}</Username>
