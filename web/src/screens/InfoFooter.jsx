@@ -11,7 +11,7 @@ const InfoFooter = () => {
           <Link to="/termsOfUse">Условия использования</Link>
         </span>
         <span className="col-sm-12 col-lg-3 d-flex justify-content-center  me-2">
-          English
+          Русский
         </span>
       </div>
       <div className="d-flex justify-content-center mt-3">
