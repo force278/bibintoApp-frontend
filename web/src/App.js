@@ -57,7 +57,7 @@ function App() {
                   <NotMatch />
                 </Layout>
               </Route>
-              <Route path={"/message"}>
+              <Route path={"/me"}>
                 <Layout>
                   <Messenger />
                 </Layout>
