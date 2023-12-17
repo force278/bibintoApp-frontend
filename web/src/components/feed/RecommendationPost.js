@@ -9,7 +9,7 @@ import {
 } from "./Post"
 import { Link } from "react-router-dom"
 import Avatar from "../Avatar"
-import moreIcon from "../../assets/img/More.svg"
+import more from "../../assets/img/post/more.svg"
 import Modal from "../modal/Modal"
 import ModalContent from "../modal/ModalContent"
 import React, { useState } from "react"
@@ -92,7 +92,12 @@ export function RecommendationPost({
           <Username>{user?.username}</Username>
         </Link>
         <More onClick={() => setActiveModal(true)}>
-          <img src={moreIcon} alt="more" />
+          <img
+            className="cursor-pointer"
+            style={{ width: "12px", rotate: "90deg" }}
+            src={more}
+            alt="more"
+          />
         </More>
       </PostHeader>
       <PostContent src={file} />

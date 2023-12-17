@@ -2,7 +2,7 @@ import PropTypes from "prop-types"
 import styled from "styled-components"
 import { BoldText } from "../shared"
 import Avatar from "../Avatar"
-import moreIcon from "../../assets/img/More.svg"
+import more from "../../assets/img/post/more.svg"
 import defaultAvatar from "../../assets/img/DefaultAvatar.png"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faComment, faHeart } from "@fortawesome/free-regular-svg-icons"
@@ -137,7 +137,12 @@ function Post({
           <Username>{user?.username}</Username>
         </Link>
         <More onClick={() => setModalActive(true)}>
-          <img src={moreIcon} alt="more" />
+          <img
+            className="cursor-pointer"
+            style={{ width: "12px", rotate: "90deg" }}
+            src={more}
+            alt="more-in-post"
+          />
         </More>
       </PostHeader>
       <PostContent src={file} />
