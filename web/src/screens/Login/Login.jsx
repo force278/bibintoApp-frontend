@@ -99,9 +99,11 @@ function Login({
             />
           </button>
         </div>
-        <p className="text-secondary" style={{marginTop: '10px'}}>Применяются рекомендательные технологии</p>
+        <p className="text-secondary" style={{ marginTop: "10px" }}>
+          Применяются рекомендательные технологии
+        </p>
       </div>
-     
+
       <InfoFooter />
       {/*<BottomBox*/}
       {/*  cta="У вас ещё нет аккаунта?"*/}

@@ -12,7 +12,7 @@
 .Delete {
   cursor: pointer;
   font-weight: bold;
-  color: tomato;
+  color: #dc3545;
 }
 
 .Report {
