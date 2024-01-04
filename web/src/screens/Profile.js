@@ -19,6 +19,7 @@ const SEE_PROFILE_QUERY = gql`
       username
       bio
       avatar
+      official
       totalFollowers
       totalFollowing
       photos {
@@ -267,6 +268,15 @@ function Profile() {
         <Column>
           <Row>
             <Username>{data?.seeProfile?.username}</Username>
+            {data?.seeProfile?.official ? (
+              <img
+                src="official.png"
+                alt="official"
+                style={{
+                  width: "30px",
+                }}
+              ></img>
+            ) : null}
             {data?.seeProfile ? getButton(data.seeProfile) : null}
           </Row>
           <Row>

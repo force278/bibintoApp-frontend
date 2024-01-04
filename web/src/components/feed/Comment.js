@@ -28,7 +28,7 @@ const CommentCaption = styled.span`
   }
 `
 
-function Comment({ id, isMine, photoId, author, payload }) {
+function Comment({ id, isMine, photoId, author, payload, official }) {
   const [showModal, setShowModal] = useState(false)
   const modalRef = useRef()
   const handleShowModal = (event) => {
@@ -84,6 +84,15 @@ function Comment({ id, isMine, photoId, author, payload }) {
         <Link to={`/${author}`}>
           <BoldText>{author}</BoldText>
         </Link>
+        {official ? (
+          <img
+            src="official.png"
+            alt="official"
+            style={{
+              width: "13px",
+            }}
+          ></img>
+        ) : null}
         <CommentCaption>
           {payload?.split(" ").map((word, index) => (
             <span key={index}>

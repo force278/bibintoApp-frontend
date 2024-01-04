@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { Link, Switch, Route, useLocation } from "react-router-dom"
 import { gql, useQuery } from "@apollo/client"
 import styled from "styled-components"
@@ -19,6 +19,7 @@ const SEE_FEED_QUERY = gql`
       user {
         username
         avatar
+        official
       }
       createdAt
       isMine
@@ -40,6 +41,7 @@ const SEE_REC_QUERY = gql`
       user {
         username
         avatar
+        official
       }
       createdAt
       isMine
@@ -62,6 +64,7 @@ const SUB_POST_UPDATES = gql`
       user {
         username
         avatar
+        official
       }
       createdAt
       isMine
@@ -91,6 +94,15 @@ const StyledSubHeader = styled.div`
   }
 `
 
+const EmptyRec = styled.div`
+  width: 300px;
+  height: 150px;
+  border-radius: 30px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  background-color: white;
+  border: 1px solid ${(props) => props.theme.borderColor};
+`
+
 function Home() {
   const useActiveLink = (path) => {
     const location = useLocation()
@@ -102,6 +114,8 @@ function Home() {
   const { subscribeToMore, data } = useQuery(SEE_FEED_QUERY, {
     variables: { offset: 0 },
   })
+
+  const data_rec = useQuery(SEE_REC_QUERY)
 
   useEffect(() => {
     const unsubscribe = subscribeToMore({
@@ -120,8 +134,6 @@ function Home() {
       unsubscribe()
     }
   }, [subscribeToMore])
-
-  const data_rec = useQuery(SEE_REC_QUERY)
 
   /*
   useEffect(
@@ -176,11 +188,25 @@ function Home() {
               </div>
             </Route>
             <Route exact path="/recommendations">
-              <div className="mobilePostContainer" style={{ width: "585px" }}>
-                {data_rec?.data?.seeRec?.map((post) => (
-                  <RecommendationPost key={post.id} {...post} />
-                ))}
-              </div>
+              {data_rec?.data?.seeRec?.lenght !== 0 ? (
+                <div className="mobilePostContainer" style={{ width: "585px" }}>
+                  {data_rec?.data?.seeRec?.map((post) => (
+                    <RecommendationPost key={post.id} {...post} />
+                  ))}
+                </div>
+              ) : (
+                <div
+                  className="mobilePostContainer d-flex align-items-center justify-content-center flex-column"
+                  style={{ width: "585px" }}
+                >
+                  <img
+                    src="done.svg"
+                    alt="done"
+                    style={{ width: "80px" }}
+                  ></img>
+                  <h1 className="fs-5">На этом пока всё</h1>
+                </div>
+              )}
             </Route>
           </Switch>
         </div>

@@ -122,6 +122,7 @@ function Comments({ photoId, author, caption, commentsNumber, comments }) {
           key={comment.id}
           author={comment.user.username}
           payload={comment.payload}
+          official={comment.user.official}
         />
       ))}
       <PostCommentContainer>

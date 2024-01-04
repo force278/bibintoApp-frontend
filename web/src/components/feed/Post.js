@@ -136,6 +136,15 @@ function Post({
         <Link to={`/${user?.username}`}>
           <Username>{user?.username}</Username>
         </Link>
+        {user.official ? (
+          <img
+            src="official.png"
+            alt="official"
+            style={{
+              width: "25px",
+            }}
+          ></img>
+        ) : null}
         <More onClick={() => setModalActive(true)}>
           <img
             className="cursor-pointer"
