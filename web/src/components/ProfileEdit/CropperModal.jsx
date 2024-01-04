@@ -1,4 +1,4 @@
-import { useRef, useState } from "react"
+import { useRef, useEffect, useState } from "react"
 import { Box, Button, Modal, Slider } from "@mui/material"
 import AvatarEditor from "react-avatar-editor"
 import accept from "../../assets/img/editProfile/accept.svg"
@@ -18,7 +18,15 @@ const modalStyle = {
   alignItems: "center",
 }
 
-export const CropperModal = ({ src, modalOpen, setModalOpen, setPreview }) => {
+export const CropperModal = ({
+  inputRef,
+  setSrc,
+  src,
+  modalOpen,
+  setModalOpen,
+  setPreview,
+  compressedBlob,
+}) => {
   const [slideValue, setSlideValue] = useState(10)
   const cropRef = useRef(null)
   const handleSave = async () => {
@@ -27,9 +35,60 @@ export const CropperModal = ({ src, modalOpen, setModalOpen, setPreview }) => {
       const result = await fetch(dataUrl)
       const blob = await result.blob()
       setPreview(URL.createObjectURL(blob))
+      compressedBlob.current = blob
       setModalOpen(false)
     }
   }
+  const CanvasRef = useRef(null)
+
+  function compressImage(inputRef, maxWidth, maxHeight) {
+    return new Promise((resolve, reject) => {
+      const img = new Image()
+      console.log(CanvasRef)
+      img.src = URL.createObjectURL(inputRef.current.files[0])
+      const canvas = document.createElement("CANVAS")
+      const ctx = canvas.getContext("2d")
+      img.onload = () => {
+        let width = img.width
+        let height = img.height
+        if (width > height) {
+          if (width > maxWidth) {
+            height *= maxWidth / width
+            width = maxWidth
+          }
+        } else {
+          if (height > maxHeight) {
+            width *= maxHeight / height
+            height = maxHeight
+          }
+        }
+
+        canvas.width = width
+        canvas.height = height
+
+        ctx.drawImage(img, 0, 0, width, height)
+
+        canvas.toBlob(
+          (blob) => {
+            resolve(blob)
+          },
+          "image/jpeg",
+          1,
+        )
+      }
+    })
+  }
+
+  // Сразу сжимаем фото
+  useEffect(() => {
+    async function createPhoto(inputRef) {
+      compressedBlob.current = await compressImage(inputRef, 1080, 1080)
+      const compressedImage = new Image()
+      compressedImage.src = URL.createObjectURL(compressedBlob.current)
+      setSrc(compressedImage.src)
+    }
+    createPhoto(inputRef)
+  }, [inputRef, setSrc, compressedBlob])
 
   return (
     <Modal sx={modalStyle} open={modalOpen}>

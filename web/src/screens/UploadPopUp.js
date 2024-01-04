@@ -25,9 +25,11 @@ const Canvas = styled.canvas`
 
 function compressImage(uploadInputRef, CanvasRef, maxWidth, maxHeight) {
   return new Promise((resolve, reject) => {
+    console.log(CanvasRef)
     const img = new Image()
     img.src = URL.createObjectURL(uploadInputRef.current.files[0])
     const canvas = CanvasRef.current
+    console.log(CanvasRef.current)
     const ctx = CanvasRef.current.getContext("2d")
     img.onload = () => {
       let width = img.width

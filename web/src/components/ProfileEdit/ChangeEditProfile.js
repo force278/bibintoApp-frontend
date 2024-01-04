@@ -62,40 +62,49 @@ const ME_QUERY = gql`
 export default function ChangeEditProfile() {
   const loadAvatar = async () => {
     const imageUrl = uploadData.getUrlUploadPhoto
-
-    const file = inputRef.current.files[0]
-    if (!file) {
-      console.log("Файл не выбран. Загрузка не выполнена.")
-      return
-    }
-
+    console.log(compressedBlob)
+    const file = new File([compressedBlob.current], "test.jpeg", {
+      type: "image/jpeg",
+    })
+    const formData = new FormData()
+    formData.append("file", file)
     try {
-      const response = await fetch(imageUrl, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-        body: file,
-      })
-
-      if (response.ok) {
-        console.log("фото успешно загружена")
-        const img = uploadData.getUrlUploadPhoto.split("?")[0]
-        try {
-          const uploadResponse = await uploadAvatar({
-            variables: { file: img },
-          })
-          if (uploadResponse.data.uploadAvatar) {
-            console.log("Фото успешно отправлено на сервер.")
+      await fetch("https://neuro.bibinto.com/", {
+        method: "POST",
+        body: formData,
+      }).then(async (res) => {
+        await res.json().then(async (data) => {
+          if (data.person) {
+            const response = await fetch(imageUrl, {
+              method: "PUT",
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+              body: file,
+            })
+            if (response.ok) {
+              console.log("фото успешно загружена")
+              const img = uploadData.getUrlUploadPhoto.split("?")[0]
+              try {
+                const uploadResponse = await uploadAvatar({
+                  variables: { file: img },
+                })
+                if (uploadResponse.data.uploadAvatar) {
+                  console.log("Фото успешно отправлено на сервер.")
+                } else {
+                  console.error("Ошибка при отправке фотографии на сервер.")
+                }
+              } catch (error) {
+                console.log("Произошла ошибка", error)
+              }
+            } else {
+              console.error("Ошибка при загрузке фотографии")
+            }
           } else {
-            console.error("Ошибка при отправке фотографии на сервер.")
+            alert("На фото не человек")
           }
-        } catch (error) {
-          console.log("Произошла ошибка", error)
-        }
-      } else {
-        console.error("Ошибка при загрузке фотографии")
-      }
+        })
+      })
     } catch (error) {
       console.error("Произошла ошибка", error)
     }
@@ -114,6 +123,8 @@ export default function ChangeEditProfile() {
   const [email, setEmail] = useState("")
   const [showNotification, setShowNotification] = useState(false)
   const [editProfile] = useMutation(EDIT_PROFILE_MUTATION)
+  const compressedBlob = useRef(null)
+
   useEffect(() => {
     if (!loading) {
       const { firstName, username, lastName, bio, email } = meData?.me || {}
@@ -217,6 +228,7 @@ export default function ChangeEditProfile() {
       )
     }
   }
+
   return (
     <>
       <div className="col-sm-12 col-lg-8">
@@ -235,12 +247,18 @@ export default function ChangeEditProfile() {
                   width="70px"
                   height="70px"
                 />
-                <CropperModal
-                  modalOpen={modalOpen}
-                  src={src}
-                  setPreview={setPreview}
-                  setModalOpen={setModalOpen}
-                />
+                {modalOpen ? (
+                  <CropperModal
+                    inputRef={inputRef}
+                    setSrc={setSrc}
+                    modalOpen={modalOpen}
+                    src={src}
+                    setPreview={setPreview}
+                    setModalOpen={setModalOpen}
+                    compressedBlob={compressedBlob}
+                  />
+                ) : null}
+
                 <input
                   style={{ display: "none" }}
                   type="file"
