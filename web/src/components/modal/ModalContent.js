@@ -8,9 +8,22 @@ const DELETE_PHOTO = gql`
   }
 `
 
+const REPORT_PHOTO = gql`
+  mutation reportPhoto($photoId: Int!) {
+    reportPhoto(photoId: $photoId) {
+      id
+      ok
+      error
+    }
+  }
+`
+
 const ModalContent = ({ id, isMine }) => {
   const [deletePhoto] = useMutation(DELETE_PHOTO, {
     variables: { id },
+  })
+  const [reportPhoto] = useMutation(REPORT_PHOTO, {
+    variables: { photoId: id },
   })
   return (
     <div>
@@ -19,7 +32,9 @@ const ModalContent = ({ id, isMine }) => {
           {"Удалить фото"}
         </div>
       ) : (
-        <div className="Report">{"Пожаловаться"}</div>
+        <div className="Report" onClick={reportPhoto}>
+          {"Пожаловаться"}
+        </div>
       )}
     </div>
   )

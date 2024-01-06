@@ -148,7 +148,7 @@ function Post({
         <More onClick={() => setModalActive(true)}>
           <img
             className="cursor-pointer"
-            style={{ width: "12px", rotate: "90deg" }}
+            style={{ width: "12px", rotate: "90deg", marginRight: "10px" }}
             src={more}
             alt="more-in-post"
           />

@@ -143,7 +143,7 @@ export default function ChangeEditProfile() {
     if (showNotification) {
       setTimeout(() => {
         setShowNotification(false)
-        window.location.reload()
+        //window.location.reload()
       }, 2000)
     }
   }, [showNotification])
@@ -215,7 +215,7 @@ export default function ChangeEditProfile() {
           email: email,
         },
       })
-      if (result.data && result.data.editProfile) {
+      if (result.data && result.data.editProfile.ok) {
         setShowNotification(true)
       } else {
         alert(
