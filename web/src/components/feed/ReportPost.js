@@ -9,12 +9,7 @@ import {
 import { Link } from "react-router-dom"
 import Avatar from "../Avatar"
 import React, { useState } from "react"
-import {
-  faHeart as SolidHeart,
-  faHeartBroken,
-  faHand,
-  faBackward,
-} from "@fortawesome/free-solid-svg-icons"
+import { faBackward, faHandPaper } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { gql, useMutation } from "@apollo/client"
 import defaultAvatar from "../../assets/img/DefaultAvatar.png"
@@ -28,7 +23,8 @@ const BAN_MUTATION = gql`
   }
 `
 
-export function Report({ id, user, file }) {
+function ReportPost({ id, user, file }) {
+  console.log(user)
   return (
     <PostContainer key={id}>
       <PostHeader>
@@ -55,24 +51,25 @@ export function Report({ id, user, file }) {
       <PostContent src={file} />
       <PostFooter>
         <div className="d-flex justify-content-around">
-          <PostAction onClick={addLike}>
+          <PostAction>
             <FontAwesomeIcon
               style={{
-                color: isLiked ? "#F0355B" : "inherit",
+                color: "inherit",
                 fontSize: "27px",
                 transition: "0.5s ease",
               }}
               icon={faBackward}
             />
           </PostAction>
-          <PostAction onClick={addDislike}>
+          <PostAction>
             <FontAwesomeIcon
               style={{
-                opacity: isDisliked ? 1 : 0.3,
+                opacity: 1,
                 fontSize: "27px",
                 transition: "0.5s ease",
+                color: "#dc3545",
               }}
-              icon={faHand}
+              icon={faHandPaper}
             />
           </PostAction>
         </div>
@@ -80,3 +77,5 @@ export function Report({ id, user, file }) {
     </PostContainer>
   )
 }
+
+export default ReportPost

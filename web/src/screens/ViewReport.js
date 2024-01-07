@@ -2,30 +2,24 @@ import React, { useEffect } from "react"
 import { Link, Switch, Route, useLocation } from "react-router-dom"
 import { gql, useQuery } from "@apollo/client"
 import styled from "styled-components"
-import Post from "../components/feed/Post"
+import ReportPost from "../components/feed/ReportPost"
 import PageTitle from "../components/PageTitle"
-import { COMMENTS_FRAGMENT, POST_FRAGMENT } from "../fragments"
 
 const SEE_REPORT_QUERY = gql`
   query getReport {
     getReport {
-      ...PostFragment
-      caption
-      comments {
-        ...CommentFragment
+      photo {
+        id
+        file
+        user {
+          id
+          username
+          avatar
+          official
+        }
       }
-      user {
-        username
-        avatar
-      }
-      createdAt
-      isMine
-      isLiked
-      isDisliked
     }
   }
-  ${POST_FRAGMENT}
-  ${COMMENTS_FRAGMENT}
 `
 
 const StyledSubHeader = styled.div`
@@ -48,6 +42,7 @@ const StyledSubHeader = styled.div`
 
 function ViewReport() {
   const data = useQuery(SEE_REPORT_QUERY)
+  console.log(data)
 
   return (
     <>
@@ -56,8 +51,12 @@ function ViewReport() {
         <div>
           <Route exact path="/report">
             <div className="mobilePostContainer" style={{ width: "585px" }}>
-              {data?.getReport?.map((post) => (
-                <Post key={post.id} {...post} />
+              {data?.data?.getReport?.map((report) => (
+                <ReportPost
+                  key={report.id}
+                  user={report.photo.user}
+                  file={report.photo.file}
+                />
               ))}
             </div>
           </Route>
