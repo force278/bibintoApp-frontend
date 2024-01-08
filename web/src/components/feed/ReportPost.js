@@ -15,8 +15,17 @@ import { gql, useMutation } from "@apollo/client"
 import defaultAvatar from "../../assets/img/DefaultAvatar.png"
 
 const BAN_MUTATION = gql`
-  mutation ban($id: Int!) {
-    ban(id: $id, value: $value) {
+  mutation banUser($id: Int!) {
+    banUser(id: $id) {
+      ok
+      error
+    }
+  }
+`
+
+const SKIP_MUTATION = gql`
+  mutation skipReport($id: Int!) {
+    skipReport(id: $id) {
       ok
       error
     }
@@ -24,7 +33,9 @@ const BAN_MUTATION = gql`
 `
 
 function ReportPost({ id, user, file }) {
-  console.log(user)
+  const [ban] = useMutation(BAN_MUTATION, { variables: { id: user.id } })
+  const [skip] = useMutation(SKIP_MUTATION, { variables: { id } })
+
   return (
     <PostContainer key={id}>
       <PostHeader>
@@ -51,7 +62,7 @@ function ReportPost({ id, user, file }) {
       <PostContent src={file} />
       <PostFooter>
         <div className="d-flex justify-content-around">
-          <PostAction>
+          <PostAction onClick={skip}>
             <FontAwesomeIcon
               style={{
                 color: "inherit",
@@ -61,7 +72,7 @@ function ReportPost({ id, user, file }) {
               icon={faBackward}
             />
           </PostAction>
-          <PostAction>
+          <PostAction onClick={ban}>
             <FontAwesomeIcon
               style={{
                 opacity: 1,

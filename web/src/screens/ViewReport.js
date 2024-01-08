@@ -8,6 +8,7 @@ import PageTitle from "../components/PageTitle"
 const SEE_REPORT_QUERY = gql`
   query getReport {
     getReport {
+      id
       photo {
         id
         file
@@ -54,6 +55,7 @@ function ViewReport() {
               {data?.data?.getReport?.map((report) => (
                 <ReportPost
                   key={report.id}
+                  id={report.id}
                   user={report.photo.user}
                   file={report.photo.file}
                 />
