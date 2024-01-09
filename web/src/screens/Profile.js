@@ -248,7 +248,15 @@ function Profile() {
         </DefaultBtn>
       )
     if (isFollowing)
-      return <DefaultBtn onClick={unfollowUser}>Отписаться</DefaultBtn>
+      return (
+        <DefaultBtn
+          type="button"
+          data-bs-toggle="modal"
+          data-bs-target="#confirmModal"
+        >
+          Отписаться
+        </DefaultBtn>
+      )
     else return <ProfileBtn onClick={followUser}>Подписаться</ProfileBtn>
   }
 
@@ -328,6 +336,55 @@ function Profile() {
             </Photo>
           ))}
       </Grid>
+      <div
+        className="modal fade"
+        id="confirmModal"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabIndex="-1"
+        aria-labelledby="confirmModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h1
+                className="modal-title fs-5 text-secondary"
+                id="confirmModalLabel"
+              >
+                Вы уверены, что хотите отписаться?
+              </h1>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div className="modal-body">
+              После отмены подписки на пользователя вы утратите возможность
+              взаимодействия с ним.
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-success"
+                data-bs-dismiss="modal"
+              >
+                Нет
+              </button>
+              <button
+                type="button"
+                className="btn btn-secondary"
+                data-bs-dismiss="modal"
+                onClick={unfollowUser}
+              >
+                Да
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </StyledProfileContainer>
   )
 }
