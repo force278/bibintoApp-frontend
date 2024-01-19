@@ -16,7 +16,7 @@ export const darkTheme = {
 export const GlobalStyles = createGlobalStyle`
     ${reset}
     input{
-      all: unset;
+      // all: unset;
     }
     * {
       box-sizing: border-box;

@@ -59,13 +59,16 @@
     ],
     "rules": {
       "prettier/prettier": [
-        "error",
+        "warn",
         {
           "endOfLine": "auto"
         }
       ],
-      "react/jsx-no-target-blank": "off",
-      "semi": "off"
+      "react/jsx-no-target-blank": "warn",
+      "semi": [
+        "error",
+        "never"
+      ]
     }
   },
   "prettier": "prettier-config-nick",

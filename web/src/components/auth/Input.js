@@ -5,6 +5,7 @@ const Input = styled.input`
   padding: 14px 16px;
   background-color: rgba(196, 196, 196, 0.1) !important;
   color: #5a686c;
+  border: none;
   // border: 0.5px solid
   //   ${(props) => (props.hasError ? "tomato" : props.theme.borderColor)};
   margin-bottom: 13px;
@@ -16,6 +17,7 @@ const Input = styled.input`
   }
   &:focus {
     border-color: rgb(38, 38, 38);
+    outline: none;
   }
 `
 

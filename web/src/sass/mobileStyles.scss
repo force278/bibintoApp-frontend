@@ -1,3 +1,6 @@
+.menu-items {
+  justify-content: space-between;
+}
 @media (max-width: 768px) {
   .blockButtons {
     max-width: 374px;
@@ -19,8 +22,7 @@
   }
   .modalWindowForMobile {
     width: 190px !important;
-    height: 130px !important;
-    top: -102px !important;
+    top: -140px !important;
     left: -34% !important;
   }
   .mobilePostContainer {

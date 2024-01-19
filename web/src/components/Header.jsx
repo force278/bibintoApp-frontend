@@ -12,6 +12,7 @@ import useMe from "../hooks/useMe"
 import routes from "../routes"
 import UploadPopUp from "../screens/UploadPopUp"
 import searchGray from "../assets/img/header/searchGray.svg"
+import { ModalSupportForm } from "./modalSupportForm/ModalSupportForm"
 
 export function Header() {
   const isLoggedIn = useReactiveVar(isLoggedInVar)
@@ -52,7 +53,7 @@ export function Header() {
 
   const handleClosePopUp = useCallback(() => {
     setUploadModalActive(false)
-  }, [history])
+  }, [])
 
   return (
     <>
@@ -66,7 +67,7 @@ export function Header() {
         >
           <div className="d-flex justify-content-between w-100">
             {isLoggedIn ? (
-              <div className="d-flex align-items-center justify-content-between w-100 justifyContentCenterForMobile">
+              <div className="d-flex align-items-center menu-items w-100 justifyContentCenterForMobile">
                 <div className="hideElement">
                   <Link to={routes.home}>
                     <div>
@@ -139,7 +140,6 @@ export function Header() {
                         className="position-absolute modalWindowForMobile"
                         style={{
                           width: "250px",
-                          height: "130px",
                           background: "#F4F4F4",
                           borderRadius: "17px",
                           top: "66px",
@@ -161,6 +161,15 @@ export function Header() {
                               >
                                 Мой профиль
                               </Link>
+                            </button>
+                            <button
+                              className="m-2 z-2 border-0 p-3 bg-white"
+                              style={{ borderRadius: "11px" }}
+                              onClick={handleShowModal}
+                              data-bs-toggle="modal"
+                              data-bs-target="#myModal"
+                            >
+                              Написать в поддержку
                             </button>
                             <button
                               className="m-2 z-2 border-0 p-3 bg-white text-danger"
@@ -191,7 +200,12 @@ export function Header() {
           </div>
         </div>
       </div>
-
+      <ModalSupportForm
+        id="myModal"
+        title="Написать в поддержку"
+        save="Отправить"
+        close="Отменить"
+      />
       {uploadModalActive && (
         <UploadPopUp
           onClose={handleClosePopUp}
