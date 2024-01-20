@@ -275,7 +275,9 @@ function Profile() {
         )}
         <Column>
           <Row>
-            <Username>{data?.seeProfile?.username}</Username>
+            <Username>
+              {data?.seeProfile?.username || "Пользователь не найден"}
+            </Username>
             {data?.seeProfile?.official ? (
               <img
                 src="official.png"
@@ -291,12 +293,14 @@ function Profile() {
             <List>
               <Item>
                 <span>
-                  <Value>{data?.seeProfile?.totalFollowers}</Value> подписчиков
+                  <Value>{data?.seeProfile?.totalFollowers || 0}</Value>{" "}
+                  подписчиков
                 </span>
               </Item>
               <Item>
                 <span>
-                  <Value>{data?.seeProfile?.totalFollowing}</Value> подписок
+                  <Value>{data?.seeProfile?.totalFollowing || 0}</Value>{" "}
+                  подписок
                 </span>
               </Item>
             </List>

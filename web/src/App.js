@@ -1,10 +1,14 @@
 import { useReactiveVar } from "@apollo/client"
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  Switch,
+} from "react-router-dom"
 import { ThemeProvider } from "styled-components"
 import { darkModeVar, isLoggedInVar } from "./apollo"
 import Home from "./screens/Home"
 import LoginContainer from "./screens/Login/LoginContainer"
-import NotFound from "./screens/NotFound"
 import SignUp from "./screens/SignUp"
 import { darkTheme, GlobalStyles, lightTheme } from "./styles"
 import routes from "./routes"
@@ -34,67 +38,67 @@ function App() {
           <Router>
             <Switch>
               {!isLoggedIn ? (
-                <Route path={routes.signUp}>
-                  <SignUp />
-                </Route>
-              ) : null}
-              <Route path={routes.home} exact>
-                {isLoggedIn ? (
-                  <Layout>
-                    <Home />
-                  </Layout>
-                ) : (
-                  <LoginContainer />
-                )}
-              </Route>
-              <Route path="/recommendations">
-                <Layout>
-                  <Home />
-                </Layout>
-              </Route>
-              <Route path={"/likes"}>
-                <Layout>
-                  <NotMatch />
-                </Layout>
-              </Route>
-              <Route path={"/me"}>
-                <Layout>
-                  <Messenger />
-                </Layout>
-              </Route>
-              <Route path="/privacy-policy">
-                <PrivacyPolicy />
-              </Route>
-              <Route path="/termsOfUse">
-                <TermsOfUse />
-              </Route>
-              <Route path="/accountEditProfile" exact>
-                <Layout>
-                  <EditProfile children={<ChangeEditProfile />} />
-                </Layout>
-              </Route>
-              <Route path="/account/accountChangePassword" exact>
-                <Layout>
-                  <EditProfile children={<ChangePassword />} />
-                </Layout>
-              </Route>
-              <Route path={routes.report} exact>
-                {isLoggedIn ? (
-                  <Layout>
-                    <ViewReport />
-                  </Layout>
-                ) : (
-                  <LoginContainer />
-                )}
-              </Route>
-              <Route path={`/:username`}>
-                <Layout>
-                  <Profile />
-                </Layout>
-              </Route>
-              <Route path={`*`}>
-                <NotFound />
-              </Route>
+                <>
+                  <Route path={routes.signUp} exact>
+                    <SignUp />
+                  </Route>
+                  <Route path={routes.home} exact>
+                    <LoginContainer />
+                  </Route>
+                  <Route path={routes.privacy}>
+                    <PrivacyPolicy />
+                  </Route>
+                  <Route path={routes.termOfUse}>
+                    <TermsOfUse />
+                  </Route>
+                  <Redirect to={routes.home} />
+                </>
+              ) : (
+                <>
+                  <Route path={routes.home} exact>
+                    <Layout>
+                      <Home />
+                    </Layout>
+                  </Route>
+                  <Route path={routes.recommendations} exact>
+                    <Layout>
+                      <Home />
+                    </Layout>
+                  </Route>
+                  <Route path={routes.likes} exact>
+                    <Layout>
+                      <NotMatch />
+                    </Layout>
+                  </Route>
+                  <Route path={routes.message} exact>
+                    <Layout>
+                      <Messenger />
+                    </Layout>
+                  </Route>
+                  <Route path={routes.accountEditProfile} exact>
+                    <Layout>
+                      <EditProfile children={<ChangeEditProfile />} />
+                    </Layout>
+                  </Route>
+                  <Route path={routes.accountChangePassword} exact>
+                    <Layout>
+                      <EditProfile children={<ChangePassword />} />
+                    </Layout>
+                  </Route>
+                  <Route path={routes.report} exact>
+                    <Layout>
+                      <ViewReport />
+                    </Layout>
+                  </Route>
+                  <Switch>
+                    <Route path={routes.username}>
+                      <Layout>
+                        <Profile />
+                      </Layout>
+                    </Route>
+                  </Switch>
+                </>
+              )}
             </Switch>
           </Router>
         </ThemeProvider>

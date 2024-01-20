@@ -81,7 +81,7 @@ function Comment({ id, isMine, photoId, author, payload, official }) {
   return (
     <div className="d-flex justify-content-between mb-2 position-relative">
       <div>
-        <Link to={`/${author}`}>
+        <Link to={`/:${author}`}>
           <BoldText>{author}</BoldText>
         </Link>
         {official ? (

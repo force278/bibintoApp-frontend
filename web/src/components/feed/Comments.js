@@ -27,8 +27,12 @@ const PostCommentContainer = styled.div`
 
 const PostCommentInput = styled.input`
   width: 100%;
+  border: none;
   &::placeholder {
     font-size: 12px;
+  }
+  &:focus {
+    outline: none;
   }
 `
 
