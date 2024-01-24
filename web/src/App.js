@@ -54,7 +54,7 @@ function App() {
                   <Redirect to={routes.home} />
                 </>
               ) : (
-                <>
+                <Switch>
                   <Route path={routes.home} exact>
                     <Layout>
                       <Home />
@@ -90,14 +90,12 @@ function App() {
                       <ViewReport />
                     </Layout>
                   </Route>
-                  <Switch>
-                    <Route path={routes.username}>
-                      <Layout>
-                        <Profile />
-                      </Layout>
-                    </Route>
-                  </Switch>
-                </>
+                  <Route path={routes.username}>
+                    <Layout>
+                      <Profile />
+                    </Layout>
+                  </Route>
+                </Switch>
               )}
             </Switch>
           </Router>
