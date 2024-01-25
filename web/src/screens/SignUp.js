@@ -78,14 +78,16 @@ function SignUp() {
   })
   const [getCode, { data }] = useMutation(GET_EMAIL_CODE, {
     onCompleted: () => {
-      if (!data.ok) {
+      console.log(data)
+      if (!data.getEmailCode.ok) {
         setError(
           data.getEmailCode.error_type,
           { type: "custom", message: data.getEmailCode.error },
           { shouldFocus: true },
         )
+      } else {
+        setEmailCode(true)
       }
-      setEmailCode(true)
     },
   })
 
@@ -174,20 +176,16 @@ function SignUp() {
             hasError={Boolean(formState.errors?.password?.message)}
           />
           <FormError message={formState.errors?.password?.message} />
-          {emailCode ? (
-            <>
-              <p>Код отправлен email, если письма нет, проверьте спам</p>
-              <Input
-                {...register("code", {
-                  required: "Код обязателен для заполнения",
-                })}
-                placeholder="XXXXXX"
-                maxLength={6}
-                hasError={Boolean(formState.errors?.code?.message)}
-              />
-              <FormError message={formState.errors?.code?.message} />
-            </>
-          ) : null}
+          <div style={{ display: !emailCode ? "none" : "" }}>
+            <p>Код отправлен email, если письма нет, проверьте спам</p>
+            <Input
+              {...register("code", {})}
+              placeholder="XXXXXX"
+              maxLength={6}
+              hasError={Boolean(formState.errors?.code?.message)}
+            />
+            <FormError message={formState.errors?.code?.message} />
+          </div>
           <Button
             type="submit"
             value={emailCode ? "Отправить" : "Зарегистрироваться"}
