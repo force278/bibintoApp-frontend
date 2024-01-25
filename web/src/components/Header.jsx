@@ -156,7 +156,7 @@ export function Header() {
                               style={{ borderRadius: "11px" }}
                             >
                               <Link
-                                to={`/:${data?.me?.username}`}
+                                to={`/${data?.me?.username}`}
                                 onClick={handleShowModal}
                               >
                                 Мой профиль

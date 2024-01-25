@@ -9,7 +9,7 @@ const routes = {
   message: "/me",
   accountEditProfile: "/accountEditProfile",
   accountChangePassword: "/account/accountChangePassword",
-  username: `/::username`,
+  username: `/:username`,
 }
 
 export default routes
