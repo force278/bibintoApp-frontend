@@ -1,6 +1,5 @@
 import { Route } from "react-router-dom"
 import { gql, useQuery } from "@apollo/client"
-import styled from "styled-components"
 import ReportPost from "../components/feed/ReportPost"
 import PageTitle from "../components/PageTitle"
 import CircularProgress from "@mui/material/CircularProgress"

@@ -81,14 +81,14 @@ export function RecommendationPost({
   return (
     <PostContainer key={id}>
       <PostHeader>
-        <Link to={`/:${user?.username}`}>
+        <Link to={`/${user?.username}`}>
           {user && user.avatar ? (
             <Avatar url={user?.avatar} lg={true} />
           ) : (
             <Avatar url={defaultAvatar} lg={true} />
           )}
         </Link>
-        <Link to={`/:${user?.username}`}>
+        <Link to={`/${user?.username}`}>
           <Username>{user?.username}</Username>
         </Link>
         {user.official ? (
