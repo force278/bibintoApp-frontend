@@ -18,21 +18,32 @@ const HeaderContainer = styled.div`
   align-items: center;
   justify-content: center;
 `
+const GET_EMAIL_CODE = gql`
+  mutation getEmailCode($email: String!, $username: String!) {
+    getEmailCode(email: $email, username: $username) {
+      ok
+      error
+      error_type
+    }
+  }
+`
 
 const CREATE_ACCOUNT_MUTATION = gql`
   mutation createAccount(
     $firstName: String!
     $lastName: String
     $username: String!
-    $phone: String!
+    $email: String!
     $password: String!
+    $code: Int!
   ) {
     createAccount(
       firstName: $firstName
       lastName: $lastName
       username: $username
-      phone: $phone
+      email: $email
       password: $password
+      code: $code
     ) {
       ok
       error
@@ -43,6 +54,7 @@ const CREATE_ACCOUNT_MUTATION = gql`
 function SignUp() {
   const history = useHistory()
   const [inputValue, setInputValue] = useState("")
+  const [emailCode, setEmailCode] = useState(false)
 
   const handleInputChange = (event) => {
     const lowercaseValue = event.target.value.toLowerCase()
@@ -64,17 +76,44 @@ function SignUp() {
   const { register, handleSubmit, formState, setError, getValues } = useForm({
     mode: "onBlur",
   })
+  const [getCode, { data }] = useMutation(GET_EMAIL_CODE, {
+    onCompleted: () => {
+      if (!data.ok) {
+        setError(
+          data.getEmailCode.error_type,
+          { type: "custom", message: data.getEmailCode.error },
+          { shouldFocus: true },
+        )
+      }
+      setEmailCode(true)
+    },
+  })
+
   const [signUp, { loading }] = useMutation(CREATE_ACCOUNT_MUTATION, {
-    onCompleted,
+    onCompleted
   })
 
   const onSubmitValid = (data) => {
-    if (loading) return
-    signUp({
-      variables: {
-        ...data,
-      },
-    })
+    if (loading) {
+      console.log("aaa")
+      return
+    }
+    if (emailCode) {
+      signUp({
+        variables: {
+          ...data,
+          code: Number(data.code),
+        },
+      })
+    } else {
+      getCode({
+        variables: {
+          email: data.email,
+          username: data.username,
+        },
+      })
+    }
+    
   }
 
   return (
@@ -91,17 +130,15 @@ function SignUp() {
           className="position-relative"
         >
           <Input
-            {...register("phone", {
-              required: "Телефон обязателен для заполнения",
+            {...register("email", {
+              required: "Email обязателен для заполнения",
             })}
-            type="tel"
-            placeholder="Номер телефона"
-            pattern="[0-9]{11}"
-            maxLength={11}
-            minLength={11}
-            hasError={Boolean(formState.errors?.phone?.message)}
+            type="email"
+            placeholder="Email"
+            maxLength={30}
+            hasError={Boolean(formState.errors?.email?.message)}
           />
-          <FormError message={formState.errors?.phone?.message} />
+          <FormError message={formState.errors?.email?.message} />
           <Input
             {...register("firstName", {
               required: "Имя обязательно для заполнения",
@@ -138,9 +175,23 @@ function SignUp() {
             hasError={Boolean(formState.errors?.password?.message)}
           />
           <FormError message={formState.errors?.password?.message} />
+          {emailCode ? (
+            <>
+              <p>Код отправлен email, если письма нет, проверьте спам</p>
+              <Input
+                {...register("code", {
+                  required: "Код обязателен для заполнения",
+                })}
+                placeholder="XXXXXX"
+                maxLength={6}
+                hasError={Boolean(formState.errors?.code?.message)}
+              />
+              <FormError message={formState.errors?.code?.message} />
+            </>
+          ) : null}
           <Button
             type="submit"
-            value={loading ? "Загрузка..." : "Зарегистрироваться"}
+            value={emailCode ? "Отправить" : "Зарегистрироваться"}
             disabled={!formState.isValid || loading}
           />
           <FormError message={formState.errors?.result?.message} />
