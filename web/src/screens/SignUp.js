@@ -90,7 +90,7 @@ function SignUp() {
   })
 
   const [signUp, { loading }] = useMutation(CREATE_ACCOUNT_MUTATION, {
-    onCompleted
+    onCompleted,
   })
 
   const onSubmitValid = (data) => {
@@ -113,7 +113,6 @@ function SignUp() {
         },
       })
     }
-    
   }
 
   return (
