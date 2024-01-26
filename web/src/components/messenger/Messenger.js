@@ -1,22 +1,39 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import "../../sass/common.scss"
 import searchGray from "../../assets/img/header/searchGray.svg"
 import styles from "./messag.module.scss"
-import alexeev from "../../assets/img/messenger/alexeev.png"
+import defaultAvatar from "../../assets/img/DefaultAvatar.png"
 import bibinto from "../../assets/img/messenger/bibinto.png"
 import emojies from "../../assets/img/messenger/Emoji.svg"
 import sendMessege from "../../assets/img/messenger/Send.svg"
 import backButton from "../../assets/img/messenger/Back.svg"
+import { gql, useQuery } from "@apollo/client"
+
+const GET_FRIENDS = gql`
+  query SeeFriends {
+    seeFriends {
+      avatar
+      firstName
+      id
+    }
+  }
+`
 
 export const Messenger = ({ children }) => {
-  const data = [
-    { username: "alexeev", lastLogin: "Заходил 1 час назад", avatar: alexeev },
-    { username: "bibinto", lastLogin: "Онлайн", avatar: bibinto },
-  ]
+  //  const data = [
+  //    { username: "alexeev", lastLogin: "Заходил 1 час назад", avatar: alexeev },
+  //    { username: "bibinto", lastLogin: "Онлайн", avatar: bibinto },
+  //  ]
+  const [friend, setFriends] = useState([])
   const [hide, setHide] = useState(true)
   const toggleStyle = () => {
     setHide((prevState) => !prevState)
   }
+
+  const data = useQuery(GET_FRIENDS)
+
+
+
   return (
     <div className="container ">
       <div
@@ -50,7 +67,7 @@ export const Messenger = ({ children }) => {
               </div>
             </div>
 
-            {data.map((item, index) => (
+            {data?.data?.seeFriends?.map((item, index) => (
               <div
                 className="container pt-3 pb-3 border-bottom"
                 onClick={toggleStyle}
@@ -59,7 +76,7 @@ export const Messenger = ({ children }) => {
                   <div className="col-md-3 col-4">
                     <div className="user-avatar">
                       <img
-                        src={item.avatar}
+                        src={item.avatar ? item.avatar : defaultAvatar}
                         alt="User Avatar"
                         className="rounded-circle offset-md-3 offset-4"
                         style={{ width: 50, height: 50 }}
@@ -70,7 +87,7 @@ export const Messenger = ({ children }) => {
                     <div>
                       <div>
                         <h4 style={{ fontFamily: "Roboto, sans-serif" }}>
-                          {item.username}
+                          {item.firstName}
                         </h4>
                       </div>
                       <div>
