@@ -13,6 +13,7 @@ import routes from "../routes"
 import UploadPopUp from "../screens/UploadPopUp"
 import searchGray from "../assets/img/header/searchGray.svg"
 import { ModalSupportForm } from "./modalSupportForm/ModalSupportForm"
+import Search from "./Search"
 
 export function Header() {
   const isLoggedIn = useReactiveVar(isLoggedInVar)
@@ -75,17 +76,8 @@ export function Header() {
                     </div>
                   </Link>
                 </div>
-                <div className="inputSearch hideElement">
-                  <input
-                    type="text"
-                    className="inputSearch__input"
-                    placeholder="Поиск"
-                  />
-                  <img
-                    src={searchGray}
-                    alt="search"
-                    className="inputSearch__icon"
-                  />
+                <div className="hideElement">
+                  <Search />
                 </div>
                 <div className="d-flex" style={{ gap: "35px" }}>
                   <span>
