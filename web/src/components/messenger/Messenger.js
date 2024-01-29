@@ -32,8 +32,6 @@ export const Messenger = ({ children }) => {
 
   const data = useQuery(GET_FRIENDS)
 
-
-
   return (
     <div className="container ">
       <div
