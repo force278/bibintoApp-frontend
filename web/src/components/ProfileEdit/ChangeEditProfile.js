@@ -24,7 +24,6 @@ const EDIT_PROFILE_MUTATION = gql`
     $firstName: String
     $username: String
     $lastName: String
-    $email: String
     $bio: String
     $password: String
   ) {
@@ -32,7 +31,6 @@ const EDIT_PROFILE_MUTATION = gql`
       firstName: $firstName
       username: $username
       lastName: $lastName
-      email: $email
       bio: $bio
       password: $password
     ) {
@@ -62,7 +60,6 @@ const ME_QUERY = gql`
 export default function ChangeEditProfile() {
   const loadAvatar = async () => {
     const imageUrl = uploadData.getUrlUploadPhoto
-    console.log(compressedBlob)
     const file = new File([compressedBlob.current], "test.jpeg", {
       type: "image/jpeg",
     })
@@ -120,19 +117,17 @@ export default function ChangeEditProfile() {
   const [lastName, setLastName] = useState("")
   const [userName, setUserName] = useState("")
   const [infoAboutMe, setInfoAboutMe] = useState("")
-  const [email, setEmail] = useState("")
   const [showNotification, setShowNotification] = useState(false)
   const [editProfile] = useMutation(EDIT_PROFILE_MUTATION)
   const compressedBlob = useRef(null)
 
   useEffect(() => {
     if (!loading) {
-      const { firstName, username, lastName, bio, email } = meData?.me || {}
+      const { firstName, username, lastName, bio } = meData?.me || {}
       setFirstName(firstName || "")
       setUserName(username || "")
       setLastName(lastName || "")
       setInfoAboutMe(bio || "")
-      setEmail(email || "")
     }
     if (preview) {
       setShowAlert(true)
@@ -172,12 +167,6 @@ export default function ChangeEditProfile() {
     },
     [setInfoAboutMe],
   )
-  const handleChangeEmail = useCallback(
-    (e) => {
-      setEmail(e.target.value)
-    },
-    [setEmail],
-  )
 
   const [getUrl, { data: uploadData }] = useLazyQuery(URL_UPLOAD_QUERY, {
     onCompleted: loadAvatar,
@@ -212,7 +201,6 @@ export default function ChangeEditProfile() {
           username: userName,
           lastName: lastName,
           bio: infoAboutMe,
-          email: email,
         },
       })
       if (result.data && result.data.editProfile.ok) {
@@ -423,24 +411,6 @@ export default function ChangeEditProfile() {
                   профиле.
                 </div>
               </div>
-            </div>
-          </div>
-          <div className="d-flex hideElement mb-3">
-            <div className="col-2 d-flex justify-content-end">
-              <span
-                className="fs-6 pt-2"
-                style={{ fontFamily: "Roboto, sans-serif" }}
-              >
-                Почта
-              </span>
-            </div>
-            <div className="col-10 ps-4">
-              <input
-                type="text"
-                value={email}
-                onChange={handleChangeEmail}
-                className="border border-1 pt-1 pb-1 ps-2 w-50"
-              />
             </div>
           </div>
           <div className="d-flex justify-content-center mt-sm-0 mt-lg-4 mb-5">
