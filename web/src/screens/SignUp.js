@@ -19,8 +19,8 @@ const HeaderContainer = styled.div`
   justify-content: center;
 `
 const GET_EMAIL_CODE = gql`
-  mutation getEmailCode($email: String!, $username: String!) {
-    getEmailCode(email: $email, username: $username) {
+  mutation getSignUpEmailCode($email: String!, $username: String!) {
+    getSignUpEmailCode(email: $email, username: $username) {
       ok
       error
       error_type
@@ -79,10 +79,10 @@ function SignUp() {
   const [getCode, { data }] = useMutation(GET_EMAIL_CODE, {
     onCompleted: () => {
       console.log(data)
-      if (!data.getEmailCode.ok) {
+      if (!data.getSignUpEmailCode.ok) {
         setError(
-          data.getEmailCode.error_type,
-          { type: "custom", message: data.getEmailCode.error },
+          data.getSignUpEmailCode.error_type,
+          { type: "custom", message: data.getSignUpEmailCode.error },
           { shouldFocus: true },
         )
       } else {
@@ -97,7 +97,6 @@ function SignUp() {
 
   const onSubmitValid = (data) => {
     if (loading) {
-      console.log("aaa")
       return
     }
     if (emailCode) {
@@ -177,7 +176,7 @@ function SignUp() {
           />
           <FormError message={formState.errors?.password?.message} />
           <div style={{ display: !emailCode ? "none" : "" }}>
-            <p>Код отправлен email, если письма нет, проверьте спам</p>
+            <p>Код отправлен на email, если письма нет, проверьте спам</p>
             <Input
               {...register("code", {})}
               placeholder="XXXXXX"
