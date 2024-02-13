@@ -15,7 +15,7 @@ const StyledAutocomplete = styled(Autocomplete)`
     outline: none;
   }
 
-  .css-1jy569b-MuiFormLabel-root-MuiInputLabel-root.Mui-focused {
+  .MuiFormLabel-root.Mui-focused {
     display: none !important;
   }
 
@@ -23,9 +23,9 @@ const StyledAutocomplete = styled(Autocomplete)`
     padding: 0 !important;
   }
 
-  .MuiFormLabel-root.MuiInputLabel-root.MuiInputLabel-formControl.MuiInputLabel-animated.MuiInputLabel-outlined.MuiFormLabel-colorPrimary.MuiInputLabel-root.MuiInputLabel-formControl.MuiInputLabel-animated.MuiInputLabel-outlined.css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root {
-    top: -7px;
-    color: #959595;
+  .MuiFormLabel-root {
+    top: -7px !important;
+    color: #959595 !important;
   }
 
   .MuiOutlinedInput-notchedOutline {
@@ -33,9 +33,9 @@ const StyledAutocomplete = styled(Autocomplete)`
   }
 
   .MuiAutocomplete-endAdornment {
-    display: none;
+    display: none !important;
   }
-  .MuiAutocomplete-root.css-1wuilmg-MuiAutocomplete-root {
+  .MuiAutocomplete-root {
     width: 0 !important;
   }
 `
