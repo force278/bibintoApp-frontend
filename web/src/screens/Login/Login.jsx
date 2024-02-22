@@ -28,7 +28,7 @@ function Login({
   return (
     <AuthLayout>
       <div className="d-flex align-items-center justify-content-center flex-column ">
-        <PageTitle title="Вход в аккаунт" />
+        <PageTitle title="Вход в аккаунт 22" />
         <FormBox>
           <div>
             <img src={logoIcon} width="180" height="60" alt="Бибинто"></img>
