@@ -20,6 +20,9 @@ const Button = styled.input`
   &:internal-autofill-selected {
     background-color: red !important;
   }
+  @media (max-width: 767px) {
+    font-size: 15px;
+  }
 `
 
 export default Button

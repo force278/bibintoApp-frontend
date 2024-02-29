@@ -1,6 +1,7 @@
 import {
   More,
-  PostAction,
+  Subscribe,
+  PostHeaderRight,
   PostContainer,
   PostContent,
   PostFooter,
@@ -10,17 +11,34 @@ import {
 import { Link } from "react-router-dom"
 import Avatar from "../Avatar"
 import more from "../../assets/img/post/more.svg"
-import Modal from "../modal/Modal"
+// import Modal from "../modal/Modal"
 import ModalContent from "../modal/ModalContent"
 import React, { useState } from "react"
-import { faHeart } from "@fortawesome/free-regular-svg-icons"
-import {
-  faHeart as SolidHeart,
-  faHeartBroken,
-} from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { gql, useMutation } from "@apollo/client"
+import likeIcon from "../../assets/img/like"
+import likeIconDark from "../../assets/img/likeIconDark"
+import heartDislike from "../../assets/img/heartDislike"
+import heartDislikeFull from "../../assets/img/heartDislikeFull"
+// import { faHeart } from "@fortawesome/free-regular-svg-icons"
+// import {
+//   faHeart as SolidHeart,
+//   faHeartBroken,
+// } from "@fortawesome/free-solid-svg-icons"
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { gql, useApolloClient, useMutation } from "@apollo/client"
 import defaultAvatar from "../../assets/img/DefaultAvatar.png"
+import styled from "styled-components"
+import useMe from "../../hooks/useMe"
+import ReportPopup from "./ReportPopup"
+// import { useRef } from "react"
+// import { useEffect } from "react"
+
+const FOLLOW_USER_MUTATION = gql`
+  mutation followUser($username: String!) {
+    followUser(username: $username) {
+      ok
+    }
+  }
+`
 
 const TOGGLE_LIKE_MUTATION = gql`
   mutation toggleLike($id: Int!, $value: Int!) {
@@ -39,6 +57,11 @@ export function RecommendationPost({
   isDisliked,
   isMine,
 }) {
+  const client = useApolloClient()
+  const [followed, setFollowed] = useState(user.isFollowing)
+  const [reportPopup, setReportPopupShowed] = useState(false)
+  const { data: userData } = useMe()
+
   const updateToggleLike = (cache, result) => {
     const {
       data: {
@@ -78,6 +101,42 @@ export function RecommendationPost({
     update: updateToggleLike,
   })
 
+  const followUserCompleted = (data) => {
+    const username = user.username
+    if (!username) return
+    const {
+      followUser: { ok },
+    } = data
+    const { cache } = client
+    if (!ok) return
+    setFollowed(true)
+    cache.modify({
+      id: `User:${username}`,
+      fields: {
+        totalFollowers(prev) {
+          return prev + 1
+        },
+        isFollowing(prev) {
+          return true
+        },
+      },
+    })
+    const { me } = userData
+    cache.modify({
+      id: `User:${me.username}`,
+      fields: {
+        totalFollowing(prev) {
+          return prev + 1
+        },
+      },
+    })
+  }
+
+  const [followUser] = useMutation(FOLLOW_USER_MUTATION, {
+    variables: { username: user?.username },
+    onCompleted: followUserCompleted,
+  })
+
   return (
     <PostContainer key={id}>
       <PostHeader>
@@ -100,43 +159,108 @@ export function RecommendationPost({
             }}
           ></img>
         ) : null}
-        <More onClick={() => setActiveModal(true)}>
-          <img
-            className="cursor-pointer"
-            style={{ width: "12px", rotate: "90deg", marginRight: "10px" }}
-            src={more}
-            alt="more"
-          />
-        </More>
+        <PostHeaderRight>
+          {!followed && <Subscribe onClick={followUser}>Подписаться</Subscribe>}
+          <More onClick={() => setActiveModal(true)}>
+            <img
+              className="cursor-pointer"
+              style={{ width: "12px", rotate: "90deg" }}
+              src={more}
+              alt="more"
+            />
+          </More>
+          {activeModal && (
+            <ModalContent
+              id={id}
+              isMine={isMine}
+              closeModal={() => setActiveModal(false)}
+              openReportPopup={() => setReportPopupShowed(true)}
+            />
+          )}
+        </PostHeaderRight>
       </PostHeader>
       <PostContent src={file} />
       <PostFooter>
-        <div className="d-flex justify-content-around">
-          <PostAction onClick={addLike}>
-            <FontAwesomeIcon
+        <PostActions>
+          <PostAction
+            onClick={addDislike}
+            style={{ display: isLiked ? "none" : "block" }}
+          >
+            <IconAction>
+              <div> {isDisliked ? heartDislikeFull : heartDislike}</div>
+            </IconAction>
+
+            {/* <FontAwesomeIcon
               style={{
-                color: isLiked ? "#F0355B" : "inherit",
-                fontSize: "27px",
+                fontSize: "32px",
                 transition: "0.5s ease",
-              }}
-              icon={isLiked ? SolidHeart : faHeart}
-            />
-          </PostAction>
-          <PostAction onClick={addDislike}>
-            <FontAwesomeIcon
-              style={{
                 opacity: isDisliked ? 1 : 0.3,
-                fontSize: "27px",
-                transition: "0.5s ease",
               }}
               icon={isDisliked ? faHeartBroken : faHeartBroken}
-            />
+            /> */}
           </PostAction>
-        </div>
+          <PostAction
+            onClick={addLike}
+            style={{ display: isDisliked ? "none" : "block" }}
+          >
+            <IconAction>
+              <div>{isLiked ? likeIconDark : likeIcon}</div>
+            </IconAction>
+            {/* <FontAwesomeIcon
+              style={{
+                fontSize: "32px",
+                transition: "0.5s ease",
+                color: isLiked ? "#F0355B" : "inherit",
+              }}
+              // icon={isLiked ? SolidHeart : faHeart} old
+              icon={isLiked ? heartLike : heartLike}
+            /> */}
+          </PostAction>
+        </PostActions>
       </PostFooter>
-      <Modal active={activeModal} setActive={setActiveModal}>
+      {/* <Modal active={activeModal} setActive={setActiveModal}>
         <ModalContent id={id} isMine={isMine} />
-      </Modal>
+      </Modal> */}
+      {reportPopup && (
+        <ReportPopup photoId={id} close={() => setReportPopupShowed(false)} />
+      )}
     </PostContainer>
   )
 }
+
+const PostActions = styled.div`
+  top: 0;
+  left: 0;
+  right: 0;
+  gap: 60px;
+  display: flex;
+  margin-top: -30px;
+  position: absolute;
+  align-items: center;
+  justify-content: center;
+  div {
+    display: flex;
+    align-items: center;
+  }
+`
+
+export const PostAction = styled.div`
+  cursor: pointer;
+  background: #fff;
+  padding: 13px 13px;
+  border-radius: 100%;
+  box-shadow: 0px 3px 8px 0px #0000001f;
+`
+
+const IconAction = styled.div`
+  width: 32px;
+  height: 32px;
+  svg {
+    width: 100%;
+    height: auto;
+  }
+  @media (max-width: 768px) {
+    width: 28px;
+    height: auto;
+  }
+`

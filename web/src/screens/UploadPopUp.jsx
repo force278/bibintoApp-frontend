@@ -3,6 +3,7 @@ import styled from "styled-components"
 import { gql, useQuery, useMutation } from "@apollo/client"
 import CircularProgress from "@mui/material/CircularProgress"
 import { CropperModal } from "./Cropper.jsx"
+import { client } from "../apollo.js"
 
 const URL_UPLOAD_QUERY = gql`
   query {
@@ -25,11 +26,9 @@ const Canvas = styled.canvas`
 
 function compressImage(uploadInputRef, CanvasRef, maxWidth, maxHeight) {
   return new Promise((resolve, reject) => {
-    console.log(CanvasRef)
     const img = new Image()
     img.src = URL.createObjectURL(uploadInputRef.current.files[0])
     const canvas = CanvasRef.current
-    console.log(CanvasRef.current)
     const ctx = CanvasRef.current.getContext("2d")
     img.onload = () => {
       let width = img.width
@@ -64,6 +63,7 @@ function compressImage(uploadInputRef, CanvasRef, maxWidth, maxHeight) {
 
 export const UploadPopUp = ({ onClose, uploadInputRef }) => {
   const CanvasRef = useRef(null)
+  const { cache } = client
   const compressedBlob = useRef(null)
   const cropRef = useRef(null)
   const [uploadingState, setUploadingState] = useState(false)
@@ -71,7 +71,8 @@ export const UploadPopUp = ({ onClose, uploadInputRef }) => {
 
   const handleSave = async () => {
     if (cropRef) {
-      const dataUrl = cropRef.current.getImage().toDataURL()
+      // const dataUrl = cropRef.current.getImage().toDataURL()
+      const dataUrl = cropRef.current?.cropper.getCroppedCanvas().toDataURL()
       const result = await fetch(dataUrl)
       const blob = await result.blob()
       compressedBlob.current = blob
@@ -114,7 +115,11 @@ export const UploadPopUp = ({ onClose, uploadInputRef }) => {
   })
 
   // Мутация в бд о новой фотке
-  const [uploadDB] = useMutation(POST_PHOTO)
+  const [uploadDB] = useMutation(POST_PHOTO, {
+    onCompleted: () => {
+      cache.reset()
+    },
+  })
 
   // При нажатии опубликовать
   const handleUploadPhoto = () => {
@@ -149,25 +154,25 @@ export const UploadPopUp = ({ onClose, uploadInputRef }) => {
     <StyledOverlay>
       <StyledPopUpContainer>
         <StyledPopUpHeader>
-          <StyledBackButtonContainer>
-            <StyledBackButton type="button" onClick={handleGoBack}>
-              <StyledArrow className="arrow-left" />
-            </StyledBackButton>
-          </StyledBackButtonContainer>
           {uploadingState ? (
             <div style={{ margin: "0 auto" }}>
               <CircularProgress />
             </div>
           ) : (
-            <StyledPopUpActionButton
-              type="button"
-              onClick={() => {
-                handleUploadPhoto()
-                handleSave()
-              }}
-            >
-              Опубликовать
-            </StyledPopUpActionButton>
+            <>
+              <StyledBackButtonContainer onClick={handleGoBack}>
+                Отменить
+              </StyledBackButtonContainer>
+              <StyledPopUpActionButton
+                type="button"
+                onClick={() => {
+                  handleUploadPhoto()
+                  handleSave()
+                }}
+              >
+                Опубликовать
+              </StyledPopUpActionButton>
+            </>
           )}
         </StyledPopUpHeader>
         <StyledPopUpBody>
@@ -195,31 +200,44 @@ const StyledOverlay = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-
   z-index: 1000;
+  @media (max-width: 767px) {
+    height: 100dvh;
+  }
 `
 
 const StyledPopUpContainer = styled.div`
-  background: #ffffff;
-  border-radius: 32px;
-  width: 55rem;
-  height: 90%;
+  width: 600px;
   max-width: 100%;
   max-height: 90%;
+  background: #ffffff;
+  border-radius: 20px;
+  @media (max-width: 767px) {
+    display: flex;
+    height: 100dvh;
+    max-height: none;
+    border-radius: 0;
+    background: #000;
+    flex-direction: column-reverse;
+  }
 `
 
 const StyledPopUpHeader = styled.div`
   display: flex;
-  justify-content: space-between;
+  padding: 16px 18px;
   align-items: center;
+  justify-content: space-between;
   border-bottom: 1px solid #efefef;
-  height: 61px;
-  padding: 15px 25px;
+  @media (max-width: 767px) {
+    padding: 65px 16px;
+  }
 `
 
-const StyledBackButtonContainer = styled.div`
-  width: 30px;
-  height: 30px;
+const StyledBackButtonContainer = styled.button`
+  background: transparent;
+  font-size: 17px;
+  color: #76768c;
+  border: none;
 `
 
 const StyledBackButton = styled.button`
@@ -265,17 +283,27 @@ const StyledArrow = styled.div`
 `
 
 const StyledPopUpActionButton = styled.button`
-  background-color: transparent;
+  background: linear-gradient(
+    269.53deg,
+    #fe2db7 5.8%,
+    #2936ff 47.41%,
+    #6cf2fe 96.11%
+  );
   border: none;
   font-style: normal;
   font-weight: 500;
-  font-size: 20px;
-  line-height: 23px;
+  font-size: 15px;
+  line-height: 120%;
   display: flex;
   align-items: center;
   cursor: pointer;
-
-  color: #2283f5;
+  color: #ffffff;
+  padding: 9px 35px;
+  border-radius: 6px;
+  @media (max-width: 767px) {
+    background: #fff;
+    color: #000;
+  }
 `
 
 const StyledPopUpBody = styled.div`
@@ -291,6 +319,7 @@ const StyledPopUpLeft = styled.div`
   justify-content: center;
   align-items: center;
   height: 100%;
+  width: 100%;
   border-radius: 0 0 0 32px;
 
   & > img {

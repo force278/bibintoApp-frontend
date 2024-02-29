@@ -1,44 +1,79 @@
-import React from "react"
+import React, { useState } from "react"
 import "../sass/common.scss"
+import "../sass/editProfile.scss"
 import { NavLink } from "react-router-dom"
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min"
+// import ChangeEditProfile from "../components/ProfileEdit/ChangeEditProfile"
+import ChangeEditProfile from "../components/ProfileEdit/ChangeEditProfile"
+import { isMob } from "../utils/isMob"
 
 export const EditProfile = ({ children }) => {
+  const history = useHistory()
+  const [isMobile] = useState(isMob())
+
+  const logOut = () => {
+    localStorage.removeItem("TOKEN")
+    history.push("/")
+    window.location.reload()
+  }
+
   return (
-    <div
-      className="border-1 border bg-white w-100 container"
-      style={{ marginTop: "32px", borderRadius: "6px" }}
-    >
-      <div className="row h-100">
-        <div className="col-sm-12 col-lg-4 border-1 border-end">
-          <div className="pt-3 pb-3 position-relative ps-5">
-            <span
-              className="fs-6 fw-medium"
-              style={{ fontFamily: "Roboto, sans-serif" }}
+    <>
+      {!isMobile && (
+        <div className="container editProfileWrap editProfileDesktop">
+          <div className="editAside">
+            <NavLink to="/accountEditProfile" activeClassName="active_profile">
+              <button className="btnSwithWindow">Редактировать профиль</button>
+            </NavLink>
+            <NavLink
+              to="/account/accountChangePassword"
+              activeClassName="active_profile"
             >
-              <NavLink
-                to="/accountEditProfile"
-                activeClassName="active_profile"
-              >
-                Редактировать профиль
-              </NavLink>
-            </span>
-          </div>
-          <div className="pt-3 pb-3 position-relative ps-5 hideElement">
-            <span
-              className="fs-6 fw-medium"
-              style={{ fontFamily: "Roboto, sans-serif" }}
+              <button className="btnSwithWindow">Поменять пароль</button>
+            </NavLink>
+            <NavLink
+              to="/account/accountChangeEmail"
+              activeClassName="active_profile"
             >
-              <NavLink
-                to="/account/accountChangePassword"
-                activeClassName="active_profile"
-              >
-                Поменять пароль
-              </NavLink>
-            </span>
+              <button className="btnSwithWindow">Изменить почту</button>
+            </NavLink>
+            <NavLink
+              to="/account/accountConfirm"
+              activeClassName="active_profile"
+            >
+              <button className="btnSwithWindow">Подтвердить аккаунт</button>
+            </NavLink>
+            <button className="btnSwithWindow">Написать в поддержку</button>
+            {/* <NavLink
+              to="/account/accountChangePassword"
+              activeClassName="active_profile"
+            > */}
+            <button
+              onClick={logOut}
+              className="btnSwithWindow"
+              style={{ color: "#FF3B30" }}
+            >
+              Выйти
+            </button>
+            {/* </NavLink> */}
           </div>
+          <div className="main">{children}</div>
         </div>
-        {children}
-      </div>
-    </div>
+      )}
+
+      {isMobile && (
+        <div className="editProfileWrapMob">
+          <div className="header">
+            <button
+              type="button"
+              className="formBtnBack"
+              onClick={() => history.goBack()}
+            ></button>
+            <p>Редактировать профиль</p>
+          </div>
+          <ChangeEditProfile />
+        </div>
+      )}
+    </>
   )
 }

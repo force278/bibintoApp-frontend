@@ -1,10 +1,10 @@
-import React from "react"
-import ReactDOM from "react-dom"
-import App from "./App"
-import "./sass/common.scss"
+import { BrowserRouter } from "react-router-dom"
 import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap/dist/js/bootstrap.min.js"
-import { BrowserRouter } from "react-router-dom"
+import ReactDOM from "react-dom"
+import "./sass/common.scss"
+import React from "react"
+import App from "./App"
 
 ReactDOM.render(
   <BrowserRouter>

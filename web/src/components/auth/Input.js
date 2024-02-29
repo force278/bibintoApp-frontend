@@ -2,22 +2,26 @@ import styled from "styled-components"
 
 const Input = styled.input`
   width: 100%;
-  padding: 14px 16px;
-  background-color: rgba(196, 196, 196, 0.1) !important;
-  color: #5a686c;
+  padding: 12.5px 16px;
+  background-color: #f2f2f7 !important;
   border: none;
   // border: 0.5px solid
   //   ${(props) => (props.hasError ? "tomato" : props.theme.borderColor)};
-  margin-bottom: 13px;
-  margin-top: 13px;
+  margin-top: 14px;
   box-sizing: border-box;
   border-radius: 5px;
+  &:first-child {
+    margin-top: 0;
+  }
   &::placeholder {
-    font-size: 12px;
+    color: #aeaeb2;
+    font-size: 13px;
   }
   &:focus {
-    border-color: rgb(38, 38, 38);
     outline: none;
+    border-color: rgb(38, 38, 38);
+  }
+  @media (max-width: 767px) {
   }
 `
 

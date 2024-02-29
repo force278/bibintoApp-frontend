@@ -1,0 +1,228 @@
+.editProfileWrap {
+  width: 100%;
+  margin-top: 32px;
+  background: #fff;
+  border-radius: 6px;
+}
+
+.editProfile {
+  .photoWrap {
+    margin-top: 35px;
+  }
+}
+
+.editProfileWrap {
+  margin-top: 0;
+}
+.header {
+  height: 60px;
+  display: flex;
+  flex-shrink: 0;
+  padding: 0 16px;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid #f2f2f7;
+  p {
+    font-size: 17px;
+    font-weight: 500;
+  }
+  button {
+    left: 16px;
+    position: absolute;
+  }
+}
+.photoWrap {
+  margin: 0 !important;
+  padding: 12px 12px 24px 12px;
+  border-bottom: 1px solid #f2f2f7;
+}
+.img-container {
+  img {
+    width: 90px;
+    height: 90px;
+  }
+}
+.itemWrap {
+  display: grid;
+  grid-template-columns: 0.3fr 0.7fr;
+}
+.itemTitle {
+  padding: 16px;
+  font-size: 13px;
+  color: #aeaeb2;
+}
+.itemTextarea,
+.itemInput {
+  width: 100%;
+  border: none;
+  font-size: 15px;
+  padding: 15px 0;
+  border-bottom: 1px solid #f2f2f7;
+  &::placeholder {
+    font-size: 15px;
+    color: #aeaeb2;
+  }
+}
+.itemTextarea {
+  overflow: auto;
+  margin-top: 15px;
+  padding: 0 0 15px 0;
+}
+.itemTextarea:focus,
+.itemInput:focus {
+  outline: none;
+  border-color: #aeaeb2;
+}
+.ItemText {
+  font-size: 11px;
+  color: #76768c;
+  line-height: 120%;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #f2f2f7;
+}
+.itemTextarea {
+  resize: none;
+}
+
+.btnSubmitWrap {
+  display: flex;
+  margin-top: 24px;
+  margin-bottom: 24px;
+  justify-content: center;
+}
+.formSubmitWrap {
+  display: flex;
+  max-width: 242px;
+  margin-top: 24px;
+  margin-bottom: 24px;
+  justify-content: center;
+  button {
+    margin: 0;
+    min-height: 42px;
+  }
+}
+.btnSubmit {
+  flex: 1;
+  border: 0;
+  color: #fff;
+  margin: 0 16px;
+  padding: 11px 22px;
+  border-radius: 6px;
+  background: linear-gradient(
+    269.53deg,
+    #fe2db7 5.8%,
+    #2936ff 47.41%,
+    #6cf2fe 96.11%
+  );
+}
+.alertWrapper {
+  width: 100%;
+  position: relative;
+}
+.alert {
+  top: 0;
+  left: 0;
+  right: 0;
+  position: absolute;
+  padding: 40px 16px !important;
+}
+
+.editProfileDesktop {
+  padding: 0;
+  display: grid;
+  width: 1000px;
+  max-width: 100%;
+  border-radius: 0;
+  grid-template-columns: 0.3fr 0.7fr;
+}
+
+.active_profile {
+  .btnSwithWindow {
+    color: #1f1f2c;
+    border-left: 1px solid #2936ff;
+  }
+}
+
+.btnSwithWindow {
+  border: none;
+  width: 100%;
+  padding: 16px;
+  color: #76768c;
+  text-align: left;
+  background-color: transparent;
+  border-bottom: 1px solid #f2f2f7;
+}
+
+.editAside {
+}
+
+@media (max-width: 768px) {
+  .photoWrap {
+    max-width: 100vw;
+  }
+  .editProfile {
+    flex: 1;
+    width: auto;
+    width: 100vw;
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: calc(100dvh - 120px);
+  }
+
+  .editProfileWrapMob {
+    width: 100vw;
+    overflow: auto;
+    max-height: calc(100dvh - 60px);
+  }
+  .formSubmitWrap {
+    max-width: none;
+  }
+  .itemWrap.btn {
+    padding: 0 16px;
+    .itemTitle {
+      display: none;
+    }
+    .formSubmitWrap {
+      grid-column-start: 1;
+      grid-column-end: 3;
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .itemInput,
+  .itemTitle {
+    font-size: 16px;
+  }
+
+  .ItemText {
+    font-size: 13px;
+  }
+
+  .editProfileWrap {
+    margin-top: 38px;
+    height: 80vh;
+  }
+  .editProfile {
+    width: 100%;
+  }
+  .main {
+    border-left: 1px solid #f2f2f7;
+  }
+  .row {
+    max-width: 100%;
+    margin: 0 !important;
+  }
+  .photoWrap {
+    padding: 16px;
+    border-bottom: none;
+    img {
+      width: 52px;
+      height: 52px;
+    }
+    .col-2 {
+      width: auto !important;
+    }
+  }
+}

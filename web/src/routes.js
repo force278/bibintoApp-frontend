@@ -6,10 +6,15 @@ const routes = {
   termOfUse: "/termsOfUse",
   recommendations: "/recommendations",
   likes: "/likes",
-  message: "/me",
+  messenger: "/me",
   accountEditProfile: "/accountEditProfile",
   accountChangePassword: "/account/accountChangePassword",
+  accountChangeEmail: "/account/accountChangeEmail",
+  accountConfirm: "/account/accountConfirm",
+  accountSettingsProfile: "/accountSettingsProfile",
   username: `/:username`,
+  followers: `/:username/followers`,
+  following: `/:username/following`,
 }
 
 export default routes

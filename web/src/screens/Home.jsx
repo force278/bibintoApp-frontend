@@ -7,6 +7,7 @@ import PageTitle from "../components/PageTitle"
 import RecomendationAside from "../components/aside/RecomendationAside"
 import { COMMENTS_FRAGMENT, POST_FRAGMENT } from "../fragments"
 import { RecommendationPost } from "../components/feed/RecommendationPost"
+import IconLogo from "../assets/img/bibinto.svg"
 
 const SEE_FEED_QUERY = gql`
   query seeFeed($offset: Int!) {
@@ -42,6 +43,7 @@ const SEE_REC_QUERY = gql`
         username
         avatar
         official
+        isFollowing
       }
       createdAt
       isMine
@@ -76,32 +78,45 @@ const SUB_POST_UPDATES = gql`
   ${COMMENTS_FRAGMENT}
 `
 
+const MobLogoWrap = styled.div`
+  margin: 10px auto;
+  max-width: 72px;
+  object-fit: contain;
+  img {
+    width: 100%;
+  }
+`
+
 const StyledSubHeader = styled.div`
-  font-weight: 700;
+  // display: grid;
   font-size: 20px;
-  font-family: Nexa, sans-serif;
+  font-weight: 600;
   line-height: 27px;
   text-align: center;
   letter-spacing: 0.1px;
-  padding: 19px 0;
   color: rgba(0, 0, 0, 0.4);
-  &:hover {
-    cursor: pointer;
-  }
-
+  padding: 38px 20px 28px 20px;
+  // grid-template-columns: 1fr auto 1fr;
   .active {
     color: #000;
   }
+  @media (max-width: 768px) {
+    padding: 12px 20px 20px 20px;
+    a {
+      font-size: 18px;
+      line-height: 100%;
+    }
+  }
 `
 
-const EmptyRec = styled.div`
-  width: 300px;
-  height: 150px;
-  border-radius: 30px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  background-color: white;
-  border: 1px solid ${(props) => props.theme.borderColor};
-`
+// const EmptyRec = styled.div`
+//   width: 300px;
+//   height: 150px;
+//   border-radius: 30px;
+//   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+//   background-color: white;
+//   border: 1px solid ${(props) => props.theme.borderColor};
+// `
 
 function Home() {
   const useActiveLink = (path) => {
@@ -137,31 +152,41 @@ function Home() {
   return (
     <>
       <PageTitle title="Лента" />
+      <div className="isMobile">
+        <MobLogoWrap>
+          <img src={IconLogo} alt="" />
+        </MobLogoWrap>
+      </div>
       <div className="d-flex justify-content-center">
         <div>
           <StyledSubHeader>
-            <Link to="/" className={isSubscriptionsActive ? "active" : ""}>
+            <Link
+              to="/"
+              // style={{ justifySelf: "end" }}
+              className={isSubscriptionsActive ? "active" : ""}
+            >
               Подписки
             </Link>
             <span className="ps-2 pe-2">
               <svg
-                width="2"
+                width="1"
                 height="14"
-                viewBox="0 0 2 14"
+                viewBox="0 0 1 14"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
                   d="M1 12.5V1.5"
-                  stroke="black"
-                  strokeOpacity="0.6"
-                  strokeWidth="2"
+                  stroke="#D8D8DC"
+                  strokeOpacity="0.5"
+                  strokeWidth="1"
                   strokeLinecap="round"
                 />
               </svg>
             </span>
             <Link
               to="/recommendations"
+              // style={{ justifySelf: "start" }}
               className={isRecommendationsActive ? "active" : ""}
             >
               Рекомендации

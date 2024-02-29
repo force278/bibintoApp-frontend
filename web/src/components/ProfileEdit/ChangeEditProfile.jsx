@@ -1,9 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from "react"
-import { CropperModal } from "./CropperModal"
-import defaultAvatar from "../../assets/img/editProfile/defaultAvatar.png"
 import "../../sass/common.scss"
-import { gql, useLazyQuery, useMutation, useQuery } from "@apollo/client"
+import "../../sass/editProfile.scss"
+import { CropperModal } from "./CropperModal"
 import { Alert, AlertTitle, Box, Button } from "@mui/material"
+import React, { useCallback, useEffect, useRef, useState } from "react"
+import { gql, useLazyQuery, useMutation, useQuery } from "@apollo/client"
+import defaultAvatar from "../../assets/img/editProfile/defaultAvatar.png"
 
 const URL_UPLOAD_QUERY = gql`
   query {
@@ -25,14 +26,12 @@ const EDIT_PROFILE_MUTATION = gql`
     $username: String
     $lastName: String
     $bio: String
-    $password: String
   ) {
     editProfile(
       firstName: $firstName
       username: $username
       lastName: $lastName
       bio: $bio
-      password: $password
     ) {
       ok
       id
@@ -71,7 +70,9 @@ export default function ChangeEditProfile() {
         body: formData,
       }).then(async (res) => {
         await res.json().then(async (data) => {
+          //
           if (data.person) {
+            // if (data) {
             const response = await fetch(imageUrl, {
               method: "PUT",
               headers: {
@@ -80,7 +81,7 @@ export default function ChangeEditProfile() {
               body: file,
             })
             if (response.ok) {
-              console.log("фото успешно загружена")
+              console.log("фото успешно загружено")
               const img = uploadData.getUrlUploadPhoto.split("?")[0]
               try {
                 const uploadResponse = await uploadAvatar({
@@ -106,20 +107,20 @@ export default function ChangeEditProfile() {
       console.error("Произошла ошибка", error)
     }
   }
-
+  const compressedBlob = useRef(null)
   const [src, setSrc] = useState(null)
-  const [modalOpen, setModalOpen] = useState(false)
   const [preview, setPreview] = useState(null)
-  const inputRef = useRef(null)
-  const { data: meData, loading } = useQuery(ME_QUERY)
+  const [modalOpen, setModalOpen] = useState(false)
   const [showAlert, setShowAlert] = useState(false)
+  const inputRef = useRef(null)
+
+  const { data: meData, loading } = useQuery(ME_QUERY)
   const [firstName, setFirstName] = useState("")
   const [lastName, setLastName] = useState("")
   const [userName, setUserName] = useState("")
   const [infoAboutMe, setInfoAboutMe] = useState("")
   const [showNotification, setShowNotification] = useState(false)
   const [editProfile] = useMutation(EDIT_PROFILE_MUTATION)
-  const compressedBlob = useRef(null)
 
   useEffect(() => {
     if (!loading) {
@@ -180,6 +181,7 @@ export default function ChangeEditProfile() {
   }
 
   const handleImgChange = (e) => {
+    if (!e.target.files[0]) return
     setSrc(URL.createObjectURL(e.target.files[0]))
     setModalOpen(true)
   }
@@ -219,12 +221,9 @@ export default function ChangeEditProfile() {
 
   return (
     <>
-      <div className="col-sm-12 col-lg-8">
-        <div className="row">
-          <div
-            className="d-flex mb-3 align-items-center-mobile flex-direction-column-mobile"
-            style={{ marginTop: "33px" }}
-          >
+      <div className="col-sm-12 col-lg-8 editProfile">
+        <div className="">
+          <div className="d-flex mb-3 align-items-center-mobile flex-direction-column-mobile photoWrap">
             <div className="col-2 d-flex justify-content-end justifyContentCenterForMobile">
               <div className="img-container">
                 <img
@@ -265,22 +264,18 @@ export default function ChangeEditProfile() {
                 onClick={handleInputClick}
                 className="text-primary bg-transparent border-0 d-flex justify-content-start ps-0 mt-2"
               >
-                Загрузите новое фото
+                {/* Загрузите новое фото */}
+                Изменить фото профиля
               </button>
             </div>
+            <div></div>
+          </div>
+
+          <div className="alertWrapper">
             {showAlert && (
               <Alert
                 severity="info"
-                className="d-flex justify-content-start slideInLeft"
-                style={{
-                  position: "fixed",
-                  top: "17%",
-                  left: "60%",
-                  zIndex: "2",
-                  borderRadius: "4px",
-                  padding: "8px 17px",
-                  filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",
-                }}
+                className="alert"
                 action={
                   <Box>
                     <Button color="inherit" size="small" onClick={saveAvatar}>
@@ -316,116 +311,73 @@ export default function ChangeEditProfile() {
               </Alert>
             )}
           </div>
-          <div className="d-flex hideElement mb-2">
-            <div className="col-2 d-flex justify-content-end">
-              <span
-                className="fs-6 pt-2"
-                style={{ fontFamily: "Roboto, sans-serif" }}
-              >
-                Имя
-              </span>
+          <div className="itemWrap">
+            <div className="itemTitle">
+              <span className="">Имя</span>
             </div>
-            <div className="col-10 ps-4">
+            <div className="">
               <input
                 type="text"
                 value={firstName}
+                className="itemInput"
                 onChange={handleChangeName}
-                className="border border-1 pt-1 pb-1 ps-2 w-50"
               />
-              <div className="p-0 m-0 text-secondary">
-                <div className="mt-2">
-                  Чтобы помочь людям найти вашу учетную запись, используйте имя,
-                  под которым вас знают.
-                  <br />
-                </div>
-                <div className="mt-3">
-                  Вы можете изменить свое имя только два раза в течение 7 дней.
-                </div>
+              <div className="ItemText">
+                Чтобы помочь людям найти вашу учетную запись, используйте имя,
+                под которым вас знают. Вы можете изменить свое имя только два
+                раза в течение 7 дней.
               </div>
             </div>
           </div>
-          <div className="d-flex hideElement mb-2">
-            <div className="col-2 d-flex justify-content-end">
-              <span
-                className="fs-6 pt-2"
-                style={{ fontFamily: "Roboto, sans-serif" }}
-              >
-                Фамилия
-              </span>
+          <div className="itemWrap">
+            <div className="itemTitle">
+              <span className="">Фамилия</span>
             </div>
-            <div className="col-10 ps-4">
+            <div className="">
               <input
                 type="text"
                 value={lastName}
                 onChange={handleChangeLastName}
-                className="border border-1 pt-1 pb-1 ps-2 w-50"
+                className="itemInput"
               />
             </div>
           </div>
-          <div className="d-flex hideElement mb-2">
-            <div className="col-2 d-flex justify-content-end">
-              <span
-                className="fs-6 pt-2"
-                style={{ fontFamily: "Roboto, sans-serif" }}
-              >
-                Никнейм
-              </span>
+          <div className="itemWrap">
+            <div className="itemTitle">
+              <span>Никнейм</span>
             </div>
-            <div className="col-10 ps-4">
+            <div>
               <input
                 type="text"
                 value={userName}
+                className="itemInput"
                 onChange={handleChangeUserName}
-                className="border border-1 pt-1 pb-1 ps-2 w-50"
               />
-              <div className="mt-2">
-                <p className="text-secondary">
-                  Вы можете снова вернуть свой никнейм в течение <br /> 7 дней.
-                </p>
+              <div className="ItemText">
+                Вы можете снова вернуть свой никнейм в течение <br /> 7 дней.
               </div>
             </div>
           </div>
-          <div className="d-flex hideElement mb-4">
-            <div className="col-2 d-flex justify-content-end">
-              <span
-                className="fs-6 pt-2"
-                style={{ fontFamily: "Roboto, sans-serif" }}
-              >
-                Описание
-              </span>
+          <div className="itemWrap">
+            <div className="itemTitle">
+              <span>Описание</span>
             </div>
-            <div className="col-10 ps-4">
+            <div>
               <textarea
-                style={{ resize: "none", height: "64px" }}
-                placeholder="Описание о себе"
                 value={infoAboutMe}
+                className="itemTextarea"
+                placeholder="Описание о себе"
                 onChange={handleChangeInfoAboutMe}
-                className="border border-1 pt-1 pb-1 ps-2 w-50 resize-none"
               />
-              <div style={{ marginTop: "32px" }}>
-                <h5 className="fw-bold" style={{ color: "#8E8E8E" }}>
-                  Персональная Информация
-                </h5>
-                <div className="mt-3" style={{ color: "#8E8E8E" }}>
-                  Эта информация не будет видна в вашем общедоступном <br />{" "}
-                  профиле.
-                </div>
-              </div>
             </div>
           </div>
-          <div className="d-flex justify-content-center mt-sm-0 mt-lg-4 mb-5">
-            <button
-              className="text-white border-0 change_btn"
-              onClick={saveAllChangesInProfile}
-              style={{
-                borderRadius: "4px",
-                background: "#2283F5",
-                padding: "8px 17px",
-                filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",
-              }}
-            >
-              Изменить
-            </button>
+          <div className="itemWrap btn">
+            <div className="itemTitle"></div>
+            <div className="formSubmitWrap">
+              <button className="btnSubmit" onClick={saveAllChangesInProfile}>
+                Сохранить
+              </button>
+            </div>
           </div>
         </div>
       </div>

@@ -1,4 +1,7 @@
-import React from "react"
+import React, { useState } from "react"
+import "../../sass/auth.scss"
+import "../../sass/common.scss"
+import "../../styles/styles.css"
 import AuthLayout from "../../components/auth/AuthLayout"
 import Button from "../../components/auth/Button"
 import Input from "../../components/auth/Input"
@@ -7,32 +10,42 @@ import PageTitle from "../../components/PageTitle"
 import FormError from "../../components/auth/FormError"
 import { Link } from "react-router-dom"
 import logoIcon from "../../assets/img/bibinto.svg"
-import "../../sass/common.scss"
-import signGooglePlay from "../../assets/img/sign-GooglePlay.svg"
-import appleIcon from "../../assets/img/appleLogo.svg"
-import "../../styles/styles.css"
 import Notification from "./Notification/Notification"
 import InfoFooter from "../InfoFooter"
+import IconEye from "../../assets/img/IconEye"
+import AppBtns from "../../components/auth/AppBtns"
 
 function Login({
   register,
   handleSubmit,
-  clearLoginErrors,
+  clearErrors,
   formState,
   onSubmitValid,
   loading,
   location,
-  toLowWithClear,
-  value,
+  // toLowWithClear,
+  // value,
 }) {
+  const [showedInput, setShowedInput] = useState("")
+
+  const showInput = (key) => {
+    showedInput === key ? setShowedInput() : setShowedInput(key)
+  }
+
   return (
     <AuthLayout>
       <div className="d-flex align-items-center justify-content-center flex-column ">
-        <PageTitle title="Вход в аккаунт 22" />
+        <PageTitle title="Вход в аккаунт" />
+
         <FormBox>
-          <div>
-            <img src={logoIcon} width="180" height="60" alt="Бибинто"></img>
-          </div>
+          <img
+            className="formLogo"
+            src={logoIcon}
+            width="180"
+            height="60"
+            alt="Бибинто"
+          ></img>
+          {/* <h2 className="formTitle">Вход</h2> */}
           <Notification location={location} />
           <form
             onSubmit={handleSubmit(onSubmitValid)}
@@ -48,50 +61,74 @@ function Login({
               })}
               type="text"
               placeholder="Логин"
-              value={value}
-              onChange={toLowWithClear}
+              // value={value}
+              // onChange={toLowWithClear}
+              onInput={() => {
+                clearErrors("username")
+                clearErrors("result")
+              }}
               hasError={Boolean(formState.errors?.username?.message)}
             />
             <FormError message={formState.errors?.username?.message} />
-            <Input
-              {...register("password", {
-                required: "Пароль обязателен для заполнения",
-              })}
-              type="password"
-              placeholder="Пароль"
-              onChange={clearLoginErrors}
-              hasError={Boolean(formState.errors?.password?.message)}
-            />
+
+            <div className="passInputWrap" style={{ marginTop: "16px" }}>
+              <Input
+                {...register("password", {
+                  required: "Пароль обязателен для заполнения",
+                })}
+                placeholder="Пароль"
+                onInput={() => {
+                  clearErrors("password")
+                  clearErrors("result")
+                }}
+                type={showedInput === "password" ? "text" : "password"}
+                hasError={Boolean(formState.errors?.password?.message)}
+              />
+              <button
+                type="button"
+                className="btnShow"
+                onClick={() => showInput("password")}
+              >
+                {showedInput === "password" ? IconEye : IconEye}
+              </button>
+            </div>
             <FormError message={formState.errors?.password?.message} />
-            <Button
-              type="submit"
-              value={loading ? "Загрузка..." : "Войти"}
-              disabled={loading}
-            />
-            <FormError message={formState.errors?.result?.message} />
-            <div className="textLine mt-4">или</div>
-            <div className="mt-3">
-              <button className="bg-transparent border-0">
+
+            <div className="formBtnForgotWrap">
+              <button type="button" className="bg-transparent border-0">
                 Забыли пароль?
               </button>
             </div>
-            <span className="line mt-4"></span>
-            <button className="mt-2 text-primary bg-transparent border-0 fw-bold">
+
+            <div className="formSubmitWrap">
+              <Button
+                type="submit"
+                value={loading ? "Загрузка..." : "Войти"}
+                disabled={loading}
+              />
+            </div>
+
+            <FormError message={formState.errors?.result?.message} center />
+            <div className="textLine">
+              <span>Нет аккаунта?</span>
+            </div>
+
+            <button className="bg-transparent border-0 formBtnReg">
               <Link to="/sign-up">Зарегистрироваться</Link>
             </button>
           </form>
         </FormBox>
-        <p className="text-secondary">Установите приложение</p>
-        <div className="d-flex justify-content-around w-100 mt-3 blockButtons">
-          <button className="border-1 m-2 rounded pt-3 pb-3 ps-4 pe-4 d-flex align-items-center bg-transparent nexa-bold">
+        <AppBtns />
+        {/* <p className="formTextSecondary">Установите приложение</p>
+        <div className="d-flex w-100 blockButtons">
+          <button className="border-1 border rounded pt-3 pb-3 ps-4 pe-4 d-flex align-items-center bg-transparent">
             <img
               className="me-1"
               src={appleIcon}
               alt="установить через AppStore"
             />
-            App Store
           </button>
-          <button className="border-1 m-2 border rounded pt-3 pb-3 ps-4 pe-4 d-flex align-items-center bg-transparent">
+          <button className="border-1 border rounded pt-3 pb-3 ps-4 pe-4 d-flex align-items-center bg-transparent">
             <img
               className="me-1"
               src={signGooglePlay}
@@ -99,9 +136,9 @@ function Login({
             />
           </button>
         </div>
-        <p className="text-secondary" style={{ marginTop: "10px" }}>
+        <p className="formTextSecondary" style={{ marginTop: "16px" }}>
           Применяются рекомендательные технологии
-        </p>
+        </p> */}
       </div>
 
       <InfoFooter />

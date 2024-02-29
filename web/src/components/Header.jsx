@@ -1,31 +1,45 @@
-import React, { useState, useEffect, useCallback, useRef } from "react"
-import { Link, useHistory } from "react-router-dom"
-import { useReactiveVar } from "@apollo/client"
-import userIcon from "../assets/img/user.svg"
-import likeIcon from "../assets/img/like.svg"
-import uploadIcon from "../assets/img/upload.svg"
-import messageIcon from "../assets/img/Message.svg"
-import homeIcon from "../assets/img/home.svg"
-import logo from "../assets/img/bibinto.svg"
-import { isLoggedInVar } from "../apollo"
-import useMe from "../hooks/useMe"
+// import Search from "./Search"
 import routes from "../routes"
+import useMe from "../hooks/useMe"
+import userIcon from "../assets/img/user"
+import likeIcon from "../assets/img/like"
+import homeIcon from "../assets/img/home"
+import { isLoggedInVar } from "../apollo"
+import logo from "../assets/img/bibinto.svg"
+import chatIcon from "../assets/img/chatIcon"
+import { useReactiveVar } from "@apollo/client"
+import uploadIcon from "../assets/img/upload.svg"
 import UploadPopUp from "../screens/UploadPopUp"
-import searchGray from "../assets/img/header/searchGray.svg"
+import { Link, useHistory } from "react-router-dom"
+import userIconDark from "../assets/img/userIconDark"
+import likeIconDark from "../assets/img/likeIconDark"
+import chatIconDark from "../assets/img/chatIconDark"
+import homeIconDark from "../assets/img/homeIconDark"
+import { NavLink } from "react-router-dom/cjs/react-router-dom"
 import { ModalSupportForm } from "./modalSupportForm/ModalSupportForm"
-import Search from "./Search"
+import React, { useState, useEffect, useCallback, useRef } from "react"
+import { useLocation } from "react-router-dom/cjs/react-router-dom.min"
 
 export function Header() {
+  const curLocation = useLocation().pathname
   const isLoggedIn = useReactiveVar(isLoggedInVar)
   const { data } = useMe()
   const history = useHistory()
   const [showModal, setShowModal] = useState(false)
+  const [profileActive, setProfileActive] = useState(false)
   const modalRef = useRef()
   const uploadInputRef = useRef(null)
   const handleShowModal = (event) => {
     event.stopPropagation()
     setShowModal(!showModal)
   }
+
+  useEffect(() => {
+    if (!["/", "/me", "/likes", "/recommendations"].includes(curLocation)) {
+      setProfileActive(true)
+    } else setProfileActive(false)
+  }, [curLocation])
+
   const logOut = () => {
     localStorage.removeItem("TOKEN")
     history.push("/")
@@ -53,14 +67,17 @@ export function Header() {
   }
 
   const handleClosePopUp = useCallback(() => {
+    if (uploadInputRef.current?.files?.length) {
+      uploadInputRef.current.value = ""
+    }
     setUploadModalActive(false)
   }, [])
 
   return (
     <>
       <div
-        className="w-100 border-bottom bg-white pt-3 pb-3 d-flex align-items-center justify-content-center position-fixed z-1 headerMobile"
-        style={{ boxShadow: "0 0 10px rgba(0, 0, 0, 0.3)" }}
+        className="w-100 border-bottom bg-white d-flex align-items-center justify-content-center position-fixed z-1 headerWrap mobile"
+        style={{ boxShadow: "0px 4px 4px 0px #0000001A" }}
       >
         <div
           className="w-100 d-flex justify-content-between align-items-center"
@@ -76,21 +93,25 @@ export function Header() {
                     </div>
                   </Link>
                 </div>
-                <div className="hideElement">
+                {/* <div className="hideElement">
                   <Search />
-                </div>
-                <div className="d-flex" style={{ gap: "35px" }}>
-                  <span>
-                    <Link to={routes.home}>
-                      <img src={homeIcon} alt="home" />
-                    </Link>
-                  </span>
-                  <span>
-                    <Link to="me">
-                      <img src={messageIcon} alt="message" />
-                    </Link>
-                  </span>
-                  <span>
+                </div> */}
+                <div className="d-flex" style={{ gap: "40px" }}>
+                  <NavLink exact activeClassName="is-active" to={routes.home}>
+                    <div className="light">{homeIcon}</div>
+                    <div className="dark">{homeIconDark}</div>
+                  </NavLink>
+                  <NavLink
+                    to="/me"
+                    activeClassName="is-active"
+                    className={({ isActive }) => (isActive ? "active" : "")}
+                  >
+                    <div className="light">{chatIcon}</div>
+                    <div className="dark">{chatIconDark}</div>
+
+                    {/* <img src={messageIcon} alt="message" /> */}
+                  </NavLink>
+                  <span className="main-span">
                     <input
                       style={{
                         opacity: 0,
@@ -99,11 +120,11 @@ export function Header() {
                       }}
                       id="imageInput"
                       type="file"
-                      accept="image/jpeg, image/png"
                       ref={uploadInputRef}
                       onChange={handleUploadImage}
+                      accept="image/jpeg, image/png"
                     />
-                    <label htmlFor="imageInput">
+                    <label className="uploadIcon" htmlFor="imageInput">
                       <img
                         src={uploadIcon}
                         alt="upload"
@@ -111,51 +132,72 @@ export function Header() {
                       />
                     </label>
                   </span>
-                  <span>
-                    <Link to="likes">
-                      <img src={likeIcon} alt="like" />
-                    </Link>
-                  </span>
-                  <span>
-                    <button
-                      className="border-0 bg-transparent"
-                      onClick={handleShowModal}
-                    >
-                      <img src={userIcon} alt="user" />
-                    </button>
+                  <NavLink to="/likes" activeClassName="is-active">
+                    <div className="light">{likeIcon}</div>
+                    <div className="dark">{likeIconDark}</div>
+                  </NavLink>
+                  <NavLink
+                    to={`/${data?.me?.username}`}
+                    onClick={handleShowModal}
+                    activeClassName="is-active"
+                  >
+                    <div className="light">{userIcon}</div>
+                    <div className="dark">{userIconDark}</div>
+                  </NavLink>
+                  {/* <NavLink
+                    to={`/${data?.me?.username}`}
+                    onClick={handleShowModal}
+                    activeClassName="is-active"
+                    className="onlyMob"
+                  >
+                    <div className="light">{userIcon}</div>
+                    <div className="dark">{userIconDark}</div>
+                  </NavLink> */}
+                  {/* <button
+                    onClick={handleShowModal}
+                    className={
+                      "onlyDesk border-0 bg-transparent p-0 " +
+                      (profileActive ? "is-active" : "")
+                    }
+                  >
+                    <div className="light">{userIcon}</div>
+                    <div className="dark">{userIconDark}</div>
+
                     <div
                       className={`position-relative ${
                         showModal ? "d-block" : "d-none"
                       }`}
                     >
                       <div
-                        className="position-absolute modalWindowForMobile"
+                        className="position-absolute modalWindowForMobile "
                         style={{
+                          gap: "16px",
+                          top: "40px",
+                          left: "-220px",
                           width: "250px",
-                          background: "#F4F4F4",
                           borderRadius: "17px",
-                          top: "66px",
-                          left: "50%",
-                          transform: "translate(-50%, -50%)",
+                          background: "#F2F2F7",
+                          padding: "0 16px 16px 16px",
                           filter:
                             "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",
                         }}
                       >
                         {showModal && (
                           <div className="d-flex flex-column" ref={modalRef}>
-                            <button
-                              className="m-2 z-2 border-0 p-3 bg-white"
-                              style={{ borderRadius: "11px" }}
+                            <NavLink
+                              to={`/${data?.me?.username}`}
+                              onClick={handleShowModal}
+                              style={{ width: "100%" }}
                             >
-                              <Link
-                                to={`/${data?.me?.username}`}
-                                onClick={handleShowModal}
+                              <button
+                                className="z-2 border-0 bg-white p-3 mt-3 w-100"
+                                style={{ borderRadius: "11px" }}
                               >
                                 Мой профиль
-                              </Link>
-                            </button>
+                              </button>
+                            </NavLink>
                             <button
-                              className="m-2 z-2 border-0 p-3 bg-white"
+                              className="z-2 border-0 bg-white p-3 mt-3 w-100"
                               style={{ borderRadius: "11px" }}
                               onClick={handleShowModal}
                               data-bs-toggle="modal"
@@ -163,20 +205,24 @@ export function Header() {
                             >
                               Написать в поддержку
                             </button>
-                            <button
-                              className="m-2 z-2 border-0 p-3 bg-white text-danger"
-                              style={{ borderRadius: "11px" }}
-                              onClick={logOut}
+
+                            <Link
+                              to={`/${data?.me?.username}`}
+                              style={{ width: "100%" }}
                             >
-                              <Link to={`/${data?.me?.username}`}>
+                              <button
+                                className="z-2 border-0 bg-white p-3 mt-3 w-100"
+                                style={{ borderRadius: "11px" }}
+                                onClick={logOut}
+                              >
                                 Выйти из профиля
-                              </Link>
-                            </button>
+                              </button>
+                            </Link>
                           </div>
                         )}
                       </div>
                     </div>
-                  </span>
+                  </button> */}
                 </div>
               </div>
             ) : (

@@ -2,6 +2,23 @@
   font-weight: bold;
   font-size: large;
 }
+
+.modalContentWrap {
+  position: relative;
+}
+.Delete,
+.Report {
+  right: 5px;
+  z-index: 99;
+  padding: 9px 16px;
+  position: absolute;
+  border-radius: 10px;
+  top: calc(100% + 10px);
+  background-color: #fff;
+  box-shadow: 0px 3px 4px 0px #00000014;
+  box-shadow: 0px -1px 8px 0px #00000024;
+}
+
 .hr {
   border: none; /* Убираем границу */
   background-color: black; /* Цвет линии */
@@ -12,11 +29,11 @@
 .Delete {
   cursor: pointer;
   font-weight: bold;
-  color: #dc3545;
+  color: #ff3b30;
 }
 
 .Report {
   cursor: pointer;
   font-weight: bold;
-  color: #dc3545;
+  color: #ff3b30;
 }

@@ -4,16 +4,26 @@ import { BoldText } from "../shared"
 import Avatar from "../Avatar"
 import more from "../../assets/img/post/more.svg"
 import defaultAvatar from "../../assets/img/DefaultAvatar.png"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faComment, faHeart } from "@fortawesome/free-regular-svg-icons"
-import { faHeart as SolidHeart } from "@fortawesome/free-solid-svg-icons"
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+// import { faComment, faHeart } from "@fortawesome/free-regular-svg-icons"
+
+import likeIcon from "../../assets/img/like"
+import likeIconDark from "../../assets/img/likeIconDark"
+import IconComment from "../../assets/img/IconComment"
+
+// import { faHeart as SolidHeart } from "@fortawesome/free-solid-svg-icons"
 import { gql, useMutation } from "@apollo/client"
 import Comments from "./Comments"
 import { Link } from "react-router-dom"
 import React from "react"
-import Modal from "../modal/Modal"
+// import Modal from "../modal/Modal"
 import { useState } from "react"
 import ModalContent from "../modal/ModalContent"
+import CommentsPopup from "./CommentsPopupMob"
+import CommentsPopupMob from "./CommentsPopupMob"
+import PostPopup from "./PostPopup"
+import { isMob } from "../../utils/isMob"
+import ReportPopup from "./ReportPopup"
 
 const TOGGLE_LIKE_MUTATION = gql`
   mutation toggleLike($id: Int!, $value: Int!) {
@@ -22,64 +32,6 @@ const TOGGLE_LIKE_MUTATION = gql`
       error
     }
   }
-`
-
-export const PostContainer = styled.div`
-  background-color: white;
-  border: 1px solid ${(props) => props.theme.borderColor};
-  margin-bottom: 60px;
-  max-width: 585px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-`
-
-export const PostHeader = styled.div`
-  display: flex;
-  align-items: center;
-  padding: 15px;
-  border-bottom: 1px solid rgb(239, 239, 239);
-`
-
-export const Username = styled(BoldText)`
-  margin-left: 15px;
-`
-
-export const PostContent = styled.img`
-  max-width: 100%;
-  min-width: 100%;
-`
-
-export const PostFooter = styled.div`
-  padding: 12px 15px;
-`
-
-export const PostActions = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  div {
-    display: flex;
-    align-items: center;
-  }
-  svg {
-    font-size: 20px;
-  }
-`
-
-export const PostAction = styled.div`
-  margin-right: 15px;
-  cursor: pointer;
-`
-
-export const Likes = styled(BoldText)`
-  display: block;
-  margin-top: 15px;
-`
-
-export const More = styled.div`
-  display: flex;
-  cursor: pointer;
-  margin-left: auto;
 `
 
 function Post({
@@ -93,6 +45,10 @@ function Post({
   commentsNumber,
   comments,
 }) {
+  const [isMobile] = useState(isMob())
+  const [reportPopup, setReportPopupShowed] = useState(false)
+  const [commentsPopupShowed, setCommentsPopupShowed] = useState(false)
+
   const updateToggleLike = (cache, result) => {
     const {
       data: {
@@ -145,44 +101,107 @@ function Post({
             }}
           ></img>
         ) : null}
-        <More onClick={() => setModalActive(true)}>
-          <img
-            className="cursor-pointer"
-            style={{ width: "12px", rotate: "90deg", marginRight: "10px" }}
-            src={more}
-            alt="more-in-post"
-          />
-        </More>
+        <PostHeaderRight>
+          {/* <Subscribe onClick={() => console.log("Отписаться")}>
+            Отписаться
+          </Subscribe> */}
+          <More onClick={() => setModalActive(true)}>
+            <img
+              className="cursor-pointer"
+              style={{ width: "12px", rotate: "90deg" }}
+              src={more}
+              alt="more-in-post"
+            />
+          </More>
+          {modalActive && (
+            <ModalContent
+              id={id}
+              isMine={isMine}
+              closeModal={() => setModalActive(false)}
+              openReportPopup={() => setReportPopupShowed(true)}
+            />
+          )}
+        </PostHeaderRight>
       </PostHeader>
-      <PostContent src={file} />
+      <PostContent src={file} onClick={() => setCommentsPopupShowed(true)} />
       <PostFooter>
         <PostActions>
-          <div>
-            <PostAction onClick={toogleLike}>
-              <FontAwesomeIcon
-                style={{ color: isLiked ? "#F0355B" : "inherit" }}
-                icon={isLiked ? SolidHeart : faHeart}
-              />
-            </PostAction>
-            <PostAction>
-              <FontAwesomeIcon icon={faComment} />
-            </PostAction>
-          </div>
+          <PostAction onClick={toogleLike}>
+            <IconAction>{isLiked ? likeIconDark : likeIcon}</IconAction>
+            {likes > 0 && (
+              <p className={isLiked ? "likeNumb fill" : "likeNumb"}>{likes}</p>
+            )}
+            {/* <FontAwesomeIcon
+              style={{ color: isLiked ? "#F0355B" : "inherit" }}
+              icon={isLiked ? SolidHeart : faHeart}
+            />
+            {likes > 0 && <p>{likes}</p>} */}
+          </PostAction>
+
+          <PostAction onClick={() => setCommentsPopupShowed(true)}>
+            <IconAction style={{ width: "20px" }}>{IconComment}</IconAction>
+
+            {/* <FontAwesomeIcon icon={faComment} /> */}
+
+            {commentsNumber > 0 && <p>{commentsNumber}</p>}
+          </PostAction>
         </PostActions>
-        <Likes>
+        {/* <Likes>
           {likes === 1 ? '1 отметка "Нравится"' : `${likes} отметок "Нравится"`}
-        </Likes>
-        <Comments
-          photoId={id}
-          author={user.username}
-          caption={caption}
-          commentsNumber={commentsNumber}
-          comments={comments}
-        />
+        </Likes> */}
+        <div
+          style={{ cursor: "pointer" }}
+          // onClick={() => setCommentsPopupShowed(true)}
+        >
+          <Comments
+            photoId={id}
+            caption={caption}
+            comments={comments}
+            author={user.username}
+            commentsNumber={commentsNumber}
+          />
+        </div>
+        {commentsPopupShowed && isMobile && (
+          <CommentsPopupMob
+            photoId={id}
+            // caption={caption}
+            comments={comments}
+            // author={user.username}
+            // commentsNumber={commentsNumber}
+            close={() => setCommentsPopupShowed(false)}
+          />
+        )}
+        {/* desktop */}
+        {commentsPopupShowed && !isMobile && (
+          <PostPopup
+            id={id}
+            user={user}
+            file={file}
+            likes={likes}
+            photoId={id}
+            isMine={isMine}
+            isLiked={isLiked}
+            caption={caption}
+            comments={comments}
+            author={user.username}
+            toogleLike={toogleLike}
+            modalActive={modalActive}
+            defaultAvatar={defaultAvatar}
+            setModalActive={setModalActive}
+            commentsNumber={commentsNumber}
+            close={() => setCommentsPopupShowed(false)}
+          />
+        )}
+
+        {/* reportPopup */}
       </PostFooter>
-      <Modal active={modalActive} setActive={setModalActive}>
+
+      {reportPopup && (
+        <ReportPopup photoId={id} close={() => setReportPopupShowed(false)} />
+      )}
+      {/* <Modal active={modalActive} setActive={setModalActive}>
         <ModalContent id={id} isMine={isMine} />
-      </Modal>
+      </Modal> */}
     </PostContainer>
   )
 }
@@ -210,5 +229,118 @@ Post.propTypes = {
     }),
   ),
 }
+
+export const PostContainer = styled.div`
+  max-width: 600px;
+  margin-bottom: 20px;
+  border-radius: 20px;
+  background-color: white;
+`
+
+export const PostHeader = styled.div`
+  height: 80px;
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  border-bottom: 1px solid rgb(239, 239, 239);
+  @media (min-width: 768px) {
+    border-bottom: none;
+  }
+`
+
+export const Username = styled(BoldText)`
+  margin-left: 15px;
+`
+
+export const PostContent = styled.img`
+  max-width: 100%;
+  min-width: 100%;
+  cursor: pointer;
+  @media (max-width: 768px) {
+    // pointer-events: none;
+  }
+`
+
+export const PostFooter = styled.div`
+  padding: 0;
+  min-height: 80px;
+  position: relative;
+  @media (max-width: 768px) {
+    min-height: 40px;
+  }
+`
+
+export const PostActions = styled.div`
+  gap: 30px;
+  width: 130px;
+  display: flex;
+  padding: 7px 11px;
+  align-items: center;
+  justify-content: space-between;
+  div {
+    display: flex;
+    align-items: center;
+  }
+  svg {
+    font-size: 20px;
+  }
+`
+
+export const IconAction = styled.div`
+  width: 22px;
+  height: 22px;
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+`
+
+export const PostAction = styled.div`
+  gap: 8px;
+  padding: 5px;
+  display: flex;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 500;
+  align-items: center;
+  .likeIcon path {
+    fill: none;
+    stroke: #000;
+    stroke-width: 2px;
+  }
+  .likeNumb.fill {
+    color: #ff3b30;
+  }
+  @media (min-width: 768px) {
+    padding: 0 15px;
+  }
+`
+
+export const Likes = styled(BoldText)`
+  display: block;
+  margin-top: 15px;
+`
+
+export const Subscribe = styled.button`
+  border: 0;
+  padding: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  margin-left: auto;
+  border-radius: 6px;
+  background: #f2f2f7;
+`
+
+export const PostHeaderRight = styled.div`
+  margin-left: auto;
+  display: flex;
+`
+
+export const More = styled.div`
+  display: flex;
+  padding: 10px;
+  cursor: pointer;
+  margin-left: 4px;
+`
 
 export default Post

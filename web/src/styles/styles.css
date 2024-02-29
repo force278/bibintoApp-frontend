@@ -2,10 +2,42 @@
   font-family: nexa;
   src: url(../assets/fonts/Nexa-Trial-Bold.otf);
 }
+@font-face {
+  font-family: "Golos Text";
+  src: url(../assets/fonts/GolosText-Regular.ttf);
+  font-weight: 400;
+}
+@font-face {
+  font-family: "Golos Text";
+  src: url(../assets/fonts/GolosText-Medium.ttf);
+  font-weight: 500;
+}
+@font-face {
+  font-family: "Golos Text";
+  src: url(../assets/fonts/GolosText-Bold.ttf);
+  font-weight: 600;
+}
 
 .nexa-bold {
   font-family: nexa;
   font-weight: 700;
+}
+
+a,
+a:visited {
+  color: #000;
+  text-decoration: none;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+.isMobile {
+  display: none;
 }
 
 @keyframes slideInLeft {
@@ -21,4 +53,10 @@
 
 .slideInLeft {
   animation: slideInLeft 0.3s ease-in-out forwards;
+}
+
+@media (max-width: 768px) {
+  .isMobile {
+    display: block;
+  }
 }

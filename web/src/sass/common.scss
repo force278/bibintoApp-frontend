@@ -4,33 +4,182 @@
 
 @mixin textLineMixin($bottom) {
   content: "";
+  width: 40%;
   bottom: $bottom;
   position: absolute;
   border-bottom: 1px solid #ebebeb;
-  width: 40%;
 }
 
-@mixin mobile {
-  @media (max-width: 767px) {
-    @content;
+.loaderWrap {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  svg {
+    width: 20px;
+    height: 20px;
+    animation: 1s infinite linear rotation;
   }
 }
 
-@mixin tablet {
-  @media (min-width: 768px) and (max-width: 1023px) {
-    @content;
+@keyframes rotation {
+  from {
+    rotate: 0;
+  }
+  to {
+    rotate: 359deg;
+  }
+}
+
+// .moreWrap {
+//   right: 5px;
+//   padding: 9px 16px;
+//   position: absolute;
+//   border-radius: 10px;
+//   top: calc(100% + 10px);
+//   background-color: #fff;
+//   box-shadow: 0px 3px 4px 0px #00000014;
+//   box-shadow: 0px -1px 8px 0px #00000024;
+// }
+
+.onlyMob {
+  display: none;
+}
+
+.onlyDesk {
+  display: block;
+}
+
+.modal {
+  height: 100dvh !important;
+}
+
+.uploadIcon {
+  width: 100%;
+  height: 100%;
+  padding: 2px;
+  cursor: pointer;
+  background: linear-gradient(
+    196.07deg,
+    #fe2db7 11.13%,
+    #2936ff 57.29%,
+    #6cf2fe 87.79%
+  );
+  border-radius: 100px;
+  &::after {
+    content: "";
+    width: 100%;
+    height: 100%;
+    display: block;
+    border-radius: 100px;
+    background-color: #fff;
+    background-size: 12px 12px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url('data:image/svg+xml,<svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(%23clip0_247_5561)"><path d="M7.5 1C7.5 0.447715 7.05228 0 6.5 0C5.94772 0 5.5 0.447715 5.5 1V11C5.5 11.5523 5.94772 12 6.5 12C7.05228 12 7.5 11.5523 7.5 11V1Z" fill="%231F1F2C"/><path d="M1.5 5C0.947715 5 0.5 5.44772 0.5 6C0.5 6.55228 0.947715 7 1.5 7H11.5C12.0523 7 12.5 6.55228 12.5 6C12.5 5.44772 12.0523 5 11.5 5H1.5Z" fill="%231F1F2C"/></g><defs><clipPath id="clip0_247_5561"><rect width="12" height="12" fill="white" transform="translate(0.5)"/></clipPath></defs></svg>');
+  }
+  img {
+    display: none;
+  }
+}
+
+.cropper-wrap {
+  z-index: 9999;
+}
+.cropper {
+  border-radius: 0 0 20px 20px;
+  .cropper-dashed {
+    opacity: 0.5;
+    border: 0 solid #ebebeb;
+  }
+  .cropper-container,
+  .cropper-drag-box,
+  .cropper-wrap-box {
+    border-radius: 0 0 20px 20px;
+  }
+  .cropper-wrap-box {
+    overflow: hidden;
+  }
+  .cropper-line {
+    background-color: #aeaeb2;
+  }
+  .cropper-point {
+    padding: 3px;
+    border: 2px solid #aeaeb2;
+    background-color: transparent;
+    &.point-nw,
+    &.point-ne,
+    &.point-n {
+      top: -5px;
+    }
+    &.point-se,
+    &.point-e,
+    &.point-ne {
+      right: -5px;
+    }
+    &.point-nw,
+    &.point-w,
+    &.point-sw {
+      left: -5px;
+    }
+    &.point-se,
+    &.point-s,
+    &.point-sw {
+      bottom: -5px;
+    }
+  }
+  .cropper-view-box {
+    outline-color: #aeaeb2;
+  }
+}
+
+.infoFooterWrap {
+  gap: 12px;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 12px !important;
+  margin-bottom: 40px !important;
+  span {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  a,
+  a:visited {
+    font-size: 14px;
+    color: #1f1f2c;
+    line-height: 110%;
+    border-bottom: 1px solid #1f1f2c;
+  }
+}
+
+.formErrMesWrap {
+  width: 100%;
+  position: relative;
+  &.center {
+    span {
+      width: 100%;
+      margin-top: 5px;
+      text-align: center;
+    }
   }
 }
 
 .textLine {
+  gap: 5px;
+  width: 100%;
   display: flex;
-  &:after {
-    @include textLineMixin(29%);
-    right: 0;
+  align-items: center;
+  span {
+    color: #76768c;
+    white-space: nowrap;
   }
-  &:before {
-    @include textLineMixin(29%);
-    left: 0;
+  &:before,
+  &:after {
+    content: "";
+    width: 100%;
+    display: block;
+    border-bottom: 1px solid #ebebeb;
   }
 }
 
@@ -108,5 +257,56 @@
   &:active {
     transform: scale(0.95);
     transition: transform 0.2s ease;
+  }
+}
+
+// header
+.headerWrap {
+  padding: 22px 40px;
+  .dark,
+  .light {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    object-fit: contain;
+    a,
+    svg,
+    button {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .dark {
+    display: none;
+  }
+  .is-active {
+    .dark {
+      display: flex;
+    }
+    .light {
+      display: none;
+    }
+  }
+  .main-span {
+    width: 28px;
+    height: 28px;
+  }
+  .d-flex {
+    width: auto;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+// header end
+
+@mixin mobile {
+  @media (max-width: 767px) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: 768px) and (max-width: 1023px) {
+    @content;
   }
 }

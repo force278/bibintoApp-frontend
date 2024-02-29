@@ -2,15 +2,44 @@
   justify-content: space-between;
 }
 @media (max-width: 768px) {
+  .onlyMob {
+    display: block !important;
+  }
+  .onlyDesk {
+    display: none !important;
+  }
   .blockButtons {
     max-width: 374px;
   }
   .hideElement {
     display: none !important;
   }
-  .headerMobile {
+  // header
+  .headerWrap.mobile {
     bottom: -3px;
+    box-shadow: none !important ;
+    padding: 6px 0 10px 0 !important;
+    border-top: 1px solid #76768c10;
+    .uploadIcon {
+      padding: 4px;
+    }
+    .dark,
+    .light {
+      width: 22px;
+      height: 22px;
+    }
+    .main-span {
+      width: 45px;
+      height: 45px;
+    }
+    .d-flex {
+      width: 100%;
+      gap: 0 !important;
+      align-items: center;
+      justify-content: space-evenly;
+    }
   }
+  // header end
   .align-items-center-mobile {
     align-items: center;
   }
@@ -21,15 +50,59 @@
     justify-content: center !important;
   }
   .modalWindowForMobile {
-    width: 190px !important;
-    top: -140px !important;
-    left: -34% !important;
+    width: 200px !important;
+    top: -270px !important;
+    right: auto !important;
+    left: -150px !important;
   }
   .mobilePostContainer {
-    max-width: 23rem;
+    width: 100%;
+    max-width: 100vw;
+    margin-bottom: 63px;
   }
   .buttonMoreForMobile {
     right: -21px !important;
     top: -39px !important;
   }
+  // cropper
+  .cropper-wrap {
+    width: 100%;
+    height: 100%;
+    .cropper {
+      border-radius: 0;
+      .cropper-container,
+      .cropper-drag-box,
+      .cropper-wrap-box {
+        border-radius: 0;
+      }
+      .cropper-line {
+        background-color: #ebebeb;
+      }
+      .cropper-line {
+        background: transparent;
+        &.line-e,
+        &.line-w {
+          width: 20px;
+        }
+        &.line-n,
+        &.line-s {
+          height: 20px;
+        }
+      }
+      .cropper-point {
+        opacity: 0;
+        padding: 20px;
+        &.point-w,
+        &.point-s,
+        &.point-n,
+        &.point-e {
+          display: none;
+        }
+      }
+      .cropper-view-box {
+        outline-color: #ebebeb;
+      }
+    }
+  }
+  // cropper end
 }

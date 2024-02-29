@@ -17,14 +17,22 @@ import { ApolloProvider } from "@apollo/client"
 import { client } from "./apollo"
 import Layout from "./components/Layout"
 import Profile from "./screens/Profile"
-import { NotMatch } from "./pages/NotMatch"
+// import { NotMatch } from "./pages/NotMatch"
 import { EditProfile } from "./screens/EditProfile"
-import ChangeEditProfile from "./components/ProfileEdit/ChangeEditProfile"
-import { ChangePassword } from "./components/ProfileEdit/ChangePassword"
+// import ChangeEditProfile from "./components/ProfileEdit/ChangeEditProfileOld"
+// import { ChangePassword } from "./components/ProfileEdit/ChangePasswordOld"
 import PrivacyPolicy from "./components/privacyPolicy/PrivacyPolicy"
 import { TermsOfUse } from "./components/termsOfUse/TermsOfUse"
-import { Messenger } from "./components/messenger/Messenger"
 import ViewReport from "./screens/ViewReport"
+import Notifications from "./screens/Notifications"
+import SettingsProfile from "./components/ProfileEdit/SettingsProfile"
+import Messenger from "./components/messenger/Messenger"
+import ChangeEditProfileMob from "./components/ProfileEdit/ChangeEditProfile"
+import { ConfirmAcc } from "./components/ProfileEdit/ConfirmAcc"
+import { ChangePassword } from "./components/ProfileEdit/ChangePassword"
+import { ChangeEmail } from "./components/ProfileEdit/ChangeEmail"
+import Followers from "./screens/Followers"
+import Following from "./screens/Following"
 
 function App() {
   const isLoggedIn = useReactiveVar(isLoggedInVar)
@@ -67,17 +75,33 @@ function App() {
                   </Route>
                   <Route path={routes.likes} exact>
                     <Layout>
-                      <NotMatch />
+                      <Notifications />
                     </Layout>
                   </Route>
-                  <Route path={routes.message} exact>
+                  <Route path={routes.messenger} exact>
                     <Layout>
                       <Messenger />
                     </Layout>
                   </Route>
+
+                  <Route path={routes.accountSettingsProfile} exact>
+                    <Layout>
+                      <SettingsProfile />
+                    </Layout>
+                  </Route>
                   <Route path={routes.accountEditProfile} exact>
                     <Layout>
-                      <EditProfile children={<ChangeEditProfile />} />
+                      <EditProfile children={<ChangeEditProfileMob />} />
+                    </Layout>
+                  </Route>
+                  <Route path={routes.accountConfirm} exact>
+                    <Layout>
+                      <EditProfile children={<ConfirmAcc />} />
+                    </Layout>
+                  </Route>
+                  <Route path={routes.accountChangeEmail} exact>
+                    <Layout>
+                      <EditProfile children={<ChangeEmail />} />
                     </Layout>
                   </Route>
                   <Route path={routes.accountChangePassword} exact>
@@ -90,9 +114,22 @@ function App() {
                       <ViewReport />
                     </Layout>
                   </Route>
-                  <Route path={routes.username}>
+
+                  <Route path={routes.username} exact>
                     <Layout>
                       <Profile />
+                    </Layout>
+                  </Route>
+
+                  <Route path={routes.followers} exact>
+                    <Layout>
+                      <Followers />
+                    </Layout>
+                  </Route>
+
+                  <Route path={routes.following} exact>
+                    <Layout>
+                      <Following />
                     </Layout>
                   </Route>
                 </Switch>

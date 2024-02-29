@@ -6,30 +6,52 @@ import { gql, useMutation } from "@apollo/client"
 import useMe from "../../hooks/useMe"
 
 const CommentsContainer = styled.div`
-  margin-top: 20px;
+  // margin-top: 20px;
 `
 
-const CommentsNumber = styled.span`
-  opacity: 0.7;
-  margin: 10px 0;
-  display: block;
-  font-size: 12px;
-  font-weight: 600;
+const CommentsTitle = styled.p`
+  color: #76768c;
 `
+
+const CommentsList = styled.div`
+  gap: 10px;
+  display: flex;
+  overflow: auto;
+  max-height: 130px;
+  padding: 0 16px 16px 16px;
+  padding-bottom: 50px;
+  flex-direction: column;
+  @media (min-height: 768px) {
+    max-height: 200px;
+  }
+`
+
+// const CommentsNumber = styled.span`
+//   opacity: 0.7;
+//   margin: 10px 0;
+//   display: block;
+//   font-size: 12px;
+//   font-weight: 600;
+// `
 
 const PostCommentContainer = styled.div`
   display: flex;
   margin-top: 10px;
   padding-top: 15px;
   padding-bottom: 10px;
+  padding: 16px 16px 24px 16px;
   border-top: 1px solid ${(props) => props.theme.borderColor};
+  @media (max-width: 768px) {
+    display: none;
+  }
 `
 
-const PostCommentInput = styled.input`
+export const PostCommentInput = styled.input`
   width: 100%;
   border: none;
   &::placeholder {
-    font-size: 12px;
+    font-size: 14px;
+    color: #76768c;
   }
   &:focus {
     outline: none;
@@ -100,6 +122,7 @@ function Comments({ photoId, author, caption, commentsNumber, comments }) {
   const [createComment, { loading }] = useMutation(CREATE_COMMENT_MUTATION, {
     update: createCommentUpdate,
   })
+
   const onValid = (data) => {
     const { payload } = data
     if (loading) return
@@ -112,35 +135,42 @@ function Comments({ photoId, author, caption, commentsNumber, comments }) {
   }
   return (
     <CommentsContainer>
-      <Comment author={author} payload={caption} />
-      <CommentsNumber>
+      {/* <Comment author={author} payload={caption} /> */}
+      {/* <CommentsNumber>
         {commentsNumber === 1
           ? "1 комментарий"
           : `${commentsNumber} комментариев`}
-      </CommentsNumber>
-      {comments?.map((comment) => (
-        <Comment
-          id={comment.id}
-          isMine={comment.isMine}
-          photoId={photoId}
-          key={comment.id}
-          author={comment.user.username}
-          payload={comment.payload}
-          official={comment.user.official}
-        />
-      ))}
+      </CommentsNumber> */}
+
+      <CommentsList>
+        <CommentsTitle>
+          {commentsNumber > 0 ? "Комментарии:" : "Комментариев пока нет"}
+        </CommentsTitle>
+        {comments?.map((comment) => (
+          <Comment
+            id={comment.id}
+            isMine={comment.isMine}
+            photoId={photoId}
+            key={comment.id}
+            author={comment.user.username}
+            payload={comment.payload}
+            official={comment.user.official}
+          />
+        ))}
+      </CommentsList>
       <PostCommentContainer>
         <form onSubmit={handleSubmit(onValid)} className="d-flex w-100">
           <div className="d-flex justify-content-between w-100">
             <PostCommentInput
               {...register("payload", { required: true })}
               type="text"
-              placeholder="Добавьте комментарий..."
+              placeholder="Введите ваш комментарий"
             />
             <button
               type="submit"
               className="bg-transparent border-0"
-              style={{ color: "#2283F5", fontWeight: "600" }}
+              // style={{ color: "#2283F5", fontWeight: "600" }}
+              style={{ color: "#1F1F2C", fontWeight: "600" }}
             >
               Опубликовать
             </button>

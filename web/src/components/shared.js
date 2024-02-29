@@ -5,9 +5,9 @@ export const BaseBox = styled.div`
   width: 100%;
   border-radius: 15px;
   fill: #fff;
-  filter: drop-shadow(
-    0px 21.00374412536621px 31.505615234375px rgba(147, 153, 176, 0.15)
-  );
+  @media (max-width: 767px) {
+    border-radius: 0;
+  }
 `
 
 export const BoldLink = styled.span`
@@ -18,3 +18,7 @@ export const BoldLink = styled.span`
 export const BoldText = styled.span`
   font-weight: 600;
 `
+
+// filter: drop-shadow(
+//   0px 21.00374412536621px 31.505615234375px rgba(147, 153, 176, 0.15)
+// );

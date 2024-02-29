@@ -60,9 +60,7 @@ function Comment({ id, isMine, photoId, author, payload, official }) {
         setShowModal(false)
       }
     }
-
     document.addEventListener("click", handleClickOutsideModal)
-
     return () => {
       document.removeEventListener("click", handleClickOutsideModal)
     }
@@ -79,9 +77,9 @@ function Comment({ id, isMine, photoId, author, payload, official }) {
     deleteComment()
   }
   return (
-    <div className="d-flex justify-content-between mb-2 position-relative">
+    <div className="d-flex justify-content-between  position-relative">
       <div>
-        <Link to={`/:${author}`}>
+        <Link to={`/${author}`}>
           <BoldText>{author}</BoldText>
         </Link>
         {official ? (
@@ -105,6 +103,7 @@ function Comment({ id, isMine, photoId, author, payload, official }) {
           ))}
         </CommentCaption>
       </div>
+
       <div>
         {isMine ? (
           <button className="border-0 bg-transparent" onClick={handleShowModal}>
@@ -116,26 +115,35 @@ function Comment({ id, isMine, photoId, author, payload, official }) {
             />
           </button>
         ) : null}
+        {showModal && (
+          <div className="modalContentWrap" ref={modalRef}>
+            <div className="Delete" onClick={onDeleteClick}>
+              Удалить
+            </div>
+          </div>
+          // old
+          // <div
+          //   className="position-absolute d-flex flex-column justify-content-around z-2 buttonMoreForMobile"
+          //   ref={modalRef}
+          //   style={{
+          //     right: "5px",
+          //     borderRadius: "10px",
+          //     backgroundColor: "#fff",
+          //     top: "calc(100% + 10px)",
+          //     // filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",
+          //     boxShadow: "0px -1px 8px 0px #00000024",
+          //   }}
+          // >
+          //   <button
+          //     style={{ backgroundColor: "transparent", color: "#FF3B30" }}
+          //     className=" border-0 p-2 ms-2 me-2 rounded"
+          //     onClick={onDeleteClick}
+          //   >
+          //     Удалить
+          //   </button>
+          // </div>
+        )}
       </div>
-      {showModal && (
-        <div
-          className="position-absolute d-flex flex-column justify-content-around z-2 buttonMoreForMobile"
-          ref={modalRef}
-          style={{
-            borderRadius: "17px",
-            right: "-60px",
-            top: "25px",
-            filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",
-          }}
-        >
-          <button
-            className="text-danger border-0 p-2 ms-2 me-2 rounded"
-            onClick={onDeleteClick}
-          >
-            Удалить
-          </button>
-        </div>
-      )}
     </div>
   )
 }

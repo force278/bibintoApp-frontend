@@ -1,142 +1,299 @@
-import React, { useState, useEffect } from "react"
-import "../../sass/common.scss"
-import searchGray from "../../assets/img/header/searchGray.svg"
-import styles from "./messag.module.scss"
-import defaultAvatar from "../../assets/img/DefaultAvatar.png"
-import bibinto from "../../assets/img/messenger/bibinto.png"
-import emojies from "../../assets/img/messenger/Emoji.svg"
-import sendMessege from "../../assets/img/messenger/Send.svg"
-import backButton from "../../assets/img/messenger/Back.svg"
+import styled from "styled-components"
 import { gql, useQuery } from "@apollo/client"
+import {
+  Link,
+  useHistory,
+  useLocation,
+} from "react-router-dom/cjs/react-router-dom.min"
+import "./messenger.scss"
+import mesViewed from "../../assets/img/messenger/mesViewed.svg"
+import mesNotViewed from "../../assets/img/messenger/mesNotViewed.svg"
+import { Avatar } from "@mui/material"
+import { useState } from "react"
+import { useEffect } from "react"
+import Chat from "./Chat"
+import MessengerMob from "./MessengerMob"
+import { client } from "../../apollo"
+import { isMob } from "../../utils/isMob"
 
-const GET_FRIENDS = gql`
-  query SeeFriends {
-    seeFriends {
-      avatar
-      firstName
-      id
+const SUB_DIALOGS_UPDATES = gql`
+  subscription AllDialogsUpdates {
+    allDialogsUpdates {
+      dialogId
+      newMessage {
+        dialogId
+        createdAt
+        id
+        payload
+        read
+        user {
+          avatar
+          username
+          isMe
+        }
+      }
+      read
     }
   }
 `
 
-export const Messenger = ({ children }) => {
-  //  const data = [
-  //    { username: "alexeev", lastLogin: "Заходил 1 час назад", avatar: alexeev },
-  //    { username: "bibinto", lastLogin: "Онлайн", avatar: bibinto },
-  //  ]
-  const [friend, setFriends] = useState([])
-  const [hide, setHide] = useState(true)
-  const toggleStyle = () => {
-    setHide((prevState) => !prevState)
+const GET_DIALOGS = gql`
+  query seeDialogs {
+    seeDialogs {
+      id
+      messages {
+        id
+        createdAt
+        payload
+        read
+        user {
+          username
+          isMe
+        }
+      }
+      unreadTotal
+      users {
+        username
+        avatar
+        isMe
+      }
+    }
+  }
+`
+
+const Messenger = () => {
+  const { cache } = client
+  const history = useHistory()
+  const curPath = useLocation()
+  const [user, setUser] = useState()
+  const [, setDialogId] = useState()
+  const [isMobile] = useState(isMob())
+  const [curChatMes, setCurChatMes] = useState([])
+  const [dialoguesList, setDialoguesList] = useState([])
+
+  // DIALOG_UPDATES
+  // useEffect(() => {
+  //   console.log(dialoguesList)
+  // }, [dialoguesList])
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search)
+    const userParam = searchParams.get("user")
+    userParam ? setUser(userParam) : setUser()
+  }, [curPath])
+
+  useEffect(() => {
+    if (user && dialoguesList.length) {
+      try {
+        const curChat = dialoguesList.find(
+          (dialogue) =>
+            dialogue.users.findIndex(({ username }) => username === user) >= 0,
+        )
+        setCurChatMes([...curChat.messages].sort((a, b) => +a.id - +b.id))
+        setDialogId(curChat.id)
+      } catch (e) {
+        setCurChatMes([])
+      }
+    } else {
+      setCurChatMes([])
+    }
+  }, [user, dialoguesList])
+
+  // const friends = useQuery(GET_FRIENDS)
+  const { subscribeToMore, data: dialogues } = useQuery(GET_DIALOGS)
+
+  useEffect(() => {
+    if (dialogues?.seeDialogs) {
+      setDialoguesList(
+        dialogues.seeDialogs.filter((dialog) => dialog.messages.length > 0),
+      )
+    }
+  }, [dialogues])
+
+  useEffect(() => {
+    const subscribe = subscribeToMore({
+      document: SUB_DIALOGS_UPDATES,
+      onError: () => {
+        setTimeout(() => {
+          setDialoguesList((prev) => [...prev])
+        }, 500)
+      },
+      updateQuery: (prev, { subscriptionData }) => {
+        if (!subscriptionData?.data?.allDialogsUpdates) return
+        console.log(subscriptionData.data.allDialogsUpdates)
+        const editedDialogueIndex = dialoguesList.findIndex(
+          (dialogue) =>
+            dialogue.id === subscriptionData?.data?.allDialogsUpdates?.dialogId,
+        )
+        console.log(editedDialogueIndex)
+        if (editedDialogueIndex < 0) {
+          return cache.reset()
+        }
+        if (subscriptionData.data.allDialogsUpdates.newMessage) {
+          const newMessage = subscriptionData.data.allDialogsUpdates.newMessage
+          const newMesList = [
+            ...dialoguesList[editedDialogueIndex].messages,
+            newMessage,
+          ]
+          setDialoguesList((prev) => [
+            ...prev.slice(0, editedDialogueIndex),
+            {
+              ...dialoguesList[editedDialogueIndex],
+              messages: newMesList,
+            },
+            ...prev.slice(editedDialogueIndex + 1),
+          ])
+        }
+        if (subscriptionData.data.allDialogsUpdates.read) {
+          const readedMesId = subscriptionData.data.allDialogsUpdates.read
+          const newMesList = dialoguesList[editedDialogueIndex].messages.map(
+            (mes) => (mes.id === readedMesId ? { ...mes, read: true } : mes),
+          )
+          setDialoguesList((prev) => [
+            ...prev.slice(0, editedDialogueIndex),
+            {
+              ...dialoguesList[editedDialogueIndex],
+              messages: newMesList,
+            },
+            ...prev.slice(editedDialogueIndex + 1),
+          ])
+        }
+      },
+    })
+    return () => subscribe()
+    // eslint-disable-next-line
+  }, [subscribeToMore, dialoguesList])
+
+  useEffect(() => {
+    return () => cache.reset()
+    // eslint-disable-next-line
+  }, [])
+
+  const mesSended = () => {
+    if (curChatMes.length === 0) {
+      return cache.reset()
+    }
   }
 
-  const data = useQuery(GET_FRIENDS)
-
   return (
-    <div className="container ">
-      <div
-        className="border-1 border bg-white w-100"
-        style={{ height: "85vh", marginTop: "32px", borderRadius: "6px" }}
-      >
-        <div className={` row h-100`}>
-          <div
-            className={`${
-              styles.mobileBorder
-            }  col-lg-4 col-sm-12 border-1 border-end ${
-              hide ? "" : "hideElement"
-            }`}
-            style={{ paddingRight: 0 }}
-          >
-            <div
-              className="pt-2 pb-2 border-bottom hideElement"
-              style={{ paddingLeft: 25 }}
-            >
-              <div className="inputSearch w-75">
-                <input
-                  type="text"
-                  className="inputSearch__input"
-                  placeholder="Найти пользователя"
-                />
-                <img
-                  src={searchGray}
-                  alt="search"
-                  className="inputSearch__icon"
-                />
-              </div>
-            </div>
-
-            {data?.data?.seeFriends?.map((item, index) => (
-              <div
-                className="container pt-3 pb-3 border-bottom"
-                onClick={toggleStyle}
-              >
-                <div className={` row`}>
-                  <div className="col-md-3 col-4">
-                    <div className="user-avatar">
-                      <img
-                        src={item.avatar ? item.avatar : defaultAvatar}
-                        alt="User Avatar"
-                        className="rounded-circle offset-md-3 offset-4"
-                        style={{ width: 50, height: 50 }}
-                      />
-                    </div>
-                  </div>
-                  <div className="col-md-9 col-8 d-flex align-items-center">
-                    <div>
-                      <div>
-                        <h4 style={{ fontFamily: "Roboto, sans-serif" }}>
-                          {item.firstName}
-                        </h4>
+    <>
+      {!isMobile && (
+        <div className="onlyDesk">
+          <MessengerWrap>
+            <DialoguesWrap>
+              <ul className="dialogues">
+                {dialoguesList.length === 0 && (
+                  <p
+                    style={{ padding: "16px", color: "#76768c" }}
+                    className="title"
+                  >
+                    Диалогов пока нет
+                  </p>
+                )}
+                {dialoguesList.map((dialogue, index) => {
+                  const lastMes = [...dialogue.messages].sort(
+                    (a, b) => b.id - a.id,
+                  )[0]
+                  const companion = dialogue.users.find((user) => !user.isMe)
+                  const unreadTotal = dialogue.messages?.length
+                    ? dialogue.messages.filter(
+                        (mes) => !mes.user.isMe && !mes.read,
+                      ).length
+                    : 0
+                  return (
+                    <li className="dialogue" key={index}>
+                      <Link to={`/${companion.username}`}>
+                        <div className="avatarWrap">
+                          <Avatar src={companion.avatar} />
+                        </div>
+                      </Link>
+                      <Link
+                        to={`/me?${"user=" + companion.username}`}
+                        style={{ flex: 1 }}
+                      >
+                        <div className="info">
+                          <p className="username">{companion.username}</p>
+                          <p className="message">{lastMes.payload}</p>
+                        </div>
+                      </Link>
+                      <div className="statusWrap">
+                        <div className="status">
+                          {lastMes.user.isMe && lastMes.read && (
+                            <img src={mesViewed} alt="" />
+                          )}
+                          {lastMes.user.isMe && !lastMes.read && (
+                            <img src={mesNotViewed} alt="" />
+                          )}
+                          {!lastMes.user.isMe && unreadTotal ? (
+                            <span className="statusUnread">{unreadTotal}</span>
+                          ) : (
+                            ""
+                          )}
+                        </div>
                       </div>
-                      <div>
-                        <span
-                          style={{
-                            fontFamily: "Roboto, sans-serif",
-                            color: "#a7a7a7",
-                          }}
-                        >
-                          {item.lastLogin}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div
-            className={`col-lg-8 col-sm-12 d-flex flex-column-reverse ${
-              hide ? "hideElement" : ""
-            }`}
-            style={{ paddingLeft: 17 }}
-          >
-            <div
-              className={`${styles.inputSearch} ${styles.mobileInputSearch}`}
-            >
-              <input
-                type="text"
-                className={`${styles.inputMessage} `}
-                placeholder="Сообщение"
-              />
-              <div
-                className="d-flex align-items-center justify-content-between"
-                style={{ width: 60 }}
-              >
-                <img src={emojies} alt="search" />
-                <img src={sendMessege} alt="search" />
-              </div>
-            </div>
-            <img
-              src={backButton}
-              alt="search"
-              onClick={toggleStyle}
-              className={styles.mobileButtonBack}
-              style={{ display: "none" }}
-            />
-          </div>
+                    </li>
+                  )
+                })}
+              </ul>
+            </DialoguesWrap>
+            <Chat username={user} messages={curChatMes} mesSended={mesSended} />
+          </MessengerWrap>
         </div>
-      </div>
-    </div>
+      )}
+      {isMobile && (
+        <MessengerMob
+          user={user}
+          cache={cache}
+          history={history}
+          curPath={curPath}
+          setUser={setUser}
+          curChatMes={curChatMes}
+          setCurChatMes={setCurChatMes}
+          dialoguesList={dialoguesList}
+          setDialoguesList={setDialoguesList}
+        />
+      )}
+    </>
   )
 }
+
+export default Messenger
+
+export const DialoguesWrap = styled.div`
+  width: 350px;
+  @media (min-width: 768px) {
+    border-right: 1px solid ${(props) => props.theme.borderColor};
+  }
+`
+
+export const MessengerWrap = styled.div`
+  height: 80vh;
+  overflow: hidden;
+  margin-top: 38px;
+  display: flex;
+  width: 1000px;
+
+  .username {
+    text-align: center;
+  }
+  .header {
+    display: grid;
+    grid-template-columns: 0.2fr 0.6fr 0.2fr;
+  }
+
+  @media (min-width: 768px) {
+    background-color: #fff;
+  }
+`
+
+export const FormInput = styled.input`
+  width: 100%;
+  border: none;
+  &::placeholder {
+    font-size: 14px;
+    color: #76768c;
+  }
+  &:focus {
+    outline: none;
+  }
+`

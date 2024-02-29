@@ -1,6 +1,7 @@
-import { useState } from "react"
-import { Box, Slider } from "@mui/material"
-import AvatarEditor from "react-avatar-editor"
+import Cropper from "react-cropper"
+import "cropperjs/dist/cropper.css"
+import { isMob } from "../utils/isMob"
+import { useEffect, useState } from "react"
 
 const BoxStyle = {
   display: "flex",
@@ -9,35 +10,58 @@ const BoxStyle = {
   alignItems: "center",
 }
 
-export const CropperModal = ({ src, cropRef }) => {
-  const [slideValue, setSlideValue] = useState(10)
+export const CropperModal = ({ src, cropRef, className = "" }) => {
+  const [isMobile] = useState(isMob())
 
   return (
-    <div style={BoxStyle}>
-      <AvatarEditor
-        ref={cropRef}
-        image={src}
-        border={50}
-        color={[0, 0, 0, 0.72]}
-        scale={slideValue / 10}
-        rotate={0}
-        width={600}
-        height={600}
-        style={{ width: "100%", height: "100%" }}
-      />
-      <Slider
-        min={10}
-        max={15}
-        sx={{
-          margin: "0 auto",
-          width: "80%",
-          color: "cyan",
-        }}
-        size="medium"
-        defaultValue={slideValue}
-        value={slideValue}
-        onChange={(e) => setSlideValue(e.target.value)}
-      />
-    </div>
+    isMobile !== "init" && (
+      <div className={"cropper-wrap " + className} style={BoxStyle}>
+        {isMobile ? (
+          <Cropper
+            src={src}
+            zoomTo={0.5}
+            viewMode={1}
+            ref={cropRef}
+            guides={true}
+            aspectRatio={1}
+            center={false}
+            zoomable={false}
+            scalable={false}
+            movable={false}
+            autoCropArea={1}
+            responsive={true}
+            background={false}
+            zoomOnWheel={false}
+            className="cropper"
+            minCropBoxWidth={10}
+            minCropBoxHeight={10}
+            checkOrientation={false}
+            initialAspectRatio={1}
+            style={{ height: "100%", width: "100%" }}
+          />
+        ) : (
+          <Cropper
+            src={src}
+            zoomTo={0.5}
+            viewMode={1}
+            ref={cropRef}
+            center={false}
+            aspectRatio={1}
+            movable={false}
+            autoCropArea={1}
+            responsive={true}
+            background={false}
+            zoomOnWheel={false}
+            className="cropper"
+            guides={false}
+            minCropBoxWidth={50}
+            minCropBoxHeight={50}
+            checkOrientation={false}
+            initialAspectRatio={1}
+            style={{ height: "100%", width: "100%" }}
+          />
+        )}
+      </div>
+    )
   )
 }

@@ -2,10 +2,10 @@ import { createGlobalStyle } from "styled-components"
 import reset from "styled-reset"
 
 export const lightTheme = {
-  bgColor: "rgb(250,250,250)",
+  color: "#1F1F2C",
   accent: "#0095f6",
+  bgColor: "#F2F2F7",
   borderColor: "rgb(219, 219, 219)",
-  color: "rgb(38, 38, 38)",
 }
 
 export const darkTheme = {
@@ -22,9 +22,9 @@ export const GlobalStyles = createGlobalStyle`
       box-sizing: border-box;
     }
     body {
-        background-color: ${(props) => props.theme.bgColor};
         font-size: 14px;
-        font-family: 'Open Sans', sans-serif;
+        background-color: ${(props) => props.theme.bgColor};
+        font-family: 'Golos Text', 'Open Sans', sans-serif;
         color: ${(props) => props.theme.color};
     }
     ::-webkit-scrollbar {
@@ -34,5 +34,13 @@ export const GlobalStyles = createGlobalStyle`
       text-decoration: none;
       color: inherit;
     }
+    @media(max-width:768px){
+      body {
+        background-color:#fff !important;
+        overflow-x:hidden
+      }
+    }
 
 `
+
+// body
