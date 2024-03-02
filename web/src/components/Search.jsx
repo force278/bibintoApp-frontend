@@ -24,7 +24,7 @@ const StyledAutocomplete = styled(Autocomplete)`
   }
 
   .MuiFormLabel-root {
-    top: -7px !important;
+    top: -12px !important;
     color: #959595 !important;
   }
 
@@ -37,6 +37,10 @@ const StyledAutocomplete = styled(Autocomplete)`
   }
   .MuiAutocomplete-root {
     width: 0 !important;
+  }
+  .MuiAutocomplete-input {
+    padding: 5px !important;
+    color: gray !important;
   }
 `
 

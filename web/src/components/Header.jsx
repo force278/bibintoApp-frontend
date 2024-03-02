@@ -1,4 +1,4 @@
-// import Search from "./Search"
+import Search from "./Search"
 import routes from "../routes"
 import useMe from "../hooks/useMe"
 import userIcon from "../assets/img/user"
@@ -10,7 +10,7 @@ import chatIcon from "../assets/img/chatIcon"
 import { useReactiveVar } from "@apollo/client"
 import uploadIcon from "../assets/img/upload.svg"
 import UploadPopUp from "../screens/UploadPopUp"
-import { Link, useHistory } from "react-router-dom"
+import { Link } from "react-router-dom"
 import userIconDark from "../assets/img/userIconDark"
 import likeIconDark from "../assets/img/likeIconDark"
 import chatIconDark from "../assets/img/chatIconDark"
@@ -24,7 +24,7 @@ export function Header() {
   const curLocation = useLocation().pathname
   const isLoggedIn = useReactiveVar(isLoggedInVar)
   const { data } = useMe()
-  const history = useHistory()
+  // const history = useHistory()
   const [showModal, setShowModal] = useState(false)
   const [profileActive, setProfileActive] = useState(false)
   const modalRef = useRef()
@@ -40,11 +40,11 @@ export function Header() {
     } else setProfileActive(false)
   }, [curLocation])
 
-  const logOut = () => {
-    localStorage.removeItem("TOKEN")
-    history.push("/")
-    window.location.reload()
-  }
+  // const logOut = () => {
+  //   localStorage.removeItem("TOKEN")
+  //   history.push("/")
+  //   window.location.reload()
+  // }
 
   useEffect(() => {
     const handleClickOutsideModal = (event) => {
@@ -93,9 +93,9 @@ export function Header() {
                     </div>
                   </Link>
                 </div>
-                {/* <div className="hideElement">
+                <div className="hideElement">
                   <Search />
-                </div> */}
+                </div>
                 <div className="d-flex" style={{ gap: "40px" }}>
                   <NavLink exact activeClassName="is-active" to={routes.home}>
                     <div className="light">{homeIcon}</div>
