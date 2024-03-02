@@ -51,7 +51,7 @@ function ReportPost({ id, user, file }) {
         </Link>
         {user.official ? (
           <img
-            src="official.png"
+            src="verifiedIcon.svg"
             alt="official"
             style={{
               width: "25px",

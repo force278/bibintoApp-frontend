@@ -84,7 +84,7 @@ function Comment({ id, isMine, photoId, author, payload, official }) {
         </Link>
         {official ? (
           <img
-            src="official.png"
+            src="verifiedIcon.svg"
             alt="official"
             style={{
               width: "13px",

@@ -254,7 +254,7 @@ function Profile() {
                 )}
                 {data?.seeProfile?.official ? (
                   <img
-                    src="official.png"
+                    src="verifiedIcon.svg"
                     alt="official"
                     style={{
                       width: "30px",
@@ -336,7 +336,7 @@ function Profile() {
               </Username>
               {data?.seeProfile?.official ? (
                 <img
-                  src="official.png"
+                  src="verifiedIcon.svg"
                   alt="official"
                   style={{
                     width: "30px",
