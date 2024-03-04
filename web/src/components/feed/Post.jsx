@@ -235,6 +235,7 @@ export const PostContainer = styled.div`
   margin-bottom: 20px;
   border-radius: 20px;
   background-color: white;
+  box-shadow: 0px 4px 4px 0px #0000001A;
 `
 
 export const PostHeader = styled.div`
