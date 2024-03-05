@@ -264,6 +264,7 @@ const StyledItem = styled.div`
 
 const NotificationsWrap = styled.div`
   display: flex;
+  border: 1px solid #0000001a;
   overflow: hidden;
   flex-direction: column;
   height: calc(100dvh - 60px);

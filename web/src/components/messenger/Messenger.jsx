@@ -272,6 +272,7 @@ export const MessengerWrap = styled.div`
   margin-top: 38px;
   display: flex;
   width: 1000px;
+  border: 1px solid #0000001a;
 
   .username {
     text-align: center;

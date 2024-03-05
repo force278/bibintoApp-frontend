@@ -74,7 +74,7 @@ function Profile() {
     const body = document.querySelector("body")
     body.style.backgroundColor = "#fff"
     return () => {
-      body.style.backgroundColor = "#F2F2F7"
+      body.style.backgroundColor = "#ffffff"
     }
   }, [])
 
