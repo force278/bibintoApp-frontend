@@ -12,8 +12,9 @@ import { Link } from "react-router-dom"
 import logoIcon from "../../assets/img/bibinto.svg"
 import Notification from "./Notification/Notification"
 import InfoFooter from "../InfoFooter"
-import IconEye from "../../assets/img/IconEye"
+import CloseLock from "../../assets/img/CloseLock"
 import AppBtns from "../../components/auth/AppBtns"
+import OpenLock from "../../assets/img/OpenLock"
 
 function Login({
   register,
@@ -89,7 +90,7 @@ function Login({
                 className="btnShow"
                 onClick={() => showInput("password")}
               >
-                {showedInput === "password" ? IconEye : IconEye}
+                {showedInput === "password" ? OpenLock : CloseLock}
               </button>
             </div>
             <FormError message={formState.errors?.password?.message} />
