@@ -68,10 +68,7 @@
         }
       ],
       "react/jsx-no-target-blank": "warn",
-      "semi": [
-        "error",
-        "never"
-      ]
+      "semi": "off"
     }
   },
   "prettier": "prettier-config-nick",

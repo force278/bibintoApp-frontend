@@ -58,18 +58,29 @@ function Search() {
   const [open, setOpen] = useState(false)
   const [searchValue, setSearchValue] = useState("")
   const history = useHistory()
+  let timeoutId
+
   useEffect(() => {
-    searchUsers({ variables: { keyword: "" } })
-  }, [searchUsers])
+    clearTimeout(timeoutId)
+    if (searchValue.trim() !== "") {
+      timeoutId = setTimeout(() => {
+        searchUsers({ variables: { keyword: searchValue.trim() } })
+      }, 300)
+    }
+  }, [searchValue, searchUsers])
 
   const options = data?.searchUsers || []
+
+  console.log(options)
 
   return (
     <div className="d-flex flex-row">
       <div className="inputSearch hideElement">
         <StyledAutocomplete
-          id="country-select-demo"
-          sx={{ width: 200 }}
+          id="search-users"
+          sx={{
+            width: 200,
+          }}
           open={open}
           onOpen={() => {
             setOpen(true)
@@ -84,7 +95,7 @@ function Search() {
           options={options}
           loading={loading}
           autoHighlight
-          noOptionsText="Ничего не найдено"
+          noOptionsText="Введите запрос"
           inputValue={searchValue}
           onInputChange={(event) => setSearchValue(event?.target?.value || "")}
           onChange={(event, newValue) => {
@@ -97,7 +108,12 @@ function Search() {
           renderOption={(props, option) => (
             <Box
               component="li"
-              sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+              sx={{
+                fontSize: "18px",
+                padding: 0,
+                margin: 0,
+                "& > img": { mr: 2, flexShrink: 0 },
+              }}
               {...props}
             >
               <img
@@ -107,7 +123,9 @@ function Search() {
                 style={{ borderRadius: "50%" }}
                 alt=""
               />
-              {option.username}
+              {option.username.length > 12
+                ? `${option.username.substring(0, 12)}...`
+                : option.username}
             </Box>
           )}
           renderInput={(params) => (
@@ -118,6 +136,7 @@ function Search() {
                 ...params.inputProps,
                 autoComplete: "new-password",
               }}
+              onChange={(event) => setSearchValue(event?.target?.value || "")}
             />
           )}
         />
