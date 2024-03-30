@@ -11,8 +11,8 @@ const URL_UPLOAD_QUERY = gql`
   }
 `
 const POST_PHOTO = gql`
-  mutation uploadPhoto($file: String!, $person: Boolean!) {
-    uploadPhoto(file: $file, person: $person) {
+  mutation uploadPhoto($file: String!) {
+    uploadPhoto(file: $file) {
       id
     }
   }
@@ -86,25 +86,18 @@ export const UploadPopUp = ({ onClose, uploadInputRef }) => {
       })
       const formData = new FormData()
       formData.append("file", file)
-      await fetch("https://neuro.bibinto.com/", {
-        method: "POST",
-        body: formData,
-      }).then(async (re) => {
-        await re.json().then(async (res) => {
-          await fetch(updatedUrl, {
-            method: "PUT",
-            headers: {
-              "Content-type": "multipart/form-data",
-            },
-            body: file,
-          }).then(() => {
-            uploadDB({
-              variables: { file: updatedUrl.split("?")[0], person: res.person },
-            })
-            onClose()
-            setUploadingState(false)
-          })
+      await fetch(updatedUrl, {
+        method: "PUT",
+        headers: {
+          "Content-type": "multipart/form-data",
+        },
+        body: file,
+      }).then(() => {
+        uploadDB({
+          variables: { file: updatedUrl.split("?")[0] },
         })
+        onClose()
+        setUploadingState(false)
       })
     })
   }

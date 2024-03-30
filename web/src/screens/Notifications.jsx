@@ -6,8 +6,8 @@ import { Link, useHistory } from "react-router-dom/cjs/react-router-dom.min"
 import { client } from "../apollo"
 
 const SEE_NOTIFIC = gql`
-  query seeNotifications($page: Int!) {
-    seeNotifications(page: $page) {
+  query seeNotifications {
+    seeNotifications {
       likes {
         createdAt
         photo {
@@ -18,8 +18,8 @@ const SEE_NOTIFIC = gql`
           avatar
           username
         }
+        read
       }
-      totalPages
       comments {
         createdAt
         photo {
@@ -30,6 +30,13 @@ const SEE_NOTIFIC = gql`
           username
         }
         payload
+        read
+      }
+      subs {
+        username
+        avatar
+        createdAt
+        read
       }
     }
   }
@@ -60,16 +67,18 @@ const SUB_NOTIFIC_UPDATES = gql`
           username
         }
       }
+      sub {
+        username
+        avatar
+      }
     }
   }
 `
 
 const Notifications = () => {
   const history = useHistory()
-  const [page, setPage] = useState(1)
   const [allList, setAllList] = useState([])
-  const [, setLoading] = useState(true) //loading
-  const [totalPages, setTotalPages] = useState(1)
+  const [loading, setLoading] = useState(true) //loading
 
   const { cache } = client
 
@@ -79,7 +88,6 @@ const Notifications = () => {
   }, [])
 
   const { subscribeToMore, data } = useQuery(SEE_NOTIFIC, {
-    variables: { page },
     onError: () => setLoading(false),
     onCompleted: () => {
       setLoading(false)
@@ -90,25 +98,12 @@ const Notifications = () => {
       if (data?.seeNotifications?.comments) {
         arr.push(...data.seeNotifications.comments)
       }
-      if (page === 1) {
-        setAllList([...arr.sort((a, b) => b.createdAt - a.createdAt)])
-      } else {
-        setAllList((prev) => [
-          ...prev,
-          ...arr.sort((a, b) => b.createdAt - a.createdAt),
-        ])
+      if (data?.seeNotifications?.subs) {
+        arr.push(...data.seeNotifications.subs)
       }
+      setAllList([...arr.sort((a, b) => a.createdAt - b.createdAt)])
     },
   })
-
-  useEffect(() => {
-    if (
-      data?.seeNotifications?.totalPages &&
-      data.seeNotifications.totalPages !== totalPages
-    ) {
-      setTotalPages(data.seeNotifications.totalPages)
-    }
-  }, [data, totalPages])
 
   useEffect(() => {
     const subscribe = subscribeToMore({
@@ -118,14 +113,20 @@ const Notifications = () => {
         cache.reset()
         if (subscriptionData?.data?.notificationsUpdates?.like) {
           setAllList((prev) => [
-            ...prev,
             subscriptionData.data.notificationsUpdates.like,
+            ...prev,
           ])
         }
         if (subscriptionData?.data?.notificationsUpdates?.comment) {
           setAllList((prev) => [
-            ...prev,
             subscriptionData.data.notificationsUpdates.comment,
+            ...prev,
+          ])
+        }
+        if (subscriptionData?.data?.notificationsUpdates?.sub) {
+          setAllList((prev) => [
+            subscriptionData.data.notificationsUpdates.sub,
+            ...prev,
           ])
         }
       },
@@ -134,41 +135,15 @@ const Notifications = () => {
     // eslint-disable-next-line
   }, [subscribeToMore])
 
-  useEffect(() => {
-    const notificList = document.getElementById("notific_list")
-    if (!notificList) return
-    const checking = (e) => {
-      // alert(e.target.scrollTop + e.target.clientHeight)
-      // alert(e.target.scrollHeight)
-      if (
-        e.target.scrollTop + e.target.clientHeight + 100 >
-        e.target.scrollHeight
-      ) {
-        setLoading(true)
-        setPage((prev) => +prev + 1)
-      }
+  function whatIsNotif(item) {
+    if (item.payload) {
+      return `прокомментировал(а): ${item.payload}`
     }
-
-    if (
-      totalPages > 1 &&
-      page < totalPages &&
-      notificList.getBoundingClientRect().height >
-        notificList.firstElementChild.getBoundingClientRect().height
-    ) {
-      setLoading(true)
-      setPage((prev) => +prev + 1)
+    if (item.username) {
+      return `на вас подписался(лась)`
     }
-
-    if (totalPages > 1 && page < totalPages) {
-      notificList.addEventListener("scroll", checking)
-    } else {
-      notificList.removeEventListener("scroll", checking)
-    }
-    return () => {
-      notificList.removeEventListener("scroll", checking)
-    }
-    // eslint-disable-next-line
-  }, [totalPages])
+    return "понравилась ваша публикация"
+  }
 
   return (
     <NotificationsWrap>
@@ -189,22 +164,32 @@ const Notifications = () => {
           </p>
           {allList.length > 0 &&
             allList.map((item, index) => (
-              <StyledItem key={index}>
-                <Link to={`/${item.user.username}`}>
-                  <Avatar src={item.user?.avatar} />
-                </Link>
-                <div className="textWrap">
-                  <p>{item.user.username}</p>
-                  <span>
-                    {item.payload
-                      ? `прокомментировал(а): ${item.payload}`
-                      : "понравилась ваша публикация"}{" "}
-                  </span>
-                </div>
-                <StyledPhoto>
-                  <img src={item.photo.file} alt="" />
-                </StyledPhoto>
-              </StyledItem>
+              <>
+                {item.username ? (
+                  <StyledItem key={index}>
+                    <Link to={`/${item.username}`}>
+                      <Avatar src={item?.avatar} />
+                    </Link>
+                    <div className="textWrap">
+                      <p>{item.username}</p>
+                      <span>{whatIsNotif(item)}</span>
+                    </div>
+                  </StyledItem>
+                ) : (
+                  <StyledItem key={index}>
+                    <Link to={`/${item.user.username}`}>
+                      <Avatar src={item.user?.avatar} />
+                    </Link>
+                    <div className="textWrap">
+                      <p>{item.user.username}</p>
+                      <span>{whatIsNotif(item)}</span>
+                    </div>
+                    <StyledPhoto>
+                      <img src={item.photo.file} alt="" />
+                    </StyledPhoto>
+                  </StyledItem>
+                )}{" "}
+              </>
             ))}
         </div>
       </StyledList>
