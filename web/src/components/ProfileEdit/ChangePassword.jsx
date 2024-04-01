@@ -5,8 +5,7 @@ import styled from "styled-components"
 import React, { useState } from "react"
 import FormError from "../auth/FormError"
 import { useForm } from "react-hook-form"
-import CloseLock from "../../assets/img/CloseLock"
-import OpenLock from "../../assets/img/OpenLock"
+import IconEye from "../../assets/img/IconEye"
 import { gql, useMutation } from "@apollo/client"
 
 const EDIT_PROFILE_MUTATION = gql`
@@ -104,7 +103,7 @@ export const ChangePassword = () => {
             className="btnShow"
             onClick={() => showInput("curPas")}
           >
-            {showedInput === "curPas" ? OpenLock : CloseLock}
+            {showedInput === "curPas" ? IconEye : IconEye}
           </button>
         </div>
         <FormError message={formState.errors?.curPas?.message} />
@@ -124,7 +123,7 @@ export const ChangePassword = () => {
             className="btnShow"
             onClick={() => showInput("newPas")}
           >
-            {showedInput === "newPas" ? OpenLock : CloseLock}
+            {showedInput === "newPas" ? IconEye : IconEye}
           </button>
         </div>
         <FormError message={formState.errors?.newPas?.message} />
@@ -144,7 +143,7 @@ export const ChangePassword = () => {
             className="btnShow"
             onClick={() => showInput("reNewPas")}
           >
-            {showedInput === "reNewPas" ? OpenLock : CloseLock}
+            {showedInput === "reNewPas" ? IconEye : IconEye}
           </button>
         </div>
         <FormError message={formState.errors?.reNewPas?.message} />

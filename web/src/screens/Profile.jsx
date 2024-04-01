@@ -70,13 +70,13 @@ function Profile() {
     variables: { username },
   })
 
-  useEffect(() => {
-    const body = document.querySelector("body")
-    body.style.backgroundColor = "#fff"
-    return () => {
-      body.style.backgroundColor = "#ffffff"
-    }
-  }, [])
+  // useEffect(() => {
+  //   const body = document.querySelector("body")
+  //   body.style.backgroundColor = "#fff"
+  //   return () => {
+  //     body.style.backgroundColor = "#fdfdff"
+  //   }
+  // }, [])
 
   const unfollowUserUpdate = (cache, result) => {
     const {
@@ -254,7 +254,7 @@ function Profile() {
                 )}
                 {data?.seeProfile?.official ? (
                   <img
-                    src="verifiedIcon.svg"
+                    src="official.png"
                     alt="official"
                     style={{
                       width: "30px",
@@ -330,13 +330,13 @@ function Profile() {
           )}
 
           <Column>
-            <Row>
+            <Row style={{ gap: "20px" }}>
               <Username>
                 {data?.seeProfile?.username || "Пользователь не найден"}
               </Username>
               {data?.seeProfile?.official ? (
                 <img
-                  src="verifiedIcon.svg"
+                  src="official.png"
                   alt="official"
                   style={{
                     width: "30px",
@@ -507,7 +507,6 @@ function Profile() {
           className="mobilePostContainer"
           style={{
             width: "585px",
-            margin: "0 auto",
             opacity: `${loadingPopupPosts ? 0 : 1}`,
           }}
         >
@@ -535,8 +534,9 @@ const StyledProfileContainer = styled.div`
   margin-top: 65px;
   .mobilePostContainer {
     flex: 1;
-    overflow: auto;
-    margin-bottom: 0;
+    margin: 0 auto;
+    // overflow: auto;
+    // margin-bottom: 65px;
   }
   .popupPost:last-child {
     min-height: calc(100dvh - 123px);
@@ -548,9 +548,15 @@ const StyledProfileContainer = styled.div`
     overflow: hidden;
     flex-direction: column;
     height: calc(100dvh - 60px);
+    .mobilePostContainer {
+      overflow: auto;
+    }
   }
   @media (min-width: 768px) {
-    max-height: calc(100dvh - 73px);
+    max-height: calc(100dvh);
+    .mobilePostContainer {
+      padding-bottom: 65px;
+    }
   }
 `
 
@@ -717,14 +723,14 @@ const Grid = styled.div`
 
   @media (max-width: 768px) {
     flex: 1;
-    gap: 2px;
+    gap: 5px;
     padding: 0;
     overflow: auto;
     max-width: 100vw;
     overflow: hidden;
     margin: 32px 0 -16px 0;
-    grid-auto-rows: calc(33.33vw);
-    grid-template-columns: repeat(3, calc(33.33vw));
+    grid-auto-rows: calc(33.33vw - 3.33px);
+    grid-template-columns: repeat(3, calc(33.33vw - 3.33px));
   }
 `
 
@@ -784,7 +790,7 @@ const BtnSettings = styled(DefaultButton).attrs({
   display: flex;
   cursor: pointer;
   margin-top: 0px;
-  margin-left: 20px;
+  // margin-left: 20px;
   padding: 8px 12px;
   background: #f2f2f7;
   border-radius: 6px;
@@ -801,6 +807,7 @@ const BtnSettings = styled(DefaultButton).attrs({
     font-size: 15px;
     height: auto;
     width: auto;
+    // margin-bottom: 20px;
     padding: 10px 12px;
   }
 `
@@ -808,23 +815,26 @@ const BtnSettings = styled(DefaultButton).attrs({
 export const MobBtns = styled.div`
   gap: 8px;
   display: flex;
-`
-
-const DefaultBtn = styled(DefaultButton).attrs({
-  as: "span",
-})`
-  margin-left: 10px;
-  margin-top: 0px;
-  padding: 8px 10px;
-  cursor: pointer;
-
-  @media (max-width: 768px) {
-    border: 0;
-    margin: 0;
-    color: #76768c;
-    background: #f2f2f7;
+  * {
+    margin: 0 !important;
   }
 `
+
+// const DefaultBtn = styled(DefaultButton).attrs({
+//   as: "span",
+// })`
+//   margin-left: 10px;
+//   margin-top: 0px;
+//   padding: 8px 10px;
+//   cursor: pointer;
+
+//   @media (max-width: 768px) {
+//     border: 0;
+//     margin: 0;
+//     color: #76768c;
+//     background: #f2f2f7;
+//   }
+// `
 const ChatBtn = styled(DefaultButton).attrs({
   as: "span",
 })`

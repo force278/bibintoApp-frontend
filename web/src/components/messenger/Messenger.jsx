@@ -178,67 +178,65 @@ const Messenger = () => {
   return (
     <>
       {!isMobile && (
-        <div className="onlyDesk">
-          <MessengerWrap>
-            <DialoguesWrap>
-              <ul className="dialogues">
-                {dialoguesList.length === 0 && (
-                  <p
-                    style={{ padding: "16px", color: "#76768c" }}
-                    className="title"
-                  >
-                    Диалогов пока нет
-                  </p>
-                )}
-                {dialoguesList.map((dialogue, index) => {
-                  const lastMes = [...dialogue.messages].sort(
-                    (a, b) => b.id - a.id,
-                  )[0]
-                  const companion = dialogue.users.find((user) => !user.isMe)
-                  const unreadTotal = dialogue.messages?.length
-                    ? dialogue.messages.filter(
-                        (mes) => !mes.user.isMe && !mes.read,
-                      ).length
-                    : 0
-                  return (
-                    <li className="dialogue" key={index}>
-                      <Link to={`/${companion.username}`}>
-                        <div className="avatarWrap">
-                          <Avatar src={companion.avatar} />
-                        </div>
-                      </Link>
-                      <Link
-                        to={`/me?${"user=" + companion.username}`}
-                        style={{ flex: 1 }}
-                      >
-                        <div className="info">
-                          <p className="username">{companion.username}</p>
-                          <p className="message">{lastMes.payload}</p>
-                        </div>
-                      </Link>
-                      <div className="statusWrap">
-                        <div className="status">
-                          {lastMes.user.isMe && lastMes.read && (
-                            <img src={mesViewed} alt="" />
-                          )}
-                          {lastMes.user.isMe && !lastMes.read && (
-                            <img src={mesNotViewed} alt="" />
-                          )}
-                          {!lastMes.user.isMe && unreadTotal ? (
-                            <span className="statusUnread">{unreadTotal}</span>
-                          ) : (
-                            ""
-                          )}
-                        </div>
+        <MessengerWrap>
+          <DialoguesWrap>
+            <ul className="dialogues">
+              {dialoguesList.length === 0 && (
+                <p
+                  style={{ padding: "16px", color: "#76768c" }}
+                  className="title"
+                >
+                  Диалогов пока нет
+                </p>
+              )}
+              {dialoguesList.map((dialogue, index) => {
+                const lastMes = [...dialogue.messages].sort(
+                  (a, b) => b.id - a.id,
+                )[0]
+                const companion = dialogue.users.find((user) => !user.isMe)
+                const unreadTotal = dialogue.messages?.length
+                  ? dialogue.messages.filter(
+                      (mes) => !mes.user.isMe && !mes.read,
+                    ).length
+                  : 0
+                return (
+                  <li className="dialogue" key={index}>
+                    <Link to={`/${companion.username}`}>
+                      <div className="avatarWrap">
+                        <Avatar src={companion.avatar} />
                       </div>
-                    </li>
-                  )
-                })}
-              </ul>
-            </DialoguesWrap>
-            <Chat username={user} messages={curChatMes} mesSended={mesSended} />
-          </MessengerWrap>
-        </div>
+                    </Link>
+                    <Link
+                      to={`/me?${"user=" + companion.username}`}
+                      style={{ flex: 1 }}
+                    >
+                      <div className="info">
+                        <p className="username">{companion.username}</p>
+                        <p className="message">{lastMes.payload}</p>
+                      </div>
+                    </Link>
+                    <div className="statusWrap">
+                      <div className="status">
+                        {lastMes.user.isMe && lastMes.read && (
+                          <img src={mesViewed} alt="" />
+                        )}
+                        {lastMes.user.isMe && !lastMes.read && (
+                          <img src={mesNotViewed} alt="" />
+                        )}
+                        {!lastMes.user.isMe && unreadTotal ? (
+                          <span className="statusUnread">{unreadTotal}</span>
+                        ) : (
+                          ""
+                        )}
+                      </div>
+                    </div>
+                  </li>
+                )
+              })}
+            </ul>
+          </DialoguesWrap>
+          <Chat username={user} messages={curChatMes} mesSended={mesSended} />
+        </MessengerWrap>
       )}
       {isMobile && (
         <MessengerMob
@@ -272,7 +270,7 @@ export const MessengerWrap = styled.div`
   margin-top: 38px;
   display: flex;
   width: 1000px;
-  border: 1px solid #0000001a;
+  max-width: 100%;
 
   .username {
     text-align: center;
@@ -281,7 +279,9 @@ export const MessengerWrap = styled.div`
     display: grid;
     grid-template-columns: 0.2fr 0.6fr 0.2fr;
   }
-
+  @media (min-width: 768px) {
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 10px 0px;
+  }
   @media (min-width: 768px) {
     background-color: #fff;
   }

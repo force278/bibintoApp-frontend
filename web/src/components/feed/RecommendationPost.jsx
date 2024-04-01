@@ -13,11 +13,15 @@ import Avatar from "../Avatar"
 import more from "../../assets/img/post/more.svg"
 // import Modal from "../modal/Modal"
 import ModalContent from "../modal/ModalContent"
-import React, { useState } from "react"
-import likeIcon from "../../assets/img/like"
-import likeIconDark from "../../assets/img/likeIconDark"
-import heartDislike from "../../assets/img/heartDislike"
-import heartDislikeFull from "../../assets/img/heartDislikeFull"
+import React, { useEffect, useState } from "react"
+
+import likeIcon from "../../assets/icons/like.svg"
+import likeIconFill from "../../assets/icons/likeFill.svg"
+
+import dislikeIcon from "../../assets/icons/dislike.svg"
+import dislikeIconFill from "../../assets/icons/dislikeFill.svg"
+import verifiedIcon from "../../assets/img/verifiedIcon.svg"
+
 // import { faHeart } from "@fortawesome/free-regular-svg-icons"
 // import {
 //   faHeart as SolidHeart,
@@ -29,6 +33,7 @@ import defaultAvatar from "../../assets/img/DefaultAvatar.png"
 import styled from "styled-components"
 import useMe from "../../hooks/useMe"
 import ReportPopup from "./ReportPopup"
+import ModalAlert from "../modalAlert"
 // import { useRef } from "react"
 // import { useEffect } from "react"
 
@@ -58,9 +63,18 @@ export function RecommendationPost({
   isMine,
 }) {
   const client = useApolloClient()
+
   const [followed, setFollowed] = useState(user.isFollowing)
   const [reportPopup, setReportPopupShowed] = useState(false)
+  const [modalAlert, setModalAlert] = useState(false)
   const { data: userData } = useMe()
+
+  useEffect(() => {
+    modalAlert &&
+      setTimeout(() => {
+        setModalAlert(false)
+      }, 2000)
+  }, [modalAlert])
 
   const updateToggleLike = (cache, result) => {
     const {
@@ -152,7 +166,7 @@ export function RecommendationPost({
         </Link>
         {user.official ? (
           <img
-            src="verifiedIcon.svg"
+            src={verifiedIcon}
             alt="official"
             style={{
               width: "25px",
@@ -187,7 +201,13 @@ export function RecommendationPost({
             style={{ display: isLiked ? "none" : "block" }}
           >
             <IconAction>
-              <div> {isDisliked ? heartDislikeFull : heartDislike}</div>
+              <div>
+                {" "}
+                <img
+                  src={!isDisliked ? dislikeIcon : dislikeIconFill}
+                  alt=""
+                />{" "}
+              </div>
             </IconAction>
 
             {/* <FontAwesomeIcon
@@ -204,7 +224,10 @@ export function RecommendationPost({
             style={{ display: isDisliked ? "none" : "block" }}
           >
             <IconAction>
-              <div>{isLiked ? likeIconDark : likeIcon}</div>
+              <div>
+                {" "}
+                <img src={!isLiked ? likeIcon : likeIconFill} alt="" />{" "}
+              </div>
             </IconAction>
             {/* <FontAwesomeIcon
               style={{
@@ -222,8 +245,14 @@ export function RecommendationPost({
         <ModalContent id={id} isMine={isMine} />
       </Modal> */}
       {reportPopup && (
-        <ReportPopup photoId={id} close={() => setReportPopupShowed(false)} />
+        <ReportPopup
+          photoId={id}
+          setResMes={() => setModalAlert(true)}
+          close={() => setReportPopupShowed(false)}
+        />
       )}
+
+      {modalAlert && <ModalAlert text={"Жалоба успешно отправлена"} />}
     </PostContainer>
   )
 }
@@ -259,6 +288,7 @@ const IconAction = styled.div`
     width: 100%;
     height: auto;
   }
+  justify-content: center;
   @media (max-width: 768px) {
     width: 28px;
     height: auto;

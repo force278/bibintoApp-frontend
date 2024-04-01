@@ -9,6 +9,7 @@ const routes = {
   messenger: "/me",
   accountEditProfile: "/accountEditProfile",
   accountChangePassword: "/account/accountChangePassword",
+  accountTechSupport: "/account/accountTechSupport",
   accountChangeEmail: "/account/accountChangeEmail",
   accountConfirm: "/account/accountConfirm",
   accountSettingsProfile: "/accountSettingsProfile",

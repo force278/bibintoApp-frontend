@@ -56,7 +56,13 @@ const ModalContent = ({ id, isMine, closeModal, openReportPopup }) => {
           {"Удалить фото"}
         </div>
       ) : (
-        <div className="Report" onClick={openReportPopup}>
+        <div
+          className="Report"
+          onClick={() => {
+            openReportPopup()
+            closeModal()
+          }}
+        >
           {"Пожаловаться"}
         </div>
       )}

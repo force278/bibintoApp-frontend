@@ -41,6 +41,7 @@ const httpLink = createHttpLink({
     process.env.NODE_ENV === "production"
       ? "https://api.bibinto.com/"
       : "http://localhost:4000/",
+  // "https://api.bibinto.com/",
 })
 
 const authLink = setContext((_, { headers }) => {

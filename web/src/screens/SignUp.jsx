@@ -5,7 +5,7 @@ import { useEffect } from "react"
 import InfoFooter from "./InfoFooter"
 import { useRef, useState } from "react"
 import Input from "../components/auth/Input"
-import IconEye from "../assets/img/CloseLock"
+import IconEye from "../assets/img/IconEye"
 import ReactCodeInput from "react-code-input"
 import Button from "../components/auth/Button"
 import PageTitle from "../components/PageTitle"
@@ -97,35 +97,33 @@ function SignUp() {
     const formData = new FormData()
     formData.append("file", file)
     try {
-      await fetch("https://neuro.bibinto.com/", {
-        method: "POST",
-        body: formData,
-      }).then(async (res) => {
-        await res.json().then(async (data) => {
-          // if (data) {
-          if (data.person) {
-            const response = await fetch(imageUrl, {
-              method: "PUT",
-              headers: {
-                "Content-Type": "multipart/form-data",
-              },
-              body: file,
-            })
-            if (response.ok) {
-              console.log("фото успешно загружено")
-              const img = uploadData.getUrlUploadPhoto.split("?")[0]
-              setAvatar(img)
-              clearErrors("avatar")
-            } else {
-              console.error("Ошибка при загрузке фотографии")
-            }
-          } else {
-            alert("На фото не человек")
-          }
-          setAvatarLoading(false)
-        })
+      // await fetch("https://neuro.bibinto.com/", {
+      //   method: "POST",
+      //   body: formData,
+      // }).then(async (res) => {
+      //   await res.json().then(async (data) => {
+
+      // if (data) {
+      const response = await fetch(imageUrl, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        body: file,
       })
+      if (response.ok) {
+        console.log("фото успешно загружено")
+        const img = uploadData.getUrlUploadPhoto.split("?")[0]
+        setAvatar(img)
+        clearErrors("avatar")
+      } else {
+        throw new Error("Ошибка при загрузке фотографии")
+      }
+      setAvatarLoading(false)
+      //   })
+      // })
     } catch (error) {
+      setPreview(null)
       setAvatarLoading(false)
       setError("avatar", "Не удалось загрузить аватар")
       console.error("Произошла ошибка", error)
@@ -230,7 +228,7 @@ function SignUp() {
         return
       }
       delete data.repassword
-      if (!avatar && preview) {
+      if (avatarLoading) {
         return setError("avatar", { message: "Аватар загружается..." })
       }
       if (!avatar) {
@@ -547,11 +545,11 @@ function SignUp() {
                       value={"Зарегистрироваться"}
                       disabled={Object.keys(formState.errors).length || loading}
                     />
-                    <FormError
-                      message={formState.errors?.result?.message}
-                      center
-                    />
                   </div>
+                  <FormError
+                    message={formState.errors?.result?.message}
+                    center
+                  />
                   <div className="textLine">
                     <span>Уже есть аккаунт?</span>
                   </div>

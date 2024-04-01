@@ -38,7 +38,7 @@ const SEE_USER = gql`
   }
 `
 
-const ChatMob = ({ username, messages, mesSended }) => {
+const ChatMob = ({ username, messages }) => {
   const history = useHistory()
   const [user, setUser] = useState({})
   const [loading, setLoading] = useState(true)
@@ -76,7 +76,6 @@ const ChatMob = ({ username, messages, mesSended }) => {
     },
     onCompleted: (data) => {
       if (data?.sendMessage?.ok) {
-        mesSended()
         setValue("message", "")
       } else {
         alert("Вы не подписаны друг на друга")

@@ -44,7 +44,7 @@ export function Report({ id, user, file }) {
         </Link>
         {user.official ? (
           <img
-            src="verifiedIcon.svg"
+            src="official.png"
             alt="official"
             style={{
               width: "25px",

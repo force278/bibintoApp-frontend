@@ -6,8 +6,8 @@ import { Link, useHistory } from "react-router-dom/cjs/react-router-dom.min"
 import { client } from "../apollo"
 
 const SEE_NOTIFIC = gql`
-  query seeNotifications {
-    seeNotifications {
+  query seeNotifications($page: Int!) {
+    seeNotifications(page: $page) {
       likes {
         createdAt
         photo {
@@ -18,8 +18,8 @@ const SEE_NOTIFIC = gql`
           avatar
           username
         }
-        read
       }
+      totalPages
       comments {
         createdAt
         photo {
@@ -30,13 +30,6 @@ const SEE_NOTIFIC = gql`
           username
         }
         payload
-        read
-      }
-      subs {
-        username
-        avatar
-        createdAt
-        read
       }
     }
   }
@@ -67,50 +60,64 @@ const SUB_NOTIFIC_UPDATES = gql`
           username
         }
       }
-      sub {
-        username
-        avatar
-      }
     }
   }
 `
 
 const Notifications = () => {
   const history = useHistory()
+  const [page, setPage] = useState(1)
   const [allList, setAllList] = useState([])
-  const [loading, setLoading] = useState(true) //loading
-
+  const [loading, setLoading] = useState(true)
+  const [totalPages, setTotalPages] = useState(0)
   const { cache } = client
 
   useEffect(() => {
+    cache.reset()
     return () => cache.reset()
     // eslint-disable-next-line
   }, [])
 
   const { subscribeToMore, data } = useQuery(SEE_NOTIFIC, {
-    onError: () => setLoading(false),
-    onCompleted: () => {
+    variables: { page },
+    onError: () => {
+      setAllList([])
       setLoading(false)
+      cache.reset()
+    },
+    onCompleted: () => {
       const arr = []
+      if (!totalPages) setTotalPages(data?.seeNotifications?.totalPages || 0)
       if (data?.seeNotifications?.likes) {
         arr.push(...data.seeNotifications.likes)
       }
       if (data?.seeNotifications?.comments) {
         arr.push(...data.seeNotifications.comments)
       }
-      if (data?.seeNotifications?.subs) {
-        arr.push(...data.seeNotifications.subs)
+
+      if (page === 1) {
+        setAllList([...arr.sort((a, b) => b.createdAt - a.createdAt)])
+      } else {
+        setAllList((prev) => [
+          ...prev,
+          ...arr.sort((a, b) => b.createdAt - a.createdAt),
+        ])
       }
-      setAllList([...arr.sort((a, b) => a.createdAt - b.createdAt)])
+      setLoading(false)
     },
   })
 
   useEffect(() => {
     const subscribe = subscribeToMore({
       document: SUB_NOTIFIC_UPDATES,
+      onError: () => {
+        cache.reset()
+        setAllList([])
+        setLoading(false)
+      },
       updateQuery: (prev, { subscriptionData }) => {
         // seeNotifications
-        cache.reset()
+        // cache.reset()
         if (subscriptionData?.data?.notificationsUpdates?.like) {
           setAllList((prev) => [
             subscriptionData.data.notificationsUpdates.like,
@@ -123,27 +130,46 @@ const Notifications = () => {
             ...prev,
           ])
         }
-        if (subscriptionData?.data?.notificationsUpdates?.sub) {
-          setAllList((prev) => [
-            subscriptionData.data.notificationsUpdates.sub,
-            ...prev,
-          ])
-        }
       },
     })
     return () => subscribe()
     // eslint-disable-next-line
   }, [subscribeToMore])
 
-  function whatIsNotif(item) {
-    if (item.payload) {
-      return `прокомментировал(а): ${item.payload}`
+  useEffect(() => {
+    const notificList = document.getElementById("notific_list")
+    if (!notificList) return
+    const checking = (e) => {
+      if (
+        !loading &&
+        e.target.scrollTop + e.target.clientHeight + 100 > e.target.scrollHeight
+      ) {
+        setLoading(true)
+        setPage((prev) => +prev + 1)
+      }
     }
-    if (item.username) {
-      return `на вас подписался(лась)`
+
+    if (
+      !loading &&
+      totalPages > 1 &&
+      page < totalPages &&
+      notificList.getBoundingClientRect().height >
+        notificList.firstElementChild.getBoundingClientRect().height
+    ) {
+      setLoading(true)
+      setPage((prev) => +prev + 1)
     }
-    return "понравилась ваша публикация"
-  }
+
+    if (totalPages > 1 && page < totalPages) {
+      notificList.addEventListener("scroll", checking)
+    } else {
+      notificList.removeEventListener("scroll", checking)
+    }
+    return () => {
+      notificList.removeEventListener("scroll", checking)
+    }
+    // eslint-disable-next-line
+  }, [totalPages, loading])
 
   return (
     <NotificationsWrap>
@@ -164,32 +190,22 @@ const Notifications = () => {
           </p>
           {allList.length > 0 &&
             allList.map((item, index) => (
-              <>
-                {item.username ? (
-                  <StyledItem key={index}>
-                    <Link to={`/${item.username}`}>
-                      <Avatar src={item?.avatar} />
-                    </Link>
-                    <div className="textWrap">
-                      <p>{item.username}</p>
-                      <span>{whatIsNotif(item)}</span>
-                    </div>
-                  </StyledItem>
-                ) : (
-                  <StyledItem key={index}>
-                    <Link to={`/${item.user.username}`}>
-                      <Avatar src={item.user?.avatar} />
-                    </Link>
-                    <div className="textWrap">
-                      <p>{item.user.username}</p>
-                      <span>{whatIsNotif(item)}</span>
-                    </div>
-                    <StyledPhoto>
-                      <img src={item.photo.file} alt="" />
-                    </StyledPhoto>
-                  </StyledItem>
-                )}{" "}
-              </>
+              <StyledItem key={index}>
+                <Link to={`/${item.user.username}`}>
+                  <Avatar src={item.user?.avatar} />
+                </Link>
+                <div className="textWrap">
+                  <p>{item.user.username}</p>
+                  <span>
+                    {item.payload
+                      ? `прокомментировал(а): ${item.payload}`
+                      : "понравилась ваша публикация"}{" "}
+                  </span>
+                </div>
+                <StyledPhoto>
+                  <img src={item.photo.file} alt="" />
+                </StyledPhoto>
+              </StyledItem>
             ))}
         </div>
       </StyledList>
@@ -249,7 +265,6 @@ const StyledItem = styled.div`
 
 const NotificationsWrap = styled.div`
   display: flex;
-  border: 1px solid #0000001a;
   overflow: hidden;
   flex-direction: column;
   height: calc(100dvh - 60px);
@@ -259,6 +274,7 @@ const NotificationsWrap = styled.div`
     max-width: 100%;
     margin-top: 38px;
     background: #fff;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 10px 0px;
   }
 `
 
