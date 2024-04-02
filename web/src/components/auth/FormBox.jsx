@@ -31,6 +31,7 @@ const SFormBox = styled(BaseBox)`
 
   @media (min-width: 767px) {
     width: 1000px;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 10px 0px;
     max-width: calc(100vw - 60px);
     margin: 100px 30px 50px 30px;
     padding: 70px;

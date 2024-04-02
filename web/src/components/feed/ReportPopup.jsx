@@ -8,20 +8,14 @@ import IconArrowLeft from "../../assets/img/IconArrowLeft.svg"
 import { gql, useMutation } from "@apollo/client"
 import { useState } from "react"
 import { useRef } from "react"
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min"
+import FormError from "../auth/FormError"
 
 const REPORT_PHOTO = gql`
   mutation reportPhoto($photoId: Int!, $reportText: String) {
     reportPhoto(photoId: $photoId, reportText: $reportText) {
       error
       id
-      ok
-    }
-  }
-`
-
-const DELETE_COMMENT_MUTATION = gql`
-  mutation deleteComment($id: Int!) {
-    deleteComment(id: $id) {
       ok
     }
   }
@@ -141,14 +135,11 @@ const ReportWindow = styled.div`
   }
 `
 
-const ReportPopup = ({ close, photoId }) => {
-  const modalRef = useRef()
+const ReportPopup = ({ close, photoId, setResMes }) => {
   const windowRef = useRef()
-  // const history = useHistory()
-  const { data: userData } = useMe()
-  const [showModal, setShowModal] = useState()
+  const history = useHistory()
   const [step, setStep] = useState(1)
-  const { register, handleSubmit, setValue, getValues } = useForm()
+  const { register, handleSubmit, formState } = useForm()
 
   useEffect(() => {
     const body = document.querySelector("body")
@@ -161,75 +152,40 @@ const ReportPopup = ({ close, photoId }) => {
     }
   }, [])
 
-  //   const createCommentUpdate = (cache, result) => {
-  //     const { payload } = getValues()
-  //     setValue("payload", "")
-  //     const {
-  //       data: {
-  //         createComment: { ok, id },
-  //       },
-  //     } = result
-  //     if (ok && userData?.me) {
-  //       const newComment = {
-  //         __typename: "Comment",
-  //         id,
-  //         createdAt: Date.now() + "",
-  //         isMine: true,
-  //         payload,
-  //         user: {
-  //           ...userData.me,
-  //         },
-  //       }
-  //       const newCachedComment = cache.writeFragment({
-  //         fragment: gql`
-  //           fragment newComment on Comment {
-  //             id
-  //             createdAt
-  //             isMine
-  //             payload
-  //             user {
-  //               username
-  //             }
-  //           }
-  //         `,
-  //         data: newComment,
-  //       })
-  //       cache.modify({
-  //         id: `Photo:${photoId}`,
-  //         fields: {
-  //           comments(prev) {
-  //             return [...prev, newCachedComment]
-  //           },
-  //           commentsNumber(prev) {
-  //             return prev + 1
-  //           },
-  //         },
-  //       })
-  //     }
-  //   }
+  console.log(photoId)
 
   const [reportPhoto] = useMutation(REPORT_PHOTO, {
     onCompleted: () => {
-      alert("жалоба успешно отправлена")
+      setResMes(true)
+      close()
+      console.log("жалоба успешно отправлена")
     },
   })
 
-  useEffect(() => {
-    const handleClickOutsideModal = (event) => {
-      if (modalRef.current && !modalRef.current.contains(event.target)) {
-        setShowModal()
-      }
-    }
-    document.addEventListener("click", handleClickOutsideModal)
-    return () => {
-      document.removeEventListener("click", handleClickOutsideModal)
-    }
-    // eslint-disable-next-line
-  }, [])
-
   const handleClick = (e, id) => {
     e.stopPropagation()
-    setStep(2)
+    const variables = { photoId }
+    switch (id) {
+      case 1:
+        variables.reportText = "Спам"
+        break
+      case 2:
+        variables.reportText = "Мошенничество"
+        break
+      case 3:
+        variables.reportText = "Откровенные изображение"
+        break
+      case 4:
+        variables.reportText = "Нарушение авторских прав"
+        break
+      default:
+        break
+    }
+    if (variables.reportText) {
+      reportPhoto({ variables })
+    } else {
+      setStep(2)
+    }
   }
 
   useEffect(() => {
@@ -245,6 +201,15 @@ const ReportPopup = ({ close, photoId }) => {
     }
     // eslint-disable-next-line
   }, [])
+
+  const onSubmitValid = (data) => {
+    reportPhoto({
+      variables: {
+        ...data,
+        photoId,
+      },
+    })
+  }
 
   return (
     <ReportWrap id={"report"}>
@@ -286,7 +251,7 @@ const ReportPopup = ({ close, photoId }) => {
               <p>Нарушение авторских прав</p> <img src={IconArrowLeft} alt="" />
             </button>
 
-            <button>
+            <button onClick={(e) => handleClick(e, 5)}>
               <p>Другое</p> <img src={IconArrowLeft} alt="" />
             </button>
           </StyledList>
@@ -295,16 +260,17 @@ const ReportPopup = ({ close, photoId }) => {
           <StyledForm>
             <p>Вы можете оставить комментарий и пожаловаться на публикацию</p>
             <textarea
-              {...register("payload", { required: true })}
+              {...register("reportText", { required: "Заполните поле" })}
               placeholder="Введите ваш комментарий"
               type="text"
             ></textarea>
+            <FormError message={formState.errors?.reportText?.message} />
             <div className="formSubmitWrap">
               <button
                 type="submit"
                 className="btnSubmit"
-                onClick={handleSubmit}
-                // disabled={Object.keys(formState.errors).length}
+                onClick={handleSubmit(onSubmitValid)}
+                disabled={Object.keys(formState.errors).length}
               >
                 Пожаловаться
               </button>

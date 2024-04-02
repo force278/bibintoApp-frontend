@@ -65,44 +65,45 @@ export default function ChangeEditProfile() {
     const formData = new FormData()
     formData.append("file", file)
     try {
-      await fetch("https://neuro.bibinto.com/", {
-        method: "POST",
-        body: formData,
-      }).then(async (res) => {
-        await res.json().then(async (data) => {
-          //
-          if (data.person) {
-            // if (data) {
-            const response = await fetch(imageUrl, {
-              method: "PUT",
-              headers: {
-                "Content-Type": "multipart/form-data",
-              },
-              body: file,
-            })
-            if (response.ok) {
-              console.log("фото успешно загружено")
-              const img = uploadData.getUrlUploadPhoto.split("?")[0]
-              try {
-                const uploadResponse = await uploadAvatar({
-                  variables: { file: img },
-                })
-                if (uploadResponse.data.uploadAvatar) {
-                  console.log("Фото успешно отправлено на сервер.")
-                } else {
-                  console.error("Ошибка при отправке фотографии на сервер.")
-                }
-              } catch (error) {
-                console.log("Произошла ошибка", error)
-              }
-            } else {
-              console.error("Ошибка при загрузке фотографии")
-            }
-          } else {
-            alert("На фото не человек")
-          }
-        })
+      // await fetch("https://neuro.bibinto.com/", {
+      //   method: "POST",
+      //   body: formData,
+      // }).then(async (res) => {
+      //   await res.json().then(async (data) => {
+      //
+      // if (data.person) {
+      // if (data) {
+      const response = await fetch(imageUrl, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        body: file,
       })
+      if (response.ok) {
+        console.log("фото успешно загружено")
+        const img = uploadData.getUrlUploadPhoto.split("?")[0]
+        try {
+          const uploadResponse = await uploadAvatar({
+            variables: { file: img },
+          })
+          if (uploadResponse.data.uploadAvatar) {
+            console.log("Фото успешно отправлено на сервер.")
+          } else {
+            console.error("Ошибка при отправке фотографии на сервер.")
+          }
+        } catch (error) {
+          console.log("Произошла ошибка", error)
+        }
+      } else {
+        console.error("Ошибка при загрузке фотографии")
+      }
+      // }
+      // else {
+      //   alert("На фото не человек")
+      // }
+      //   })
+      // })
     } catch (error) {
       console.error("Произошла ошибка", error)
     }

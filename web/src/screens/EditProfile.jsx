@@ -43,7 +43,13 @@ export const EditProfile = ({ children }) => {
             >
               <button className="btnSwithWindow">Подтвердить аккаунт</button>
             </NavLink>
-            <button className="btnSwithWindow">Написать в поддержку</button>
+
+            <NavLink
+              to="/account/accountTechSupport"
+              activeClassName="active_profile"
+            >
+              <button className="btnSwithWindow">Написать в поддержку</button>
+            </NavLink>
             {/* <NavLink
               to="/account/accountChangePassword"
               activeClassName="active_profile"

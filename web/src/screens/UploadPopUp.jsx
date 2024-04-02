@@ -61,7 +61,7 @@ function compressImage(uploadInputRef, CanvasRef, maxWidth, maxHeight) {
   })
 }
 
-export const UploadPopUp = ({ onClose, uploadInputRef }) => {
+export const UploadPopUp = ({ onClose, uploadInputRef, onError }) => {
   const CanvasRef = useRef(null)
   const { cache } = client
   const compressedBlob = useRef(null)
@@ -80,26 +80,45 @@ export const UploadPopUp = ({ onClose, uploadInputRef }) => {
   }
 
   async function postImage(updatedUrl, uploadDB) {
-    await handleSave().then(async () => {
-      const file = new File([compressedBlob.current], "test.jpeg", {
-        type: "image/jpeg",
-      })
-      const formData = new FormData()
-      formData.append("file", file)
-      await fetch(updatedUrl, {
-        method: "PUT",
-        headers: {
-          "Content-type": "multipart/form-data",
-        },
-        body: file,
-      }).then(() => {
-        uploadDB({
-          variables: { file: updatedUrl.split("?")[0] },
+    try {
+      await handleSave().then(async () => {
+        const file = new File([compressedBlob.current], "test.jpeg", {
+          type: "image/jpeg",
         })
-        onClose()
-        setUploadingState(false)
+        const formData = new FormData()
+        formData.append("file", file)
+        // await fetch("https://neuro.bibinto.com/", {
+        //   method: "POST",
+        //   body: formData,
+        // }).then(async (re) => {
+
+        // await re.json().then(async (res) => {
+        await fetch(updatedUrl, {
+          method: "PUT",
+          headers: {
+            "Content-type": "multipart/form-data",
+          },
+          body: file,
+        }).then(() => {
+          uploadDB({
+            variables: {
+              file: updatedUrl.split("?")[0],
+              // person: res.person,
+            },
+          })
+          onClose()
+          setUploadingState(false)
+        })
       })
-    })
+
+      // })
+      // })
+    } catch (err) {
+      onClose()
+      console.log(err)
+      setUploadingState(false)
+      onError("Не удалось загрузить фото")
+    }
   }
 
   // Получаем url для загрузки

@@ -169,8 +169,7 @@ function Comments({ photoId, author, caption, commentsNumber, comments }) {
             <button
               type="submit"
               className="bg-transparent border-0"
-              // style={{ color: "#2283F5", fontWeight: "600" }}
-              style={{ color: "#1F1F2C", fontWeight: "600" }}
+              style={{ color: "#1877F2", fontWeight: "600" }}
             >
               Опубликовать
             </button>

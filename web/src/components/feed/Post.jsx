@@ -10,12 +10,13 @@ import defaultAvatar from "../../assets/img/DefaultAvatar.png"
 import likeIcon from "../../assets/img/like"
 import likeIconDark from "../../assets/img/likeIconDark"
 import IconComment from "../../assets/img/IconComment"
+import verifiedIcon from "../../assets/img/verifiedIcon.svg"
 
 // import { faHeart as SolidHeart } from "@fortawesome/free-solid-svg-icons"
 import { gql, useMutation } from "@apollo/client"
 import Comments from "./Comments"
 import { Link } from "react-router-dom"
-import React from "react"
+import React, { useEffect } from "react"
 // import Modal from "../modal/Modal"
 import { useState } from "react"
 import ModalContent from "../modal/ModalContent"
@@ -24,6 +25,7 @@ import CommentsPopupMob from "./CommentsPopupMob"
 import PostPopup from "./PostPopup"
 import { isMob } from "../../utils/isMob"
 import ReportPopup from "./ReportPopup"
+import ModalAlert from "../modalAlert"
 
 const TOGGLE_LIKE_MUTATION = gql`
   mutation toggleLike($id: Int!, $value: Int!) {
@@ -46,8 +48,16 @@ function Post({
   comments,
 }) {
   const [isMobile] = useState(isMob())
+  const [modalAlert, setModalAlert] = useState(false)
   const [reportPopup, setReportPopupShowed] = useState(false)
   const [commentsPopupShowed, setCommentsPopupShowed] = useState(false)
+
+  useEffect(() => {
+    modalAlert &&
+      setTimeout(() => {
+        setModalAlert(false)
+      }, 2000)
+  }, [modalAlert])
 
   const updateToggleLike = (cache, result) => {
     const {
@@ -94,7 +104,7 @@ function Post({
         </Link>
         {user.official ? (
           <img
-            src="verifiedIcon.svg"
+            src={verifiedIcon}
             alt="official"
             style={{
               width: "25px",
@@ -150,8 +160,8 @@ function Post({
           {likes === 1 ? '1 отметка "Нравится"' : `${likes} отметок "Нравится"`}
         </Likes> */}
         <div
-          style={{ cursor: "pointer" }}
-          // onClick={() => setCommentsPopupShowed(true)}
+        // style={{ cursor: "pointer" }}
+        // onClick={() => setCommentsPopupShowed(true)}
         >
           <Comments
             photoId={id}
@@ -164,10 +174,7 @@ function Post({
         {commentsPopupShowed && isMobile && (
           <CommentsPopupMob
             photoId={id}
-            // caption={caption}
             comments={comments}
-            // author={user.username}
-            // commentsNumber={commentsNumber}
             close={() => setCommentsPopupShowed(false)}
           />
         )}
@@ -197,8 +204,13 @@ function Post({
       </PostFooter>
 
       {reportPopup && (
-        <ReportPopup photoId={id} close={() => setReportPopupShowed(false)} />
+        <ReportPopup
+          photoId={id}
+          setResMes={() => setModalAlert(true)}
+          close={() => setReportPopupShowed(false)}
+        />
       )}
+      {modalAlert && <ModalAlert text={"Жалоба успешно отправлена"} />}
       {/* <Modal active={modalActive} setActive={setModalActive}>
         <ModalContent id={id} isMine={isMine} />
       </Modal> */}
@@ -235,9 +247,9 @@ export const PostContainer = styled.div`
   margin-bottom: 20px;
   border-radius: 20px;
   background-color: white;
-  box-shadow:
-    0px -4px 4px 0px #0000001a,
-    0px 4px 4px 0px #0000001a;
+  @media (min-width: 768px) {
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 10px 0px;
+  }
 `
 
 export const PostHeader = styled.div`

@@ -29,7 +29,7 @@ const Following = () => {
   const [isEnd, setIsEnd] = useState(false)
   const [lastId, setLastId] = useState(0)
   const [allList, setAllList] = useState([])
-  const [loading, setLoading] = useState(true) //loading
+  const [loading, setLoading] = useState(true)
   const [totalPages, setTotalPages] = useState(1)
 
   const { cache } = client
@@ -58,8 +58,8 @@ const Following = () => {
     const followingList = document.getElementById("following_list")
     const checking = (e) => {
       if (
-        e.target.scrollTop + e.target.clientHeight ===
-        e.target.scrollHeight
+        !loading &&
+        e.target.scrollTop + e.target.clientHeight === e.target.scrollHeight
       ) {
         setLoading(true)
         if (allList.length && allList[allList.length - 1]) {
@@ -69,6 +69,7 @@ const Following = () => {
     }
     if (
       !isEnd &&
+      !loading &&
       allList.length > 0 &&
       followingList.getBoundingClientRect().height >
         followingList.firstElementChild.getBoundingClientRect().height
@@ -84,7 +85,7 @@ const Following = () => {
       followingList.removeEventListener("scroll", checking)
     }
     // eslint-disable-next-line
-  }, [allList, isEnd])
+  }, [allList, isEnd, loading])
 
   return (
     <FollowersWrap>
@@ -161,6 +162,7 @@ const FollowersWrap = styled.div`
     max-width: 100%;
     margin-top: 38px;
     background: #fff;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 10px 0px;
   }
 `
 

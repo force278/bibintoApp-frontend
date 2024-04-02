@@ -29,7 +29,7 @@ const Followers = () => {
   const { username } = useParams()
   const [page, setPage] = useState(1)
   const [allList, setAllList] = useState([])
-  const [, setLoading] = useState(true) //loading
+  const [loading, setLoading] = useState(true)
   const [totalPages, setTotalPages] = useState(1)
 
   const { cache } = client
@@ -63,8 +63,8 @@ const Followers = () => {
     const followersList = document.getElementById("followers_list")
     const checking = (e) => {
       if (
-        e.target.scrollTop + e.target.clientHeight ===
-        e.target.scrollHeight
+        !loading &&
+        e.target.scrollTop + e.target.clientHeight + 100 > e.target.scrollHeight
       ) {
         setLoading(true)
         setPage((prev) => +prev + 1)
@@ -72,6 +72,7 @@ const Followers = () => {
     }
 
     if (
+      !loading &&
       totalPages > 1 &&
       page < totalPages &&
       followersList.getBoundingClientRect().height >
@@ -90,9 +91,7 @@ const Followers = () => {
       followersList.removeEventListener("scroll", checking)
     }
     // eslint-disable-next-line
-  }, [totalPages])
-
-  console.log(allList)
+  }, [totalPages, loading])
 
   return (
     <FollowersWrap>
@@ -171,6 +170,7 @@ const FollowersWrap = styled.div`
     max-width: 100%;
     margin-top: 38px;
     background: #fff;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 10px 0px;
   }
 `
 

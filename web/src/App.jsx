@@ -33,6 +33,7 @@ import { ChangePassword } from "./components/ProfileEdit/ChangePassword"
 import { ChangeEmail } from "./components/ProfileEdit/ChangeEmail"
 import Followers from "./screens/Followers"
 import Following from "./screens/Following"
+import { TechSupport } from "./components/ProfileEdit/TechSupport"
 
 function App() {
   const isLoggedIn = useReactiveVar(isLoggedInVar)
@@ -109,6 +110,13 @@ function App() {
                       <EditProfile children={<ChangePassword />} />
                     </Layout>
                   </Route>
+
+                  <Route path={routes.accountTechSupport} exact>
+                    <Layout>
+                      <EditProfile children={<TechSupport />} />
+                    </Layout>
+                  </Route>
+
                   <Route path={routes.report} exact>
                     <Layout>
                       <ViewReport />

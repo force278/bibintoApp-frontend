@@ -14,6 +14,7 @@ import IconSupport from "../../assets/img/IconSupport.svg"
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min"
 import { isMob } from "../../utils/isMob"
 import { useEffect } from "react"
+import { TechSupport } from "./TechSupport"
 
 const SettingsProfile = () => {
   const history = useHistory()
@@ -65,9 +66,7 @@ const SettingsProfile = () => {
             <p>Подтвердить аккаунт</p>
             <img className="arrow" src={IconArrow} alt="" />
           </SettingItem>
-          <SettingItem
-          // onClick={() => setCurSetting("Политика конфиденциальности")}
-          >
+          <SettingItem onClick={() => setCurSetting("Техподдержка")}>
             <img src={IconSupport} alt="" />
             <p>Написать в поддержку</p>
           </SettingItem>
@@ -86,6 +85,8 @@ const SettingsProfile = () => {
       {curSetting === "Пароль" && <ChangePassword />}
       {curSetting === "Подтвердить аккаунт" && <ConfirmAcc />}
       {curSetting === "Изменение почты" && <ChangeEmail />}
+      {curSetting === "Техподдержка" && <TechSupport />}
+
       {/* {curSetting === "Политика конфиденциальности" && (
         <PrivacyPolicy className={"privacyPolicy"} />
       )} */}

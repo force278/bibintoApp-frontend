@@ -1,31 +1,36 @@
 import Search from "./Search"
 import routes from "../routes"
 import useMe from "../hooks/useMe"
-import userIcon from "../assets/img/user"
-import likeIcon from "../assets/img/like"
-import homeIcon from "../assets/img/home"
 import { isLoggedInVar } from "../apollo"
 import logo from "../assets/img/bibinto.svg"
-import chatIcon from "../assets/img/chatIcon"
+
+import chatIcon from "../assets/icons/chat.svg"
+import chatIconFill from "../assets/icons/chatFill.svg"
+import homeIcon from "../assets/icons/home.svg"
+import homeIconFill from "../assets/icons/homeFill.svg"
+import notificationIconFill from "../assets/icons/notificationFill.svg"
+import notificationIconNew from "../assets/icons/notificationNew.svg"
+import notificationIcon from "../assets/icons/notification.svg"
+import profileIconFill from "../assets/icons/profileFill.svg"
+import profileIcon from "../assets/icons/profile.svg"
+
 import { useReactiveVar } from "@apollo/client"
 import uploadIcon from "../assets/img/upload.svg"
 import UploadPopUp from "../screens/UploadPopUp"
-import { Link } from "react-router-dom"
-import userIconDark from "../assets/img/userIconDark"
-import likeIconDark from "../assets/img/likeIconDark"
-import chatIconDark from "../assets/img/chatIconDark"
-import homeIconDark from "../assets/img/homeIconDark"
+import { Link, useHistory } from "react-router-dom"
 import { NavLink } from "react-router-dom/cjs/react-router-dom"
 import { ModalSupportForm } from "./modalSupportForm/ModalSupportForm"
 import React, { useState, useEffect, useCallback, useRef } from "react"
 import { useLocation } from "react-router-dom/cjs/react-router-dom.min"
+import { Alert } from "@mui/material"
 
-export function Header() {
+export function Header({ notificationList }) {
   const curLocation = useLocation().pathname
   const isLoggedIn = useReactiveVar(isLoggedInVar)
   const { data } = useMe()
-  // const history = useHistory()
+  const history = useHistory()
   const [showModal, setShowModal] = useState(false)
+  const [showError, setShowError] = useState(false)
   const [profileActive, setProfileActive] = useState(false)
   const modalRef = useRef()
   const uploadInputRef = useRef(null)
@@ -40,11 +45,11 @@ export function Header() {
     } else setProfileActive(false)
   }, [curLocation])
 
-  // const logOut = () => {
-  //   localStorage.removeItem("TOKEN")
-  //   history.push("/")
-  //   window.location.reload()
-  // }
+  const logOut = () => {
+    localStorage.removeItem("TOKEN")
+    history.push("/")
+    window.location.reload()
+  }
 
   useEffect(() => {
     const handleClickOutsideModal = (event) => {
@@ -77,7 +82,9 @@ export function Header() {
     <>
       <div
         className="w-100 border-bottom bg-white d-flex align-items-center justify-content-center position-fixed z-1 headerWrap mobile"
-        style={{ boxShadow: "0px 4px 4px 0px #0000001A" }}
+        style={{
+          boxShadow: "rgba(0, 0, 0, 0.05) 0px 1px 10px 0px",
+        }}
       >
         <div
           className="w-100 d-flex justify-content-between align-items-center"
@@ -98,16 +105,24 @@ export function Header() {
                 </div>
                 <div className="d-flex" style={{ gap: "40px" }}>
                   <NavLink exact activeClassName="is-active" to={routes.home}>
-                    <div className="light">{homeIcon}</div>
-                    <div className="dark">{homeIconDark}</div>
+                    <div className="light">
+                      <img src={homeIcon} alt="" />
+                    </div>
+                    <div className="dark">
+                      <img src={homeIconFill} alt="" />
+                    </div>
                   </NavLink>
                   <NavLink
                     to="/me"
                     activeClassName="is-active"
                     className={({ isActive }) => (isActive ? "active" : "")}
                   >
-                    <div className="light">{chatIcon}</div>
-                    <div className="dark">{chatIconDark}</div>
+                    <div className="light">
+                      <img src={chatIcon} alt="" />
+                    </div>
+                    <div className="dark">
+                      <img src={chatIconFill} alt="" />
+                    </div>
 
                     {/* <img src={messageIcon} alt="message" /> */}
                   </NavLink>
@@ -133,16 +148,34 @@ export function Header() {
                     </label>
                   </span>
                   <NavLink to="/likes" activeClassName="is-active">
-                    <div className="light">{likeIcon}</div>
-                    <div className="dark">{likeIconDark}</div>
+                    {notificationList.length === 0 && (
+                      <div className="light">
+                        <img src={notificationIcon} alt="" />
+                      </div>
+                    )}
+                    {notificationList.length > 0 && (
+                      <div className="light">
+                        <img src={notificationIconNew} alt="" />
+                      </div>
+                    )}
+
+                    <div className="dark">
+                      <img src={notificationIconFill} alt="" />
+                    </div>
                   </NavLink>
                   <NavLink
                     to={`/${data?.me?.username}`}
                     onClick={handleShowModal}
                     activeClassName="is-active"
                   >
-                    <div className="light">{userIcon}</div>
-                    <div className="dark">{userIconDark}</div>
+                    <div className="light">
+                      <img src={profileIcon} alt="" />
+                    </div>
+                    <div className="dark">
+                      <img src={profileIconFill} alt="" />
+                    </div>
+                    {/* <div className="light">{userIcon}</div>
+                    <div className="dark">{userIconDark}</div> */}
                   </NavLink>
                   {/* <NavLink
                     to={`/${data?.me?.username}`}
@@ -246,9 +279,26 @@ export function Header() {
       />
       {uploadModalActive && (
         <UploadPopUp
+          onError={setShowError}
           onClose={handleClosePopUp}
           uploadInputRef={uploadInputRef}
         />
+      )}
+      {showError && (
+        <Alert
+          style={{
+            position: "fixed",
+            bottom: "4%",
+            left: "2%",
+            zIndex: "2",
+            borderRadius: "4px",
+            padding: "8px 17px",
+            filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",
+          }}
+          severity="error"
+        >
+          {showError}
+        </Alert>
       )}
     </>
   )

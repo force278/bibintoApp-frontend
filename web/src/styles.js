@@ -4,7 +4,7 @@ import reset from "styled-reset"
 export const lightTheme = {
   color: "#1F1F2C",
   accent: "#0095f6",
-  bgColor: "#FFF",
+  bgColor: "#fdfdff",
   borderColor: "rgb(219, 219, 219)",
 }
 
