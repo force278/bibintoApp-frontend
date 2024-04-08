@@ -163,7 +163,7 @@ const Notifications = () => {
               : "Новых уведомлений нет"}
           </p>
           {allList.length > 0 &&
-            allList.map((item, index) => (
+            allList.reverse().map((item, index) => (
               <>
                 {item.username ? (
                   <StyledItem key={index}>
