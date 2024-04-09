@@ -95,11 +95,11 @@ function Login({
             </div>
             <FormError message={formState.errors?.password?.message} />
 
-            <div className="formBtnForgotWrap">
-              <button type="button" className="bg-transparent border-0">
-                Забыли пароль?
-              </button>
-            </div>
+            {/*<div className="formBtnForgotWrap">*/}
+            {/*  <button type="button" className="bg-transparent border-0">*/}
+            {/*    Забыли пароль?*/}
+            {/*  </button>*/}
+            {/*</div>*/}
 
             <div className="formSubmitWrap">
               <Button
