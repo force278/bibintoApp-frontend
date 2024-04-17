@@ -774,10 +774,12 @@ const ProfileBtn = styled(Button).attrs({
   margin-top: 0px;
   padding: 8px 10px;
   cursor: pointer;
-  @media (max-width: 768px) {
+  max-width: 300px;
+  @media (max-width: 1024px) {
     margin: 0;
     border: 0;
     display: flex;
+    max-width: none;
     align-items: center;
   }
 `

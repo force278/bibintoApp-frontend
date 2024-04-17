@@ -5,7 +5,6 @@ import { useEffect } from "react"
 import InfoFooter from "./InfoFooter"
 import { useRef, useState } from "react"
 import Input from "../components/auth/Input"
-import IconEye from "../assets/img/IconEye"
 import ReactCodeInput from "react-code-input"
 import Button from "../components/auth/Button"
 import PageTitle from "../components/PageTitle"
@@ -502,7 +501,7 @@ function SignUp() {
                       className="btnShow"
                       onClick={() => showInput("password")}
                     >
-                      {showedInput === "password" ? IconEye : IconEye}
+                      {showedInput === "password" ? "Скрыть" : "Показать"}
                     </button>
                   </div>
                   <FormError message={formState.errors?.password?.message} />
@@ -524,7 +523,7 @@ function SignUp() {
                       className="btnShow"
                       onClick={() => showInput("repassword")}
                     >
-                      {showedInput === "repassword" ? IconEye : IconEye}
+                      {showedInput === "repassword" ? "Скрыть" : "Показать"}
                     </button>
                   </div>
                   <FormError message={formState.errors?.repassword?.message} />
