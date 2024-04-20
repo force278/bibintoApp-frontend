@@ -75,9 +75,32 @@ const SUB_NOTIFIC_UPDATES = gql`
   }
 `
 
+const TimeAgo = ({ timestamp }) => {
+  timestamp = new Date(timestamp)
+  const currentTime = new Date().getTime()
+  const timeDifference = currentTime - timestamp
+
+  let timeAgo
+  if (timeDifference < 60000) {
+    timeAgo = "меньше минуты назад"
+  } else if (timeDifference < 3600000) {
+    const minutes = Math.floor(timeDifference / 60000)
+    timeAgo = `${minutes} мин. назад`
+  } else if (timeDifference < 86400000) {
+    const hours = Math.floor(timeDifference / 3600000)
+    timeAgo = `${hours} ч. назад`
+  } else {
+    const days = Math.floor(timeDifference / 86400000)
+    timeAgo = `${days} д. назад`
+  }
+
+  return <span style={{"fontSize": "11px"}} ><br/>{timeAgo}</span>
+}
+
 const Notifications = () => {
   const history = useHistory()
-  const [allList, setAllList] = useState([])
+  const [viewedList, setViewedList] = useState([])
+  const [newList, setNewList] = useState([])
   const [loading, setLoading] = useState(true) //loading
 
   const { cache } = client
@@ -91,17 +114,43 @@ const Notifications = () => {
     onError: () => setLoading(false),
     onCompleted: () => {
       setLoading(false)
-      const arr = []
+      const viewedArr = []
+      const newArr = []
       if (data?.seeNotifications?.likes) {
-        arr.push(...data.seeNotifications.likes)
+        for (let i = 0; i < data.seeNotifications.likes.length; i++) {
+          if (data.seeNotifications.likes[i].read) {
+            viewedArr.push(data.seeNotifications.likes[i])
+          } else {
+            newArr.push(data.seeNotifications.likes[i])
+          }
+        }
       }
       if (data?.seeNotifications?.comments) {
-        arr.push(...data.seeNotifications.comments)
+        for (let i = 0; i < data.seeNotifications.comments.length; i++) {
+          if (data.seeNotifications.comments[i].read) {
+            viewedArr.push(data.seeNotifications.comments[i])
+          } else {
+            newArr.push(data.seeNotifications.comments[i])
+          }
+        }
       }
       if (data?.seeNotifications?.subs) {
-        arr.push(...data.seeNotifications.subs)
+        for (let i = 0; i < data.seeNotifications.subs.length; i++) {
+          if (data.seeNotifications.subs[i].read) {
+            viewedArr.push(data.seeNotifications.subs[i])
+          } else {
+            newArr.push(data.seeNotifications.subs[i])
+          }
+        }
       }
-      setAllList([...arr.sort((a, b) => a.createdAt - b.createdAt)])
+      setViewedList([
+        ...viewedArr.sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
+        ),
+      ])
+      setNewList([
+        ...newArr.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)),
+      ])
     },
   })
 
@@ -112,19 +161,19 @@ const Notifications = () => {
         // seeNotifications
         cache.reset()
         if (subscriptionData?.data?.notificationsUpdates?.like) {
-          setAllList((prev) => [
+          setNewList((prev) => [
             subscriptionData.data.notificationsUpdates.like,
             ...prev,
           ])
         }
         if (subscriptionData?.data?.notificationsUpdates?.comment) {
-          setAllList((prev) => [
+          setNewList((prev) => [
             subscriptionData.data.notificationsUpdates.comment,
             ...prev,
           ])
         }
         if (subscriptionData?.data?.notificationsUpdates?.sub) {
-          setAllList((prev) => [
+          setNewList((prev) => [
             subscriptionData.data.notificationsUpdates.sub,
             ...prev,
           ])
@@ -158,12 +207,12 @@ const Notifications = () => {
       <StyledList id="notific_list">
         <div>
           <p className="title">
-            {allList.length > 0
-              ? `Новые: ${allList.length}`
+            {newList.length > 0
+              ? `Новые: ${newList.length}`
               : "Новых уведомлений нет"}
           </p>
-          {allList.length > 0 &&
-            allList.reverse().map((item, index) => (
+          {newList.length > 0 &&
+            newList.map((item, index) => (
               <>
                 {item.username ? (
                   <StyledItem key={index}>
@@ -171,8 +220,11 @@ const Notifications = () => {
                       <Avatar src={item?.avatar} />
                     </Link>
                     <div className="textWrap">
-                      <p>{item.username}</p>
+                      <Link to={`/${item.username}`}>
+                        <p>{item.username}</p>
+                      </Link>
                       <span>{whatIsNotif(item)}</span>
+                      <TimeAgo timestamp={item.createdAt} />
                     </div>
                   </StyledItem>
                 ) : (
@@ -181,8 +233,51 @@ const Notifications = () => {
                       <Avatar src={item.user?.avatar} />
                     </Link>
                     <div className="textWrap">
-                      <p>{item.user.username}</p>
+                      <Link to={`/${item.user.username}`}>
+                        <p>{item.user.username}</p>
+                      </Link>
                       <span>{whatIsNotif(item)}</span>
+                      <TimeAgo timestamp={item.createdAt} />
+                    </div>
+                    <StyledPhoto>
+                      <img src={item.photo.file} alt="" />
+                    </StyledPhoto>
+                  </StyledItem>
+                )}{" "}
+              </>
+            ))}
+          <p className="title">
+            {viewedList.length > 0
+              ? `Просмотренные: ${viewedList.length}`
+              : "Просмотренных уведомлений нет"}
+          </p>
+          {viewedList.length > 0 &&
+            viewedList.map((item, index) => (
+              <>
+                {item.username ? (
+                  <StyledItem key={index}>
+                    <Link to={`/${item.username}`}>
+                      <Avatar src={item?.avatar} />
+                    </Link>
+                    <div className="textWrap">
+                      <Link to={`/${item.username}`}>
+                        <p>{item.username}</p>
+                      </Link>
+                      <span>{whatIsNotif(item)}</span>
+                      <TimeAgo timestamp={item.createdAt} />
+                    </div>
+                  </StyledItem>
+                ) : (
+                  <StyledItem key={index}>
+                    <Link to={`/${item.user.username}`}>
+                      <Avatar src={item.user?.avatar} />
+                    </Link>
+                    <div className="textWrap">
+                      <Link to={`/${item.user.username}`}>
+                        <p>{item.user.username}</p>
+                      </Link>
+                      <span>{whatIsNotif(item)}</span>
+                      <TimeAgo timestamp={item.createdAt} />
                     </div>
                     <StyledPhoto>
                       <img src={item.photo.file} alt="" />
