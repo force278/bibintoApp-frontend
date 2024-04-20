@@ -510,19 +510,26 @@ function Profile() {
             opacity: `${loadingPopupPosts ? 0 : 1}`,
           }}
         >
-          {data?.seeProfile?.photos.map((post) => {
-            const user = {
-              avatar: data.seeProfile.avatar,
-              username: data.seeProfile.username,
-              official: data.seeProfile.official,
-            }
-            const props = { ...post, user: user, isMine: data.seeProfile.isMe }
-            return (
-              <div className="popupPost" key={post.id} id={`post_${post.id}`}>
-                <Post {...props} />
-              </div>
-            )
-          })}
+          {data?.seeProfile?.photos
+            .slice()
+            .reverse()
+            .map((post) => {
+              const user = {
+                avatar: data.seeProfile.avatar,
+                username: data.seeProfile.username,
+                official: data.seeProfile.official,
+              }
+              const props = {
+                ...post,
+                user: user,
+                isMine: data.seeProfile.isMe,
+              }
+              return (
+                <div className="popupPost" key={post.id} id={`post_${post.id}`}>
+                  <Post {...props} />
+                </div>
+              )
+            })}
         </div>
       )}
       {/*  */}
@@ -797,6 +804,7 @@ const BtnSettings = styled(DefaultButton).attrs({
   background: #f2f2f7;
   border-radius: 6px;
   align-items: center;
+  margin-bottom: 15px;
   * {
     color: #76768c !important;
   }
