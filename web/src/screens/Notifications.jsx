@@ -94,7 +94,12 @@ const TimeAgo = ({ timestamp }) => {
     timeAgo = `${days} д. назад`
   }
 
-  return <span style={{"fontSize": "11px"}} ><br/>{timeAgo}</span>
+  return (
+    <span style={{ fontSize: "11px" }}>
+      <br />
+      {timeAgo}
+    </span>
+  )
 }
 
 const Notifications = () => {

@@ -43,7 +43,7 @@ function ViewReport() {
                 </div>
               ) : (
                 <>
-                  {data.data.getReport === [] ? (
+                  {data.data.getReport == [] ? (
                     data.data.getReport.map((report) => (
                       <ReportPost
                         key={report.id}

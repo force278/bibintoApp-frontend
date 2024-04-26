@@ -6,7 +6,13 @@ import mesNotViewed from "../../assets/img/messenger/mesNotViewed.svg"
 import { Avatar } from "@mui/material"
 import Chat from "./Chat"
 
-const MessengerMob = ({ user, history, curChatMes, dialoguesList }) => {
+const MessengerMob = ({
+  user,
+  history,
+  curChatMes,
+  dialoguesList,
+  dialogId,
+}) => {
   const handleBack = () => {
     history.goBack()
   }
@@ -78,7 +84,7 @@ const MessengerMob = ({ user, history, curChatMes, dialoguesList }) => {
           </ul>
         </MessengerWrap>
       ) : (
-        <Chat username={user} messages={curChatMes} />
+        <Chat username={user} messages={curChatMes} dialogId={dialogId} />
       )}
     </div>
   )

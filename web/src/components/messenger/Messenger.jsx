@@ -66,30 +66,32 @@ const Messenger = () => {
   const history = useHistory()
   const curPath = useLocation()
   const [user, setUser] = useState()
-  const [, setDialogId] = useState()
+  const [dialogId, setDialogId] = useState()
   const [isMobile] = useState(isMob())
   const [curChatMes, setCurChatMes] = useState([])
   const [dialoguesList, setDialoguesList] = useState([])
 
-  // DIALOG_UPDATES
-  // useEffect(() => {
-  //   console.log(dialoguesList)
-  // }, [dialoguesList])
-
+  // Меняем URL
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search)
     const userParam = searchParams.get("user")
     userParam ? setUser(userParam) : setUser()
   }, [curPath])
 
+
+  // 
   useEffect(() => {
+    // Если выбрали диалог с челом и если у нас вообще есть диалоги
     if (user && dialoguesList.length) {
+      // пытаемся найти текущий диалог с тем челом, которого выбрали среди нашего списка диалогов
       try {
         const curChat = dialoguesList.find(
           (dialogue) =>
             dialogue.users.findIndex(({ username }) => username === user) >= 0,
         )
+        // Устанавливаем сообщения сортируя по айдишнику
         setCurChatMes([...curChat.messages].sort((a, b) => +a.id - +b.id))
+        // Устанавливаем текущий id диалога
         setDialogId(curChat.id)
       } catch (e) {
         setCurChatMes([])
@@ -97,9 +99,9 @@ const Messenger = () => {
     } else {
       setCurChatMes([])
     }
-  }, [user, dialoguesList])
+  }, [user, dialoguesList]) // если меняется выбранный пользователь или список диалогов - пересчитываем
 
-  // const friends = useQuery(GET_FRIENDS)
+
   const { subscribeToMore, data: dialogues } = useQuery(GET_DIALOGS)
 
   useEffect(() => {
@@ -120,12 +122,10 @@ const Messenger = () => {
       },
       updateQuery: (prev, { subscriptionData }) => {
         if (!subscriptionData?.data?.allDialogsUpdates) return
-        console.log(subscriptionData.data.allDialogsUpdates)
         const editedDialogueIndex = dialoguesList.findIndex(
           (dialogue) =>
             dialogue.id === subscriptionData?.data?.allDialogsUpdates?.dialogId,
         )
-        console.log(editedDialogueIndex)
         if (editedDialogueIndex < 0) {
           return cache.reset()
         }
@@ -235,7 +235,12 @@ const Messenger = () => {
               })}
             </ul>
           </DialoguesWrap>
-          <Chat username={user} messages={curChatMes} mesSended={mesSended} />
+          <Chat
+            username={user}
+            messages={curChatMes}
+            mesSended={mesSended}
+            dialogId={dialogId}
+          />
         </MessengerWrap>
       )}
       {isMobile && (
@@ -249,6 +254,7 @@ const Messenger = () => {
           setCurChatMes={setCurChatMes}
           dialoguesList={dialoguesList}
           setDialoguesList={setDialoguesList}
+          dialogId={dialogId}
         />
       )}
     </>

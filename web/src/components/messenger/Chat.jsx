@@ -9,9 +9,8 @@ import { useEffect, useState } from "react"
 import { useRef } from "react"
 
 const READ_MESSAGE = gql`
-  mutation readMessage($readMessageId: Int!) {
-    readMessage(id: $readMessageId) {
-      id
+  mutation readDialog($id: Int!) {
+    readDialog(id: $id) {
       ok
       error
     }
@@ -38,7 +37,7 @@ const SEE_USER = gql`
   }
 `
 
-const ChatMob = ({ username, messages }) => {
+const ChatMob = ({ username, messages, dialogId }) => {
   const history = useHistory()
   const [user, setUser] = useState({})
   const [loading, setLoading] = useState(true)
@@ -78,8 +77,7 @@ const ChatMob = ({ username, messages }) => {
       if (data?.sendMessage?.ok) {
         setValue("message", "")
       } else {
-        alert("Вы не подписаны друг на друга")
-        console.log(data?.sendMessage?.error)
+        alert(data?.sendMessage?.error)
       }
     },
   })
@@ -87,16 +85,11 @@ const ChatMob = ({ username, messages }) => {
   const [readMessage] = useMutation(READ_MESSAGE)
 
   useEffect(() => {
-    const notMyMesList = messages.filter((mes) => !mes.user.isMe)
-    if (notMyMesList.length > 0) {
-      for (let mes of notMyMesList) {
-        if (mes.id && !mes.read) {
-          readMessage({ variables: { readMessageId: mes.id } })
-        }
-      }
+    if (dialogId) {
+      readMessage({ variables: { id: dialogId } })
     }
     // eslint-disable-next-line
-  }, [messages])
+  }, [dialogId])
 
   const onValid = (data) => {
     if (data.message && user.id) {
