@@ -8,20 +8,24 @@ function AppBtns() {
       <div className="customShadow"></div>
       <p className="formTextSecondary ">Установите приложение</p>
       <div className="d-flex w-100 blockButtons">
-        <button className="border-1 border rounded pt-3 pb-3 ps-4 pe-4 d-flex align-items-center bg-transparent">
-          <img
-            className="me-1"
-            src={appleIcon}
-            alt="установить через AppStore"
-          />
-        </button>
-        <button className="border-1 border rounded pt-3 pb-3 ps-4 pe-4 d-flex align-items-center bg-transparent">
-          <img
-            className="me-1"
-            src={signGooglePlay}
-            alt="установить через Play Market"
-          />
-        </button>
+        <a href="https://vk.com/bibinto" target="_blank" rel="noreferrer">
+          <button className="border-1 border rounded pt-3 pb-3 ps-4 pe-4 d-flex align-items-center bg-transparent">
+            <img
+              className="me-1"
+              src={appleIcon}
+              alt="установить через AppStore"
+            />
+          </button>
+        </a>
+        <a href="https://vk.com/bibinto" target="_blank" rel="noreferrer">
+          <button className="border-1 border rounded pt-3 pb-3 ps-4 pe-4 d-flex align-items-center bg-transparent">
+            <img
+              className="me-1"
+              src={signGooglePlay}
+              alt="установить через Play Market"
+            />
+          </button>
+        </a>
       </div>
       <p className="formTextSecondary" style={{ marginTop: "16px" }}>
         Применяются рекомендательные технологии
