@@ -330,7 +330,7 @@ function Profile() {
           )}
 
           <Column>
-            <Row style={{ gap: "20px" }}>
+            <Row style={{ gap: "20px", alignItems: 'baseline' }}>
               <Username>
                 {data?.seeProfile?.username || "Пользователь не найден"}
               </Username>
