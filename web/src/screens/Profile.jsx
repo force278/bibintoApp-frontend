@@ -184,14 +184,9 @@ function Profile() {
 
   useEffect(() => {
     const scrollToEl = (elem) => {
-      // console.log()
       elem?.getBoundingClientRect()
-      elem?.scrollIntoView() //elem?.getBoundingClientRect()?.top > 180 ||
-      // console.log(elem?.getBoundingClientRect())
-      if (
-        elem?.getBoundingClientRect()?.top > 180
-        // elem?.getBoundingClientRect()?.top !== elem?.getBoundingClientRect()?.y
-      ) {
+      elem?.scrollIntoView()
+      if (elem?.getBoundingClientRect()?.top > 180) {
         setTimeout(() => {
           scrollToEl(elem)
         }, 500)
@@ -301,11 +296,9 @@ function Profile() {
                     </Link>
                   </List>
                 </Row>
-
-                {/* <Row style={{ justifyContent: "center" }}>
-            {data?.seeProfile?.bio}
-          </Row> */}
-
+                <Row style={{ justifyContent: "start", overflowY: "auto", }}>
+                  {data?.seeProfile?.bio}
+                </Row>
                 {data?.seeProfile ? getButton(data.seeProfile, true) : null}
               </Column>
             </>
@@ -330,7 +323,7 @@ function Profile() {
           )}
 
           <Column>
-            <Row style={{ gap: "20px", alignItems: 'baseline' }}>
+            <Row style={{ gap: "20px", alignItems: "baseline" }}>
               <Username>
                 {data?.seeProfile?.username || "Пользователь не найден"}
               </Username>
@@ -500,7 +493,6 @@ function Profile() {
         </Header>
       )}
 
-      {/*  */}
       {popupPosts && (
         <div
           id="post_wrap"
@@ -532,7 +524,6 @@ function Profile() {
             })}
         </div>
       )}
-      {/*  */}
     </StyledProfileContainer>
   )
 }
@@ -542,8 +533,6 @@ const StyledProfileContainer = styled.div`
   .mobilePostContainer {
     flex: 1;
     margin: 0 auto;
-    // overflow: auto;
-    // margin-bottom: 65px;
   }
   .popupPost:last-child {
     min-height: calc(100dvh - 123px);
@@ -655,7 +644,6 @@ const List = styled.ul`
     padding: 0;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    // justify-content: center;
   }
 `
 const Item = styled.li`
@@ -705,7 +693,7 @@ const AddPhotoWrap = styled.div`
   display: flex;
   max-width: 315px;
   align-items: center;
-  justify-cotent: center;
+  justify-content: center;
   flex-direction: column;
   margin: 150px auto 0 auto;
   img {
@@ -716,7 +704,6 @@ const AddPhotoWrap = styled.div`
     margin-top: 20px;
   }
   @media (max-width: 768px) {
-    // margin-top: 30px;
     display: none;
   }
 `
@@ -762,17 +749,6 @@ export const Icons = styled.div`
   }
 `
 
-// const Icon = styled.span`
-//   font-size: 18px;
-//   display: flex;
-//   align-items: center;
-//   margin: 0px 5px;
-//   svg {
-//     font-size: 14px;
-//     margin-right: 5px;
-//   }
-// `
-
 const ProfileBtn = styled(Button).attrs({
   as: "span",
 })`
@@ -799,7 +775,6 @@ const BtnSettings = styled(DefaultButton).attrs({
   display: flex;
   cursor: pointer;
   margin-top: 0px;
-  // margin-left: 20px;
   padding: 8px 12px;
   background: #f2f2f7;
   border-radius: 6px;
@@ -817,7 +792,6 @@ const BtnSettings = styled(DefaultButton).attrs({
     font-size: 15px;
     height: auto;
     width: auto;
-    // margin-bottom: 20px;
     padding: 10px 12px;
   }
 `
@@ -830,21 +804,6 @@ export const MobBtns = styled.div`
   }
 `
 
-// const DefaultBtn = styled(DefaultButton).attrs({
-//   as: "span",
-// })`
-//   margin-left: 10px;
-//   margin-top: 0px;
-//   padding: 8px 10px;
-//   cursor: pointer;
-
-//   @media (max-width: 768px) {
-//     border: 0;
-//     margin: 0;
-//     color: #76768c;
-//     background: #f2f2f7;
-//   }
-// `
 const ChatBtn = styled(DefaultButton).attrs({
   as: "span",
 })`
@@ -853,7 +812,6 @@ const ChatBtn = styled(DefaultButton).attrs({
   display: flex;
   align-items: center;
 
-  // display: none;
   margin-top: 0px;
   cursor: pointer;
   margin-left: 10px;
@@ -866,12 +824,6 @@ const ChatBtn = styled(DefaultButton).attrs({
     #2936ff 47.41%,
     #6cf2fe 96.11%
   );
-  // @media (max-width: 768px) {
-  //   margin: 0;
-  //   border: 0;
-  //   display: flex;
-  //   align-items: center;
-  // }
 `
 
 export default Profile

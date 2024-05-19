@@ -108,15 +108,12 @@ const StyledSubHeader = styled.div`
     }
   }
 `
-
-// const EmptyRec = styled.div`
-//   width: 300px;
-//   height: 150px;
-//   border-radius: 30px;
-//   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-//   background-color: white;
-//   border: 1px solid ${(props) => props.theme.borderColor};
-// `
+const EmptyFeed = styled.div`
+  display: flex;
+  justify-content: center;
+  color: gray;
+  font-size: 16px;
+`
 
 function Home() {
   const useActiveLink = (path) => {
@@ -195,9 +192,11 @@ function Home() {
           <Switch>
             <Route exact path="/">
               <div className="mobilePostContainer" style={{ width: "585px" }}>
-                {data?.seeFeed?.map((post) => (
-                  <Post key={post.id} {...post} />
-                ))}
+                {data && data.seeFeed.length > 0 ? (
+                  data.seeFeed.map((post) => <Post key={post.id} {...post} />)
+                ) : (
+                  <EmptyFeed>Раздел подписок пока пуст</EmptyFeed>
+                )}
               </div>
             </Route>
             <Route exact path="/recommendations">
