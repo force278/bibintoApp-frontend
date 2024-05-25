@@ -78,8 +78,7 @@ const Messenger = () => {
     userParam ? setUser(userParam) : setUser()
   }, [curPath])
 
-
-  // 
+  //
   useEffect(() => {
     // Если выбрали диалог с челом и если у нас вообще есть диалоги
     if (user && dialoguesList.length) {
@@ -100,7 +99,6 @@ const Messenger = () => {
       setCurChatMes([])
     }
   }, [user, dialoguesList]) // если меняется выбранный пользователь или список диалогов - пересчитываем
-
 
   const { subscribeToMore, data: dialogues } = useQuery(GET_DIALOGS)
 

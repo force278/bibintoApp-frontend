@@ -53,6 +53,15 @@ const SEARCH_QUERY = gql`
   }
 `
 
+const TOP_USERS_QUERY = gql`
+  query topUsers {
+    topUsers {
+      username
+      avatar
+    }
+  }
+`
+
 function Search() {
   const [searchUsers, { loading, data }] = useLazyQuery(SEARCH_QUERY)
   const [open, setOpen] = useState(false)
@@ -64,14 +73,15 @@ function Search() {
     clearTimeout(timeoutId)
     if (searchValue.trim() !== "") {
       timeoutId = setTimeout(() => {
-        searchUsers({ variables: { keyword: searchValue.trim() } })
+        let russianPattern = /[а-яА-Я]/
+        if (!russianPattern.test(searchValue)) {
+          searchUsers({ variables: { keyword: searchValue.trim() } })
+        }
       }, 300)
     }
   }, [searchValue, searchUsers])
 
   const options = data?.searchUsers || []
-
-  console.log(options)
 
   return (
     <div className="d-flex flex-row">

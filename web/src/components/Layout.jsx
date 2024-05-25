@@ -90,8 +90,6 @@ function Layout({ children }) {
   const [allList, setAllList] = useState([])
   const [loading, setLoading] = useState(true)
 
-  console.log(cache)
-
   const { subscribeToMore, data } = useQuery(SEE_NOTIFIC, {
     onError: () => setLoading(false),
     onCompleted: () => {

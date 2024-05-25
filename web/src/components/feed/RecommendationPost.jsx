@@ -61,6 +61,8 @@ export function RecommendationPost({
   isLiked,
   isDisliked,
   isMine,
+  photo,
+  rec_history_data
 }) {
   const client = useApolloClient()
 
@@ -109,6 +111,13 @@ export function RecommendationPost({
   const [addLike] = useMutation(TOGGLE_LIKE_MUTATION, {
     variables: { id, value: 10 },
     update: updateToggleLike,
+    onCompleted: ()=>{rec_history_data.updateQuery((prev)=> {
+      return {getRecHistory: [
+        photo,
+        ...prev.getRecHistory,
+      ]}
+    })
+  }
   })
   const [addDislike] = useMutation(TOGGLE_LIKE_MUTATION, {
     variables: { id, value: 1 },

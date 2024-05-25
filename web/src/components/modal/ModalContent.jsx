@@ -42,7 +42,6 @@ const ModalContent = ({ id, isMine, closeModal, openReportPopup }) => {
     variables: { id },
     onCompleted: () => {
       cache.reset()
-      console.log("deleted")
     },
   })
   // const [reportPhoto] = useMutation(REPORT_PHOTO, {

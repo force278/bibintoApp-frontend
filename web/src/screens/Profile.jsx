@@ -296,7 +296,7 @@ function Profile() {
                     </Link>
                   </List>
                 </Row>
-                <Row style={{ justifyContent: "start", overflowY: "auto", }}>
+                <Row style={{ justifyContent: "start", overflowY: "auto" }}>
                   {data?.seeProfile?.bio}
                 </Row>
                 {data?.seeProfile ? getButton(data.seeProfile, true) : null}

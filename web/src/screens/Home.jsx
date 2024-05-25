@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useMemo, useState } from "react"
 import { Link, Switch, Route, useLocation } from "react-router-dom"
 import { gql, useQuery } from "@apollo/client"
 import styled from "styled-components"
@@ -8,6 +8,7 @@ import RecomendationAside from "../components/aside/RecomendationAside"
 import { COMMENTS_FRAGMENT, POST_FRAGMENT } from "../fragments"
 import { RecommendationPost } from "../components/feed/RecommendationPost"
 import IconLogo from "../assets/img/bibinto.svg"
+import { useInView } from "react-intersection-observer"
 
 const SEE_FEED_QUERY = gql`
   query seeFeed($offset: Int!) {
@@ -31,14 +32,11 @@ const SEE_FEED_QUERY = gql`
   ${COMMENTS_FRAGMENT}
 `
 
-const SEE_REC_QUERY = gql`
-  query seeRec {
-    seeRec {
+const GET_REC_HISTORY_QUERY = gql`
+  query getRecHistory($offset: Int!) {
+    getRecHistory(offset: $offset) {
       ...PostFragment
       caption
-      comments {
-        ...CommentFragment
-      }
       user {
         username
         avatar
@@ -52,7 +50,26 @@ const SEE_REC_QUERY = gql`
     }
   }
   ${POST_FRAGMENT}
-  ${COMMENTS_FRAGMENT}
+`
+
+const GET_REC_QUERY = gql`
+  query getRec {
+    getRec {
+      ...PostFragment
+      caption
+      user {
+        username
+        avatar
+        official
+        isFollowing
+      }
+      createdAt
+      isMine
+      isLiked
+      isDisliked
+    }
+  }
+  ${POST_FRAGMENT}
 `
 
 const SUB_POST_UPDATES = gql`
@@ -116,6 +133,15 @@ const EmptyFeed = styled.div`
 `
 
 function Home() {
+  // состояние раздела подписок
+  const [feedList, setFeedList] = useState([])
+
+  // состояние рекомендуемой фотографии
+  const [recPost, setRecPost] = useState(null)
+
+  // состояние истории рекомендаций
+  const [recHistoryList, setRecHistoryList] = useState([])
+
   const useActiveLink = (path) => {
     const location = useLocation()
     return location.pathname === path
@@ -123,28 +149,37 @@ function Home() {
   const isRecommendationsActive = useActiveLink("/recommendations")
   const isSubscriptionsActive = useActiveLink("/")
 
-  const { subscribeToMore, data } = useQuery(SEE_FEED_QUERY, {
-    variables: { offset: 0 },
+  const feed_data = useQuery(SEE_FEED_QUERY, {variables: {offset: 0}});
+  const rec_data = useQuery(GET_REC_QUERY);
+  const rec_history_data = useQuery(GET_REC_HISTORY_QUERY, {variables: {offset: 0}});
+
+
+  // объект при виде которого меняется inView на true
+  const { ref, inView } = useInView({
+    threshold: 0,
   })
 
-  const data_rec = useQuery(SEE_REC_QUERY)
-
   useEffect(() => {
-    const unsubscribe = subscribeToMore({
-      document: SUB_POST_UPDATES,
-      updateQuery: (prev, { subscriptionData }) => {
-        if (!subscriptionData.data) return prev
-        const newPost = subscriptionData.data.postUpdates
-        return Object.assign({}, prev, {
-          seeFeed: [newPost, ...prev.seeFeed],
-        })
-      },
-    })
-
-    return () => {
-      unsubscribe()
+    if (inView) {
+      rec_history_data.fetchMore({
+        variables: { offset: rec_history_data.data.getRecHistory.length + 5 },
+        updateQuery: (prev, { fetchMoreResult }) => {
+          if (fetchMoreResult.getRecHistory.length == 0) {
+            const endOfRec = document.getElementById("endOfRec")
+            endOfRec.remove()
+            return prev
+          }
+          return {
+            getRecHistory: [
+              ...prev.getRecHistory,
+              ...fetchMoreResult.getRecHistory,
+            ],
+          }
+        },
+      })
     }
-  }, [subscribeToMore])
+  }, [inView])
+  
 
   return (
     <>
@@ -192,19 +227,39 @@ function Home() {
           <Switch>
             <Route exact path="/">
               <div className="mobilePostContainer" style={{ width: "585px" }}>
-                {data && data.seeFeed.length > 0 ? (
-                  data.seeFeed.map((post) => <Post key={post.id} {...post} />)
+                {feed_data.data && feed_data.data.seeFeed.length > 0 ? (
+                  feed_data.data.seeFeed.map((post) => <Post key={post.id} {...post} />)
                 ) : (
                   <EmptyFeed>Раздел подписок пока пуст</EmptyFeed>
                 )}
               </div>
             </Route>
             <Route exact path="/recommendations">
-              {data_rec?.data?.seeRec?.lenght !== 0 ? (
+              {rec_data?.data?.getRecHistory?.length !== 0 ? (
                 <div className="mobilePostContainer" style={{ width: "585px" }}>
-                  {data_rec?.data?.seeRec?.map((post) => (
+                  {
+                    rec_data?.data?.getRec ? (
+                      <RecommendationPost
+                        key={rec_data.data.getRec.id}
+                        {...rec_data.data.getRec}
+                        photo={rec_data.data.getRec}
+                        rec_history_data={rec_history_data}
+                      />
+                    ) : null
+                    //<div style={{textAlign: "center", paddingBottom: "20px"}}>Новых рекомендаций нет</div>
+                  }
+                  {rec_history_data?.data?.getRecHistory?.map((post) => (
                     <RecommendationPost key={post.id} {...post} />
                   ))}
+                  {!rec_history_data.loading && (
+                    <div
+                      ref={ref}
+                      id="endOfRec"
+                      style={{ textAlign: "center" }}
+                    >
+                      Загрузка...
+                    </div>
+                  )}
                 </div>
               ) : (
                 <div
@@ -216,7 +271,7 @@ function Home() {
                     alt="done"
                     style={{ width: "80px" }}
                   ></img>
-                  <h1 className="fs-5">На этом пока всё</h1>
+                  <h1 className="fs-5">Нет рекомендаций</h1>
                 </div>
               )}
             </Route>

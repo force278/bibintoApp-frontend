@@ -49,7 +49,6 @@ const Followers = () => {
       setLoading(false)
       const followers = data?.seeFollowers?.followers
       if (!followers) return
-      console.log(followers)
       setTotalPages(data.seeFollowers.totalPages)
       if (page === 1) {
         setAllList([...followers])
