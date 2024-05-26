@@ -62,7 +62,7 @@ export function RecommendationPost({
   isDisliked,
   isMine,
   photo,
-  rec_history_data
+  rec_history_data,
 }) {
   const client = useApolloClient()
 
@@ -222,18 +222,13 @@ export function RecommendationPost({
             /> */}
           </PostAction>
           <PostAction
-            onClick={()=>{
+            onClick={() => {
               addLike()
-              rec_history_data.updateQuery((prev)=> {
-                const new_photo = {...photo, isLiked:true};
-                return {getRecHistory: [
-                  new_photo,
-                  ...prev.getRecHistory,
-                ]}
+              rec_history_data.updateQuery((prev) => {
+                const new_photo = { ...photo, isLiked: true }
+                return { getRecHistory: [new_photo, ...prev.getRecHistory] }
               })
-            }
-              
-            }
+            }}
             style={{ display: isDisliked ? "none" : "block" }}
           >
             <IconAction>

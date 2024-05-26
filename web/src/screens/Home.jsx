@@ -6,8 +6,6 @@ import IconLogo from "../assets/img/bibinto.svg"
 import RecommendationList from "../components/feed/RecommendationList"
 import FeedList from "./FeedList"
 
-
-
 const MobLogoWrap = styled.div`
   margin: 10px auto;
   max-width: 72px;
@@ -40,16 +38,12 @@ const StyledSubHeader = styled.div`
 `
 
 function Home() {
-
   const useActiveLink = (path) => {
     const location = useLocation()
     return location.pathname === path
   }
   const isRecommendationsActive = useActiveLink("/recommendations")
   const isSubscriptionsActive = useActiveLink("/")
-
-  
-  
 
   return (
     <>
@@ -97,13 +91,13 @@ function Home() {
           <Switch>
             <Route exact path="/">
               <div className="mobilePostContainer" style={{ width: "585px" }}>
-                  <FeedList/>
+                <FeedList />
               </div>
             </Route>
             <Route exact path="/recommendations">
-                <div className="mobilePostContainer" style={{ width: "585px" }}>
-                  <RecommendationList />
-                </div>
+              <div className="mobilePostContainer" style={{ width: "585px" }}>
+                <RecommendationList />
+              </div>
             </Route>
           </Switch>
         </div>

@@ -57,22 +57,17 @@ const SUB_POST_UPDATES = gql`
 `
 
 function FeedList() {
-
-
-  const feed_data = useQuery(SEE_FEED_QUERY, {variables: {offset:0}})
+  const feed_data = useQuery(SEE_FEED_QUERY, { variables: { offset: 0 } })
 
   return (
     <>
-    {feed_data.data && feed_data.data.seeFeed.length > 0 ? (
-        feed_data.data.seeFeed.map((post) => (
-        <Post key={post.id} {...post} />
-        ))
-    ) : (
+      {feed_data.data && feed_data.data.seeFeed.length > 0 ? (
+        feed_data.data.seeFeed.map((post) => <Post key={post.id} {...post} />)
+      ) : (
         <EmptyFeed>Раздел подписок пока пуст</EmptyFeed>
-    )}
-      
+      )}
     </>
   )
 }
 
-export default FeedList;
+export default FeedList

@@ -56,11 +56,49 @@ function compressImage(uploadInputRef, CanvasRef, maxWidth, maxHeight) {
           resolve(blob)
         },
         "image/jpeg",
-        1,
+        0.9,
       )
     }
   })
 }
+
+function compressImage1(src, CanvasRef, maxWidth, maxHeight) {
+  return new Promise((resolve, reject) => {
+    const img = new Image()
+    img.src = src;
+    const canvas = CanvasRef.current
+    const ctx = CanvasRef.current.getContext("2d")
+    img.onload = () => {
+      let width = img.width
+      let height = img.height
+      if (width > height) {
+        if (width > maxWidth) {
+          height *= maxWidth / width
+          width = maxWidth
+        }
+      } else {
+        if (height > maxHeight) {
+          width *= maxHeight / height
+          height = maxHeight
+        }
+      }
+
+      canvas.width = width
+      canvas.height = height
+
+      ctx.drawImage(img, 0, 0, width, height)
+
+      canvas.toBlob(
+        (blob) => {
+          resolve(blob)
+        },
+        "image/jpeg",
+        0.9,
+      )
+    }
+  })
+}
+
 
 export const UploadPopUp = ({ onClose, uploadInputRef, onError }) => {
   const CanvasRef = useRef(null)
@@ -74,8 +112,8 @@ export const UploadPopUp = ({ onClose, uploadInputRef, onError }) => {
     if (cropRef) {
       // const dataUrl = cropRef.current.getImage().toDataURL()
       const dataUrl = cropRef.current?.cropper.getCroppedCanvas().toDataURL()
-      const result = await fetch(dataUrl)
-      const blob = await result.blob()
+      //const result = await fetch(dataUrl)
+      const blob = await compressImage1(dataUrl, CanvasRef, 1080, 1080);
       compressedBlob.current = blob
     }
   }
@@ -86,14 +124,7 @@ export const UploadPopUp = ({ onClose, uploadInputRef, onError }) => {
         const file = new File([compressedBlob.current], "test.jpeg", {
           type: "image/jpeg",
         })
-        const formData = new FormData()
-        formData.append("file", file)
-        // await fetch("https://neuro.bibinto.com/", {
-        //   method: "POST",
-        //   body: formData,
-        // }).then(async (re) => {
-
-        // await re.json().then(async (res) => {
+       
         await fetch(updatedUrl, {
           method: "PUT",
           headers: {
@@ -155,8 +186,10 @@ export const UploadPopUp = ({ onClose, uploadInputRef, onError }) => {
         1080,
         1080,
       )
+      console.log(compressedBlob.current)
       const compressedImage = new Image()
       compressedImage.src = URL.createObjectURL(compressedBlob.current)
+      console.log(compressedImage)
       setSrc(compressedImage.src)
     }
     createPhoto(uploadInputRef, CanvasRef)
