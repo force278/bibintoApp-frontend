@@ -530,7 +530,13 @@ function SignUp() {
 
                   <p className="inputLabel">О себе</p>
                   <Input
-                    {...register("bio")}
+                    {...register("bio", {
+                      maxLength: {
+                        value: 50,
+                        message:
+                          "Информация о себе не должна превышать 50 символов",
+                      },
+                    })}
                     type="text"
                     className="m-0"
                     placeholder="Описание о себе"
