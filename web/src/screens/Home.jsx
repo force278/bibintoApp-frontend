@@ -1,99 +1,12 @@
-import React, { useEffect, useMemo, useState } from "react"
 import { Link, Switch, Route, useLocation } from "react-router-dom"
-import { gql, useQuery } from "@apollo/client"
 import styled from "styled-components"
-import Post from "../components/feed/Post"
 import PageTitle from "../components/PageTitle"
 import RecomendationAside from "../components/aside/RecomendationAside"
-import { COMMENTS_FRAGMENT, POST_FRAGMENT } from "../fragments"
-import { RecommendationPost } from "../components/feed/RecommendationPost"
 import IconLogo from "../assets/img/bibinto.svg"
-import { useInView } from "react-intersection-observer"
+import RecommendationList from "../components/feed/RecommendationList"
+import FeedList from "./FeedList"
 
-const SEE_FEED_QUERY = gql`
-  query seeFeed($offset: Int!) {
-    seeFeed(offset: $offset) {
-      ...PostFragment
-      caption
-      comments {
-        ...CommentFragment
-      }
-      user {
-        username
-        avatar
-        official
-      }
-      createdAt
-      isMine
-      isLiked
-    }
-  }
-  ${POST_FRAGMENT}
-  ${COMMENTS_FRAGMENT}
-`
 
-const GET_REC_HISTORY_QUERY = gql`
-  query getRecHistory($offset: Int!) {
-    getRecHistory(offset: $offset) {
-      ...PostFragment
-      caption
-      user {
-        username
-        avatar
-        official
-        isFollowing
-      }
-      createdAt
-      isMine
-      isLiked
-      isDisliked
-    }
-  }
-  ${POST_FRAGMENT}
-`
-
-const GET_REC_QUERY = gql`
-  query getRec {
-    getRec {
-      ...PostFragment
-      caption
-      user {
-        username
-        avatar
-        official
-        isFollowing
-      }
-      createdAt
-      isMine
-      isLiked
-      isDisliked
-    }
-  }
-  ${POST_FRAGMENT}
-`
-
-const SUB_POST_UPDATES = gql`
-  subscription {
-    postUpdates {
-      ...PostFragment
-      caption
-      comments {
-        ...CommentFragment
-      }
-      user {
-        username
-        avatar
-        official
-      }
-      createdAt
-      isMine
-      isLiked
-      isDisliked
-    }
-  }
-  ${POST_FRAGMENT}
-  ${COMMENTS_FRAGMENT}
-`
 
 const MobLogoWrap = styled.div`
   margin: 10px auto;
@@ -125,22 +38,8 @@ const StyledSubHeader = styled.div`
     }
   }
 `
-const EmptyFeed = styled.div`
-  display: flex;
-  justify-content: center;
-  color: gray;
-  font-size: 16px;
-`
 
 function Home() {
-  // состояние раздела подписок
-  const [feedList, setFeedList] = useState([])
-
-  // состояние рекомендуемой фотографии
-  const [recPost, setRecPost] = useState(null)
-
-  // состояние истории рекомендаций
-  const [recHistoryList, setRecHistoryList] = useState([])
 
   const useActiveLink = (path) => {
     const location = useLocation()
@@ -149,36 +48,7 @@ function Home() {
   const isRecommendationsActive = useActiveLink("/recommendations")
   const isSubscriptionsActive = useActiveLink("/")
 
-  const feed_data = useQuery(SEE_FEED_QUERY, {variables: {offset: 0}});
-  const rec_data = useQuery(GET_REC_QUERY);
-  const rec_history_data = useQuery(GET_REC_HISTORY_QUERY, {variables: {offset: 0}});
-
-
-  // объект при виде которого меняется inView на true
-  const { ref, inView } = useInView({
-    threshold: 0,
-  })
-
-  useEffect(() => {
-    if (inView) {
-      rec_history_data.fetchMore({
-        variables: { offset: rec_history_data.data.getRecHistory.length + 5 },
-        updateQuery: (prev, { fetchMoreResult }) => {
-          if (fetchMoreResult.getRecHistory.length == 0) {
-            const endOfRec = document.getElementById("endOfRec")
-            endOfRec.remove()
-            return prev
-          }
-          return {
-            getRecHistory: [
-              ...prev.getRecHistory,
-              ...fetchMoreResult.getRecHistory,
-            ],
-          }
-        },
-      })
-    }
-  }, [inView])
+  
   
 
   return (
@@ -227,53 +97,13 @@ function Home() {
           <Switch>
             <Route exact path="/">
               <div className="mobilePostContainer" style={{ width: "585px" }}>
-                {feed_data.data && feed_data.data.seeFeed.length > 0 ? (
-                  feed_data.data.seeFeed.map((post) => <Post key={post.id} {...post} />)
-                ) : (
-                  <EmptyFeed>Раздел подписок пока пуст</EmptyFeed>
-                )}
+                  <FeedList/>
               </div>
             </Route>
             <Route exact path="/recommendations">
-              {rec_data?.data?.getRecHistory?.length !== 0 ? (
                 <div className="mobilePostContainer" style={{ width: "585px" }}>
-                  {
-                    rec_data?.data?.getRec ? (
-                      <RecommendationPost
-                        key={rec_data.data.getRec.id}
-                        {...rec_data.data.getRec}
-                        photo={rec_data.data.getRec}
-                        rec_history_data={rec_history_data}
-                      />
-                    ) : null
-                    //<div style={{textAlign: "center", paddingBottom: "20px"}}>Новых рекомендаций нет</div>
-                  }
-                  {rec_history_data?.data?.getRecHistory?.map((post) => (
-                    <RecommendationPost key={post.id} {...post} />
-                  ))}
-                  {!rec_history_data.loading && (
-                    <div
-                      ref={ref}
-                      id="endOfRec"
-                      style={{ textAlign: "center" }}
-                    >
-                      Загрузка...
-                    </div>
-                  )}
+                  <RecommendationList />
                 </div>
-              ) : (
-                <div
-                  className="mobilePostContainer d-flex align-items-center justify-content-center flex-column"
-                  style={{ width: "585px" }}
-                >
-                  <img
-                    src="done.svg"
-                    alt="done"
-                    style={{ width: "80px" }}
-                  ></img>
-                  <h1 className="fs-5">Нет рекомендаций</h1>
-                </div>
-              )}
             </Route>
           </Switch>
         </div>

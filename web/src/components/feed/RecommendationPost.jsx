@@ -111,13 +111,6 @@ export function RecommendationPost({
   const [addLike] = useMutation(TOGGLE_LIKE_MUTATION, {
     variables: { id, value: 10 },
     update: updateToggleLike,
-    onCompleted: ()=>{rec_history_data.updateQuery((prev)=> {
-      return {getRecHistory: [
-        photo,
-        ...prev.getRecHistory,
-      ]}
-    })
-  }
   })
   const [addDislike] = useMutation(TOGGLE_LIKE_MUTATION, {
     variables: { id, value: 1 },
@@ -229,7 +222,18 @@ export function RecommendationPost({
             /> */}
           </PostAction>
           <PostAction
-            onClick={addLike}
+            onClick={()=>{
+              addLike()
+              rec_history_data.updateQuery((prev)=> {
+                const new_photo = {...photo, isLiked:true};
+                return {getRecHistory: [
+                  new_photo,
+                  ...prev.getRecHistory,
+                ]}
+              })
+            }
+              
+            }
             style={{ display: isDisliked ? "none" : "block" }}
           >
             <IconAction>

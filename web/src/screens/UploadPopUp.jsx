@@ -13,7 +13,8 @@ const URL_UPLOAD_QUERY = gql`
 const POST_PHOTO = gql`
   mutation uploadPhoto($file: String!) {
     uploadPhoto(file: $file) {
-      id
+      ok
+      error
     }
   }
 `
@@ -103,7 +104,6 @@ export const UploadPopUp = ({ onClose, uploadInputRef, onError }) => {
           uploadDB({
             variables: {
               file: updatedUrl.split("?")[0],
-              // person: res.person,
             },
           })
           onClose()
