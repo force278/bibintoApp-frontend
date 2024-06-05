@@ -4,6 +4,7 @@ import styled from "styled-components"
 import { gql, useQuery } from "@apollo/client"
 import { Link, useHistory } from "react-router-dom/cjs/react-router-dom.min"
 import { client } from "../apollo"
+import defaultAvatar from "../assets/img/DefaultAvatar.png"
 
 const SEE_NOTIFIC = gql`
   query seeNotifications {
@@ -222,7 +223,7 @@ const Notifications = () => {
                 {item.username ? (
                   <StyledItem key={index}>
                     <Link to={`/${item.username}`}>
-                      <Avatar src={item?.avatar} />
+                      <Avatar src={item?.avatar || defaultAvatar} />
                     </Link>
                     <div className="textWrap">
                       <Link to={`/${item.username}`}>
@@ -235,7 +236,7 @@ const Notifications = () => {
                 ) : (
                   <StyledItem key={index}>
                     <Link to={`/${item.user.username}`}>
-                      <Avatar src={item.user?.avatar} />
+                      <Avatar src={item.user?.avatar || defaultAvatar} />
                     </Link>
                     <div className="textWrap">
                       <Link to={`/${item.user.username}`}>
@@ -262,7 +263,7 @@ const Notifications = () => {
                 {item.username ? (
                   <StyledItem key={index}>
                     <Link to={`/${item.username}`}>
-                      <Avatar src={item?.avatar} />
+                      <Avatar src={item?.avatar || defaultAvatar} />
                     </Link>
                     <div className="textWrap">
                       <Link to={`/${item.username}`}>
@@ -275,7 +276,7 @@ const Notifications = () => {
                 ) : (
                   <StyledItem key={index}>
                     <Link to={`/${item.user.username}`}>
-                      <Avatar src={item.user?.avatar} />
+                      <Avatar src={item.user?.avatar || defaultAvatar} />
                     </Link>
                     <div className="textWrap">
                       <Link to={`/${item.user.username}`}>
