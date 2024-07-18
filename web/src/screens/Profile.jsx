@@ -296,9 +296,7 @@ function Profile() {
                     </Link>
                   </List>
                 </Row>
-                <Row style={{overflowY: "auto" }}>
-                  {data?.seeProfile?.bio}
-                </Row>
+                <Row style={{ overflowY: "auto" }}>{data?.seeProfile?.bio}</Row>
                 {data?.seeProfile ? getButton(data.seeProfile, true) : null}
               </Column>
             </>
@@ -633,7 +631,7 @@ const Row = styled.div`
   align-items: center;
   margin-bottom: 20px;
   font-size: 16px;
-  @media (max-width: 640px){
+  @media (max-width: 640px) {
     justify-content: center;
     text-align: center;
   }

@@ -1,6 +1,7 @@
 import { useRef, useEffect, useState } from "react"
 import { Box, Button, Modal, Slider } from "@mui/material"
 import AvatarEditor from "react-avatar-editor"
+import styled from "styled-components"
 import accept from "../../assets/img/editProfile/accept.svg"
 import cancel from "../../assets/img/editProfile/cancel.svg"
 
@@ -32,8 +33,7 @@ export const CropperModal = ({
   const handleSave = async () => {
     if (cropRef) {
       const dataUrl = cropRef.current.getImage().toDataURL()
-      const result = await fetch(dataUrl)
-      const blob = await result.blob()
+      const blob = await compressImage(dataUrl, CanvasRef, 1080, 1080)
       setPreview(URL.createObjectURL(blob))
       compressedBlob.current = blob
       setModalOpen(false)
@@ -41,13 +41,12 @@ export const CropperModal = ({
   }
   const CanvasRef = useRef(null)
 
-  function compressImage(inputRef, maxWidth, maxHeight) {
+  function compressImage(src, CanvasRef, maxWidth, maxHeight) {
     return new Promise((resolve, reject) => {
       const img = new Image()
-      console.log(CanvasRef)
-      img.src = URL.createObjectURL(inputRef.current.files[0])
-      const canvas = document.createElement("CANVAS")
-      const ctx = canvas.getContext("2d")
+      img.src = src
+      const canvas = CanvasRef.current
+      const ctx = CanvasRef.current.getContext("2d")
       img.onload = () => {
         let width = img.width
         let height = img.height
@@ -62,33 +61,23 @@ export const CropperModal = ({
             height = maxHeight
           }
         }
-
+  
         canvas.width = width
         canvas.height = height
-
+  
         ctx.drawImage(img, 0, 0, width, height)
-
+  
         canvas.toBlob(
           (blob) => {
             resolve(blob)
           },
           "image/jpeg",
-          1,
+          0.9,
         )
       }
     })
   }
 
-  // Сразу сжимаем фото
-  useEffect(() => {
-    async function createPhoto(inputRef) {
-      compressedBlob.current = await compressImage(inputRef, 1080, 1080)
-      const compressedImage = new Image()
-      compressedImage.src = URL.createObjectURL(compressedBlob.current)
-      setSrc(compressedImage.src)
-    }
-    createPhoto(inputRef)
-  }, [inputRef, setSrc, compressedBlob])
 
   return (
     <Modal sx={modalStyle} open={modalOpen}>
@@ -103,6 +92,7 @@ export const CropperModal = ({
           scale={slideValue / 10}
           rotate={0}
         />
+        <Canvas ref={CanvasRef}></Canvas>
         <Slider
           min={10}
           max={50}
@@ -133,3 +123,9 @@ export const CropperModal = ({
     </Modal>
   )
 }
+
+const Canvas = styled.canvas`
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+`

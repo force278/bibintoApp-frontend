@@ -58,22 +58,13 @@ const ME_QUERY = gql`
 
 export default function ChangeEditProfile() {
   const loadAvatar = async () => {
-    const imageUrl = uploadData.getUrlUploadPhoto
     const file = new File([compressedBlob.current], "test.jpeg", {
       type: "image/jpeg",
     })
     const formData = new FormData()
     formData.append("file", file)
     try {
-      // await fetch("https://neuro.bibinto.com/", {
-      //   method: "POST",
-      //   body: formData,
-      // }).then(async (res) => {
-      //   await res.json().then(async (data) => {
-      //
-      // if (data.person) {
-      // if (data) {
-      const response = await fetch(imageUrl, {
+      const response = await fetch(uploadData.getUrlUploadPhoto, {
         method: "PUT",
         headers: {
           "Content-Type": "multipart/form-data",
@@ -81,11 +72,9 @@ export default function ChangeEditProfile() {
         body: file,
       })
       if (response.ok) {
-        console.log("фото успешно загружено")
-        const img = uploadData.getUrlUploadPhoto.split("?")[0]
         try {
           const uploadResponse = await uploadAvatar({
-            variables: { file: img },
+            variables: { file: uploadData.getUrlUploadPhoto.split("?")[0] },
           })
           if (uploadResponse.data.uploadAvatar) {
             console.log("Фото успешно отправлено на сервер.")
@@ -98,12 +87,6 @@ export default function ChangeEditProfile() {
       } else {
         console.error("Ошибка при загрузке фотографии")
       }
-      // }
-      // else {
-      //   alert("На фото не человек")
-      // }
-      //   })
-      // })
     } catch (error) {
       console.error("Произошла ошибка", error)
     }
@@ -236,15 +219,17 @@ export default function ChangeEditProfile() {
                   height="70px"
                 />
                 {modalOpen ? (
-                  <CropperModal
-                    inputRef={inputRef}
-                    setSrc={setSrc}
-                    modalOpen={modalOpen}
-                    src={src}
-                    setPreview={setPreview}
-                    setModalOpen={setModalOpen}
-                    compressedBlob={compressedBlob}
-                  />
+                  <>
+                    <CropperModal
+                      inputRef={inputRef}
+                      setSrc={setSrc}
+                      modalOpen={modalOpen}
+                      src={src}
+                      setPreview={setPreview}
+                      setModalOpen={setModalOpen}
+                      compressedBlob={compressedBlob}
+                    />
+                  </>
                 ) : null}
 
                 <input

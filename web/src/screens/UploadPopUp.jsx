@@ -1,11 +1,22 @@
+/*
+
+UploadPopUp 
+
+Этот компонент создается после выбора фото
+из галереи устройства.
+Он необходим для обработки фотографии перед ее загрузкой в приложение.
+
+
+*/
+
 import React, { useState, useEffect, useCallback, useRef } from "react"
 import styled from "styled-components"
-import { gql, useQuery, useMutation } from "@apollo/client"
+import { gql, useMutation, useLazyQuery } from "@apollo/client"
 import CircularProgress from "@mui/material/CircularProgress"
 import { CropperModal } from "./Cropper.jsx"
 import { client } from "../apollo.js"
 
-const URL_UPLOAD_QUERY = gql`
+const GET_URL_UPLOAD_QUERY = gql`
   query {
     getUrlUploadPhoto
   }
@@ -19,16 +30,10 @@ const POST_PHOTO = gql`
   }
 `
 
-const Canvas = styled.canvas`
-  opacity: 0;
-  visibility: hidden;
-  position: absolute;
-`
-
-function compressImage(uploadInputRef, CanvasRef, maxWidth, maxHeight) {
+function compressImage(src, CanvasRef, maxWidth, maxHeight) {
   return new Promise((resolve, reject) => {
     const img = new Image()
-    img.src = URL.createObjectURL(uploadInputRef.current.files[0])
+    img.src = src
     const canvas = CanvasRef.current
     const ctx = CanvasRef.current.getContext("2d")
     img.onload = () => {
@@ -61,70 +66,37 @@ function compressImage(uploadInputRef, CanvasRef, maxWidth, maxHeight) {
     }
   })
 }
-
-function compressImage1(src, CanvasRef, maxWidth, maxHeight) {
-  return new Promise((resolve, reject) => {
-    const img = new Image()
-    img.src = src;
-    const canvas = CanvasRef.current
-    const ctx = CanvasRef.current.getContext("2d")
-    img.onload = () => {
-      let width = img.width
-      let height = img.height
-      if (width > height) {
-        if (width > maxWidth) {
-          height *= maxWidth / width
-          width = maxWidth
-        }
-      } else {
-        if (height > maxHeight) {
-          width *= maxHeight / height
-          height = maxHeight
-        }
-      }
-
-      canvas.width = width
-      canvas.height = height
-
-      ctx.drawImage(img, 0, 0, width, height)
-
-      canvas.toBlob(
-        (blob) => {
-          resolve(blob)
-        },
-        "image/jpeg",
-        0.9,
-      )
-    }
-  })
-}
-
 
 export const UploadPopUp = ({ onClose, uploadInputRef, onError }) => {
-  const CanvasRef = useRef(null)
+  const CanvasRef = useRef(null) // Ссылка на canvas
   const { cache } = client
-  const compressedBlob = useRef(null)
-  const cropRef = useRef(null)
-  const [uploadingState, setUploadingState] = useState(false)
-  const [src, setSrc] = useState(null)
+  const compressedBlob = useRef(null) // Для хранения сжатого фото
+  const cropRef = useRef(null) // Ссылка на кроппер
+  const [uploadingState, setUploadingState] = useState(false) // Состояние загрузки
+  const [src, setSrc] = useState(
+    URL.createObjectURL(uploadInputRef.current.files[0]),
+  ) // Ссылка на фото
 
   const handleSave = async () => {
+    // Если есть ссылка на библиотечный кроппер
     if (cropRef) {
-      // const dataUrl = cropRef.current.getImage().toDataURL()
+      // Получаем ссылку на фото из библиотечного кроппера
       const dataUrl = cropRef.current?.cropper.getCroppedCanvas().toDataURL()
-      //const result = await fetch(dataUrl)
-      const blob = await compressImage1(dataUrl, CanvasRef, 1080, 1080);
+      // Сжимаем фото и сохраняем blob в временную переменную compressedBlob
+      const blob = await compressImage(dataUrl, CanvasRef, 1080, 1080)
       compressedBlob.current = blob
     }
   }
 
+  // Функция загрузки фотографии
+  // принимает подписанный URL S3 и функцию сохранения методанных фото в базу данных приложения
   async function postImage(updatedUrl, uploadDB) {
     try {
       await handleSave().then(async () => {
+        // Сжатое функцией handleSave фото отправляем на S3 как файл
         const file = new File([compressedBlob.current], "test.jpeg", {
           type: "image/jpeg",
         })
-       
         await fetch(updatedUrl, {
           method: "PUT",
           headers: {
@@ -132,32 +104,30 @@ export const UploadPopUp = ({ onClose, uploadInputRef, onError }) => {
           },
           body: file,
         }).then(() => {
+          // Сохраняем методанные, загруженной на S3 фото в базу данных
           uploadDB({
             variables: {
               file: updatedUrl.split("?")[0],
             },
           })
-          onClose()
-          setUploadingState(false)
+          setUploadingState(false) // Завершаем процесс загрузки
+          onClose() // Закрываем форму загрузки
         })
       })
-
-      // })
-      // })
     } catch (err) {
       onClose()
       console.log(err)
       setUploadingState(false)
-      onError("Не удалось загрузить фото")
+      onError("Не удалось загрузить фото", err)
     }
   }
 
-  // Получаем url для загрузки
-  const { called, data } = useQuery(URL_UPLOAD_QUERY, {
+  // Получаем подписанный url S3 для загрузки
+  const [getURL, { called, data }] = useLazyQuery(GET_URL_UPLOAD_QUERY, {
     fetchPolicy: "network-only",
   })
 
-  // Мутация в бд о новой фотке
+  // Сохранение методанных фото в базу данных
   const [uploadDB] = useMutation(POST_PHOTO, {
     onCompleted: () => {
       cache.reset()
@@ -166,10 +136,15 @@ export const UploadPopUp = ({ onClose, uploadInputRef, onError }) => {
 
   // При нажатии опубликовать
   const handleUploadPhoto = () => {
-    if (called && data) {
-      setUploadingState(true)
-      postImage(data?.getUrlUploadPhoto, uploadDB)
-    }
+    getURL() // Получаем подписанный URL S3
+      // ждем получения URL
+      .then((data) => {
+        // Если подписанный url был получен
+        if (data.called && data.data) {
+          setUploadingState(true) // Устанавливаем статус загрузки
+          postImage(data.data?.getUrlUploadPhoto, uploadDB) // Загружаем фотографию
+        }
+      })
   }
 
   // При нажатии закрыть
@@ -177,34 +152,24 @@ export const UploadPopUp = ({ onClose, uploadInputRef, onError }) => {
     onClose()
   }, [onClose])
 
-  // Сразу сжимаем фото
-  useEffect(() => {
-    async function createPhoto(uploadInputRef, CanvasRef) {
-      compressedBlob.current = await compressImage(
-        uploadInputRef,
-        CanvasRef,
-        1080,
-        1080,
-      )
-      console.log(compressedBlob.current)
-      const compressedImage = new Image()
-      compressedImage.src = URL.createObjectURL(compressedBlob.current)
-      console.log(compressedImage)
-      setSrc(compressedImage.src)
-    }
-    createPhoto(uploadInputRef, CanvasRef)
-  }, [uploadInputRef])
-
   return (
     <StyledOverlay>
+      {" "}
+      {/* Затемняет задний фон */}
       <StyledPopUpContainer>
+        {" "}
+        {/* Контейнер для формы загрузки */}
         <StyledPopUpHeader>
+          {" "}
+          {/* Заголовок контейнера */}
+          {/* Если происходит загрузка фото, показываем иконку загрузки */}
           {uploadingState ? (
             <div style={{ margin: "0 auto" }}>
               <CircularProgress />
             </div>
           ) : (
             <>
+              {/* Кнопки отменить и опубликовать */}
               <StyledBackButtonContainer onClick={handleGoBack}>
                 Отменить
               </StyledBackButtonContainer>
@@ -221,11 +186,24 @@ export const UploadPopUp = ({ onClose, uploadInputRef, onError }) => {
           )}
         </StyledPopUpHeader>
         <StyledPopUpBody>
+          {" "}
+          {/* Тело контейнера */}
           <StyledPopUpLeft>
-            <CropperModal src={src} cropRef={cropRef} />
-            <Canvas ref={CanvasRef}></Canvas>
+            {" "}
+            {/* Левая часть, где показываем саму фотку */}
+            <CropperModal src={src} cropRef={cropRef} />{" "}
+            {/* Готовый компонент из библиотеки для обрезки фото (использует canvas)*/}
+            <Canvas ref={CanvasRef}></Canvas>{" "}
+            {/* Наш невидимый canvas для сжатия (изменения качества) фотографии */}
+            {/* 
+            Косяк в том, что мы юзаем два canvas, потому что изменить качество (то есть сжать) фото в готовом компоненте обрезки
+            не получается (нет параметра у этого готового компонента просто)
+            Сжать фотку нужно, потому что без этого они весят в среднем 0.5-2 МБ, а если сжимать то 40-200 КБ и качество не отличается
+            */}
           </StyledPopUpLeft>
           <StyledPopUpRight>
+            {" "}
+            {/* Правая часть, где можно добавить описание */}
             <StyledPopUpTextArea placeholder="Добавить описание..." />
           </StyledPopUpRight>
         </StyledPopUpBody>
@@ -233,6 +211,12 @@ export const UploadPopUp = ({ onClose, uploadInputRef, onError }) => {
     </StyledOverlay>
   )
 }
+
+const Canvas = styled.canvas`
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+`
 
 const StyledOverlay = styled.div`
   width: 100vw;
