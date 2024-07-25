@@ -3,6 +3,7 @@ import "./ModalContent.css"
 import { gql, useMutation } from "@apollo/client"
 import { useEffect } from "react"
 import { client } from "../../apollo"
+
 const DELETE_PHOTO = gql`
   mutation deletePhoto($id: Int!) {
     deletePhoto(id: $id) {
@@ -21,7 +22,16 @@ const REPORT_PHOTO = gql`
   }
 `
 
-const ModalContent = ({ id, isMine, closeModal, openReportPopup }) => {
+const HIDE_PHOTO_FROM_REC = gql`
+  mutation hidePhotoFromRec($id: Int!) {
+    hidePhotoFromRec(photoId: $id) {
+      ok
+      error
+    }
+  }
+`
+
+const ModalContent = ({ id, isMine, isAdmin, closeModal, openReportPopup }) => {
   const modalRef = useRef()
   const { cache } = client
 
@@ -39,15 +49,20 @@ const ModalContent = ({ id, isMine, closeModal, openReportPopup }) => {
   }, [])
 
   const [deletePhoto] = useMutation(DELETE_PHOTO, {
-    variables: { id },
     onCompleted: () => {
       cache.reset()
-    },
+    }
   })
+
+  const [hidePhotoFromRec] = useMutation(HIDE_PHOTO_FROM_REC, {
+    onCompleted: () => {
+      cache.reset()
+    }
+  })
+
   // const [reportPhoto] = useMutation(REPORT_PHOTO, {
   //   variables: { photoId: id },
   // })
-
   return (
     <div className="modalContentWrap" ref={modalRef}>
       {isMine ? (
@@ -55,14 +70,27 @@ const ModalContent = ({ id, isMine, closeModal, openReportPopup }) => {
           {"Удалить фото"}
         </div>
       ) : (
-        <div
-          className="Report"
-          onClick={() => {
-            openReportPopup()
-            closeModal()
-          }}
-        >
-          {"Пожаловаться"}
+        <div>
+          {isAdmin ? (
+            <>
+              <div className="Report" onClick={()=>{hidePhotoFromRec({variables:{id}})}}>{"Скрыть из рекомендаций"}</div>
+              <div className="Delete" onClick={()=>{
+                deletePhoto({variables: {id}})
+                }}>
+                {"Удалить фото"}
+              </div>
+            </>
+          ) : (
+            <div
+              className="Report"
+              onClick={() => {
+                openReportPopup()
+                closeModal()
+              }}
+            >
+              {"Пожаловаться"}
+            </div>
+          )}
         </div>
       )}
     </div>

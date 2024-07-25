@@ -189,6 +189,7 @@ export function RecommendationPost({
             <ModalContent
               id={id}
               isMine={isMine}
+              isAdmin={userData.me.admin}
               closeModal={() => setActiveModal(false)}
               openReportPopup={() => setReportPopupShowed(true)}
             />

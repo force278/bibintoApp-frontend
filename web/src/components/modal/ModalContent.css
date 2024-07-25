@@ -4,14 +4,13 @@
 }
 
 .modalContentWrap {
-  position: relative;
+  position: absolute;
 }
 .Delete,
 .Report {
   right: 5px;
-  z-index: 99;
+  width: calc(100%);
   padding: 9px 16px;
-  position: absolute;
   border-radius: 10px;
   top: calc(100% + 10px);
   background-color: #fff;

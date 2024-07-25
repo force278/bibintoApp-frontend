@@ -61,12 +61,12 @@ export const CropperModal = ({
             height = maxHeight
           }
         }
-  
+
         canvas.width = width
         canvas.height = height
-  
+
         ctx.drawImage(img, 0, 0, width, height)
-  
+
         canvas.toBlob(
           (blob) => {
             resolve(blob)
@@ -77,7 +77,6 @@ export const CropperModal = ({
       }
     })
   }
-
 
   return (
     <Modal sx={modalStyle} open={modalOpen}>
