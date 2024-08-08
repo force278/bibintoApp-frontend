@@ -3,6 +3,7 @@ import "./ModalContent.css"
 import { gql, useMutation } from "@apollo/client"
 import { useEffect } from "react"
 import { client } from "../../apollo"
+import useMe from "../../hooks/useMe"
 
 const DELETE_PHOTO = gql`
   mutation deletePhoto($id: Int!) {
@@ -31,8 +32,9 @@ const HIDE_PHOTO_FROM_REC = gql`
   }
 `
 
-const ModalContent = ({ id, isMine, isAdmin, closeModal, openReportPopup }) => {
+const ModalContent = ({ id, isMine, closeModal, openReportPopup }) => {
   const modalRef = useRef()
+  const { data: userData } = useMe()
   const { cache } = client
 
   useEffect(() => {
@@ -51,13 +53,13 @@ const ModalContent = ({ id, isMine, isAdmin, closeModal, openReportPopup }) => {
   const [deletePhoto] = useMutation(DELETE_PHOTO, {
     onCompleted: () => {
       cache.reset()
-    }
+    },
   })
 
   const [hidePhotoFromRec] = useMutation(HIDE_PHOTO_FROM_REC, {
     onCompleted: () => {
       cache.reset()
-    }
+    },
   })
 
   // const [reportPhoto] = useMutation(REPORT_PHOTO, {
@@ -71,12 +73,22 @@ const ModalContent = ({ id, isMine, isAdmin, closeModal, openReportPopup }) => {
         </div>
       ) : (
         <div>
-          {isAdmin ? (
+          {userData.me.admin ? (
             <>
-              <div className="Report" onClick={()=>{hidePhotoFromRec({variables:{id}})}}>{"Скрыть из рекомендаций"}</div>
-              <div className="Delete" onClick={()=>{
-                deletePhoto({variables: {id}})
-                }}>
+              <div
+                className="Report"
+                onClick={() => {
+                  hidePhotoFromRec({ variables: { id } })
+                }}
+              >
+                {"Скрыть из рекомендаций"}
+              </div>
+              <div
+                className="Delete"
+                onClick={() => {
+                  deletePhoto({ variables: { id } })
+                }}
+              >
                 {"Удалить фото"}
               </div>
             </>

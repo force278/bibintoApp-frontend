@@ -6,6 +6,7 @@ import React, { useEffect, useRef } from "react"
 import { gql, useMutation } from "@apollo/client"
 import more from "../../assets/img/post/more.svg"
 import { useState } from "react"
+import useMe from "../../hooks/useMe"
 
 const DELETE_COMMENT_MUTATION = gql`
   mutation deleteComment($id: Int!) {
@@ -28,7 +29,8 @@ const CommentCaption = styled.span`
   }
 `
 
-function Comment({ id, isMine, photoId, author, payload, official }) {
+function Comment({ id, isMine, photoId, author, payload, official, postAuthor }) {
+  const { data: myData } = useMe()
   const [showModal, setShowModal] = useState(false)
   const modalRef = useRef()
   const handleShowModal = (event) => {
@@ -105,7 +107,7 @@ function Comment({ id, isMine, photoId, author, payload, official }) {
       </div>
 
       <div>
-        {isMine ? (
+        {isMine || postAuthor === myData.me.username ? (
           <button className="border-0 bg-transparent" onClick={handleShowModal}>
             <img
               className="cursor-pointer"

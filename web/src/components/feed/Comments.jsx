@@ -155,6 +155,7 @@ function Comments({ photoId, author, caption, commentsNumber, comments }) {
             author={comment.user.username}
             payload={comment.payload}
             official={comment.user.official}
+            postAuthor={author}
           />
         ))}
       </CommentsList>
