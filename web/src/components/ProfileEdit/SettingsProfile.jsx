@@ -61,21 +61,23 @@ const SettingsProfile = () => {
             <p>Изменение почты</p>
             <img className="arrow" src={IconArrow} alt="" />
           </SettingItem>
+          {/*
           <SettingItem onClick={() => setCurSetting("Подтвердить аккаунт")}>
             <img src={IconConfirm} alt="" />
             <p>Подтвердить аккаунт</p>
             <img className="arrow" src={IconArrow} alt="" />
           </SettingItem>
+          */}
           <SettingItem onClick={() => setCurSetting("Техподдержка")}>
             <img src={IconSupport} alt="" />
             <p>Написать в поддержку</p>
           </SettingItem>
-          {/* <SettingItem
+          <SettingItem
             onClick={() => setCurSetting("Политика конфиденциальности")}
           >
             <img src={IconSupport} alt="" />
             <p>Политика конфиденциальности</p>
-          </SettingItem> */}
+          </SettingItem>
           <SettingItem onClick={logOut}>
             <img src={IconExit} alt="" />
             <p>Выйти</p>
@@ -83,7 +85,7 @@ const SettingsProfile = () => {
         </SettingsList>
       )}
       {curSetting === "Пароль" && <ChangePassword />}
-      {curSetting === "Подтвердить аккаунт" && <ConfirmAcc />}
+      {/*curSetting === "Подтвердить аккаунт" && <ConfirmAcc />*/}
       {curSetting === "Изменение почты" && <ChangeEmail />}
       {curSetting === "Техподдержка" && <TechSupport />}
 

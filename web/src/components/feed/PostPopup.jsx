@@ -416,7 +416,7 @@ const PostPopup = ({
                       </button>
                     )}
                     {showModal === item.id && (
-                      <div className="modalContentWrap" ref={modalRef}>
+                      <div className="CommentDelete" ref={modalRef}>
                         <div
                           className="Delete"
                           onClick={() => onDeleteClick(item.id)}

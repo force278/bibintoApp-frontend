@@ -37,12 +37,14 @@ export const EditProfile = ({ children }) => {
             >
               <button className="btnSwithWindow">Изменить почту</button>
             </NavLink>
+            {/*
             <NavLink
               to="/account/accountConfirm"
               activeClassName="active_profile"
             >
               <button className="btnSwithWindow">Подтвердить аккаунт</button>
             </NavLink>
+            */}
 
             <NavLink
               to="/account/accountTechSupport"

@@ -29,7 +29,15 @@ const CommentCaption = styled.span`
   }
 `
 
-function Comment({ id, isMine, photoId, author, payload, official, postAuthor }) {
+function Comment({
+  id,
+  isMine,
+  photoId,
+  author,
+  payload,
+  official,
+  postAuthor,
+}) {
   const { data: myData } = useMe()
   const [showModal, setShowModal] = useState(false)
   const modalRef = useRef()
@@ -107,7 +115,7 @@ function Comment({ id, isMine, photoId, author, payload, official, postAuthor })
       </div>
 
       <div>
-        {isMine || postAuthor === myData.me.username ? (
+        {isMine || (myData && postAuthor === myData.me.username) ? (
           <button className="border-0 bg-transparent" onClick={handleShowModal}>
             <img
               className="cursor-pointer"
@@ -118,7 +126,7 @@ function Comment({ id, isMine, photoId, author, payload, official, postAuthor })
           </button>
         ) : null}
         {showModal && (
-          <div className="modalContentWrap" ref={modalRef}>
+          <div className="CommentDelete" ref={modalRef}>
             <div className="Delete" onClick={onDeleteClick}>
               Удалить
             </div>

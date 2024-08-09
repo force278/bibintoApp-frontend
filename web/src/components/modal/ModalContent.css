@@ -6,6 +6,12 @@
 .modalContentWrap {
   position: absolute;
 }
+
+.CommentDelete {
+  position: absolute;
+  right: 0px;
+}
+
 .Delete,
 .Report {
   right: 5px;
