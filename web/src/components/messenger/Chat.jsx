@@ -114,7 +114,9 @@ const ChatMob = ({ username, messages, dialogId }) => {
           onClick={handleBack}
           className="formBtnBack"
         ></button>
-        <p className="username">{username}</p>
+        <Link to={`/${username}`}>
+          <p className="username">{username}</p>
+        </Link>
         <Link style={{ justifySelf: "flex-end" }} to={`/${username}`}>
           <Avatar src={user.avatar} />
         </Link>

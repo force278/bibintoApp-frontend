@@ -68,7 +68,12 @@ const ModalContent = ({ id, isMine, closeModal, openReportPopup }) => {
   return (
     <div className="modalContentWrap" ref={modalRef}>
       {isMine ? (
-        <div className="Delete" onClick={()=>{deletePhoto({variables: { id } })}}>
+        <div
+          className="Delete"
+          onClick={() => {
+            deletePhoto({ variables: { id } })
+          }}
+        >
           {"Удалить фото"}
         </div>
       ) : (
