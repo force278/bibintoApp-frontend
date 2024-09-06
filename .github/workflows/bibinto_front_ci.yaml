@@ -27,8 +27,21 @@ jobs:
           key: ${{ secrets.SSHKEY }}
           script: |
 
+            # завершить скрипт при ошибке
+            set -e  
+
+            # Перейти в домашний каталог
+            cd
+
+            # Клонировать репозиторий; удалить директорию, если она уже существует
+            if [ -d "bibintoApp-frontend" ]; then
+              rm -rf bibintoApp-frontend
+            fi
             git clone https://github.com/force278/bibintoApp-frontend.git
 
+            # Синхронизировать файлы
             rsync -avz --delete bibintoApp-frontend/web/ /home/bibinto_front/
 
+            # Запустить скрипт
+            chmod +x front.sh  # сделать скрипт исполняемым, если это необходимо
             bash front.sh
