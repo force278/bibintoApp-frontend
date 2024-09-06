@@ -25,6 +25,7 @@ jobs:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSHKEY }}
+          timeout-minutes: 10
           script: |
 
             # завершить скрипт при ошибке
