@@ -37,7 +37,8 @@ jobs:
             if [ -d "bibintoApp-frontend" ]; then
               rm -rf bibintoApp-frontend
             fi
-            git clone https://github.com/force278/bibintoApp-frontend.git
+
+            git clone git@github.com:force278/bibintoApp-frontend.git
 
             # Синхронизировать файлы
             rsync -avz --delete bibintoApp-frontend/web/ /home/bibinto_front/
