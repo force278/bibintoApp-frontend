@@ -34,6 +34,9 @@ export function Header({ notificationList }) {
   const [profileActive, setProfileActive] = useState(false)
   const modalRef = useRef()
   const uploadInputRef = useRef(null)
+
+  const isDarkIcon =
+    curLocation === routes.home || curLocation === routes.recommendations
   const handleShowModal = (event) => {
     event.stopPropagation()
     setShowModal(!showModal)
@@ -105,11 +108,17 @@ export function Header({ notificationList }) {
                 </div>
                 <div className="d-flex" style={{ gap: "40px" }}>
                   <NavLink exact activeClassName="is-active" to={routes.home}>
-                    <div className="light">
-                      <img src={homeIcon} alt="" />
+                    <div
+                      className="light"
+                      style={{ display: isDarkIcon ? "none" : "block" }}
+                    >
+                      <img src={homeIcon} alt="Home Icon Light" />
                     </div>
-                    <div className="dark">
-                      <img src={homeIconFill} alt="" />
+                    <div
+                      className="dark"
+                      style={{ display: isDarkIcon ? "block" : "none" }}
+                    >
+                      <img src={homeIconFill} alt="Home Icon Dark" />
                     </div>
                   </NavLink>
                   <NavLink
