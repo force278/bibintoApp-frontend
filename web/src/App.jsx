@@ -34,6 +34,7 @@ import { ChangeEmail } from "./components/ProfileEdit/ChangeEmail"
 import Followers from "./screens/Followers"
 import Following from "./screens/Following"
 import { TechSupport } from "./components/ProfileEdit/TechSupport"
+import { SearcherUsersMobile } from "./screens/SearcherUsersMobile";
 
 function App() {
   const isLoggedIn = useReactiveVar(isLoggedInVar)
@@ -77,6 +78,11 @@ function App() {
                   <Route path={routes.likes} exact>
                     <Layout>
                       <Notifications />
+                    </Layout>
+                  </Route>
+                  <Route path={routes.users} exact>
+                    <Layout>
+                      <SearcherUsersMobile />
                     </Layout>
                   </Route>
                   <Route path={routes.messenger} exact>

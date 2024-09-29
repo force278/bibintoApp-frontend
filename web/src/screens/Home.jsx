@@ -3,6 +3,7 @@ import styled from "styled-components"
 import PageTitle from "../components/PageTitle"
 import RecomendationAside from "../components/aside/RecomendationAside"
 import IconLogo from "../assets/img/bibinto.svg"
+import SearchIcon from "../assets/icons/searchBlack.svg"
 import RecommendationList from "../components/feed/RecommendationList"
 import FeedList from "./FeedList"
 
@@ -52,6 +53,11 @@ function Home() {
         <MobLogoWrap>
           <img src={IconLogo} alt="" />
         </MobLogoWrap>
+        <div className="p-2">
+          <Link to="/users">
+            <img src={SearchIcon} alt="searchLogo"/>
+          </Link>
+        </div>
       </div>
       <div className="d-flex justify-content-center">
         <div>

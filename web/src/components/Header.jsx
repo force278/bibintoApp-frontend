@@ -36,7 +36,7 @@ export function Header({ notificationList }) {
   const uploadInputRef = useRef(null)
 
   const isDarkIcon =
-    curLocation === routes.home || curLocation === routes.recommendations
+    curLocation === routes.home || curLocation === routes.recommendations || curLocation === routes.users
   const handleShowModal = (event) => {
     event.stopPropagation()
     setShowModal(!showModal)
