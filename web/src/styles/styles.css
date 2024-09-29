@@ -57,6 +57,6 @@ input::-webkit-inner-spin-button {
 
 @media (max-width: 768px) {
   .isMobile {
-    display: block;
+    display: flex;
   }
 }

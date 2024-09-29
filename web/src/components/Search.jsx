@@ -48,6 +48,8 @@ const SEARCH_QUERY = gql`
   query searchUsers($keyword: String!) {
     searchUsers(keyword: $keyword) {
       username
+      firstName
+      lastName
       avatar
     }
   }
@@ -62,7 +64,7 @@ const TOP_USERS_QUERY = gql`
   }
 `
 
-function Search() {
+function Search({ onSearchResults = () => {}, showList = true }) {
   const [searchUsers, { loading, data }] = useLazyQuery(SEARCH_QUERY)
   const [open, setOpen] = useState(false)
   const [searchValue, setSearchValue] = useState("")
@@ -81,11 +83,17 @@ function Search() {
     }
   }, [searchValue, searchUsers])
 
+  useEffect(() => {
+    if (data?.searchUsers) {
+      onSearchResults(data.searchUsers)
+    }
+  }, [data, onSearchResults])
+
   const options = data?.searchUsers || []
 
   return (
-    <div className="d-flex flex-row">
-      <div className="inputSearch hideElement">
+    <div className="d-flex flex-row w-100">
+      <div className="inputSearch">
         <StyledAutocomplete
           id="search-users"
           sx={{
@@ -102,10 +110,10 @@ function Search() {
             option.username === value.username
           }
           getOptionLabel={(option) => option.username}
-          options={options}
+          options={showList ? options : []}
           loading={loading}
           autoHighlight
-          noOptionsText="Введите запрос"
+          noOptionsText={showList ? 'Введите запрос' : 'Укажите никнейм пользователя'}
           inputValue={searchValue}
           onInputChange={(event) => setSearchValue(event?.target?.value || "")}
           onChange={(event, newValue) => {

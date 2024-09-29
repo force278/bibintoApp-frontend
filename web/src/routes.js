@@ -6,6 +6,7 @@ const routes = {
   termOfUse: "/termsOfUse",
   recommendations: "/recommendations",
   likes: "/likes",
+  users: "/users",
   messenger: "/me",
   accountEditProfile: "/accountEditProfile",
   accountChangePassword: "/account/accountChangePassword",

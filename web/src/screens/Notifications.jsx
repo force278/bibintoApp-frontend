@@ -76,7 +76,7 @@ const SUB_NOTIFIC_UPDATES = gql`
   }
 `
 
-const TimeAgo = ({ timestamp }) => {
+export const TimeAgo = ({ timestamp }) => {
   timestamp = new Date(timestamp)
   const currentTime = new Date().getTime()
   const timeDifference = currentTime - timestamp
@@ -300,7 +300,7 @@ const Notifications = () => {
   )
 }
 
-const StyledList = styled.div`
+export  const StyledList = styled.div`
   flex: 1;
   padding: 16px;
   overflow: auto;
@@ -318,7 +318,7 @@ const StyledList = styled.div`
   }
 `
 
-const StyledPhoto = styled.div`
+export const StyledPhoto = styled.div`
   width: 40px;
   height: 40px;
   overflow: hidden;
@@ -363,7 +363,7 @@ const NotificationsWrap = styled.div`
   }
 `
 
-const StyledHeader = styled.div`
+export  const StyledHeader = styled.div`
   height: 60px;
   display: flex;
   padding: 0 16px;
@@ -389,7 +389,7 @@ const StyledHeader = styled.div`
   }
 `
 
-const Avatar = styled.img`
+export const Avatar = styled.img`
   // margin-left: 50px;
   height: 40px;
   width: 40px;
