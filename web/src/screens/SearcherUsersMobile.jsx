@@ -1,17 +1,15 @@
-import { StyledHeader, StyledList } from "./Notifications";
-import styled from "styled-components";
-import {Link, useHistory} from "react-router-dom";
-import Search from "../components/Search";
-import {useState} from "react";
-import defaultAvatar from "../assets/img/DefaultAvatar.png";
-import {Avatar} from "@mui/material";
-
-
+import { StyledHeader, StyledList } from "./Notifications"
+import styled from "styled-components"
+import { Link, useHistory } from "react-router-dom"
+import Search from "../components/Search"
+import { useState } from "react"
+import defaultAvatar from "../assets/img/DefaultAvatar.png"
+import { Avatar } from "@mui/material"
 
 const WrappperItems = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 `
 const UsersWrap = styled.div`
   display: flex;
@@ -34,8 +32,8 @@ const StyledItem = styled.div`
   padding: 5px;
   border-radius: 12px;
   align-items: flex-start;
-  box-shadow: 0 0 20px 0 #9797BD26;
-    .textWrap {
+  box-shadow: 0 0 20px 0 #9797bd26;
+  .textWrap {
     margin-top: 6px;
     flex: 1;
   }
@@ -49,60 +47,59 @@ const StyledItem = styled.div`
   }
 `
 
-
 export const SearcherUsersMobile = () => {
-    const history = useHistory()
+  const history = useHistory()
 
-    const [users, setUsers] = useState([])
+  const [users, setUsers] = useState([])
 
-    const handleSearchResults = (searchResults) => {
-        setUsers(searchResults)
-    }
+  const handleSearchResults = (searchResults) => {
+    setUsers(searchResults)
+  }
 
-    return(
-        <UsersWrap>
-            <StyledHeader>
-                <button
-                    type="button"
-                    className="formBtnBack"
-                    onClick={() => history.goBack()}
-                ></button>
-                <p>Поиск</p>
-            </StyledHeader>
-            <StyledHeader>
-                <Search onSearchResults={handleSearchResults} showList={false}/>
-            </StyledHeader>
-            <StyledList id="notific_list">
-                <WrappperItems>
-                    {users.length > 0 &&
-                        users.map((item, index) => (
-                            <>
-                                {item?.username ? (
-                                        <StyledItem key={index}>
-                                            <Link to={`/${item?.username}`}>
-                                                <Avatar src={item?.avatar || defaultAvatar} />
-                                            </Link>
-                                            <div className="textWrap">
-                                                <Link to={`/${item?.username}`}>
-                                                    <p>{item?.username}</p>
-                                                </Link>
-                                                <span style={{fontSize: '11px'}}>
-                                                    {item?.firstName} {item?.lastName}
-                                                </span>
-                                            </div>
-                                        </StyledItem>
-
-                                ) : (
-                                    <div>Ничего не обнаружено</div>
-                                )}
-                            </>))}
-                    {
-                        users.length === 0 && (
-                            <span className="d-flex justify-content-center mt-5">Ничего не обнаружено</span>
-                        )
-                    }
-                </WrappperItems>
-            </StyledList>
-        </UsersWrap>
-    )
+  return (
+    <UsersWrap>
+      <StyledHeader>
+        <button
+          type="button"
+          className="formBtnBack"
+          onClick={() => history.goBack()}
+        ></button>
+        <p>Поиск</p>
+      </StyledHeader>
+      <StyledHeader>
+        <Search onSearchResults={handleSearchResults} showList={false} />
+      </StyledHeader>
+      <StyledList id="notific_list">
+        <WrappperItems>
+          {users.length > 0 &&
+            users.map((item, index) => (
+              <>
+                {item?.username ? (
+                  <StyledItem key={index}>
+                    <Link to={`/${item?.username}`}>
+                      <Avatar src={item?.avatar || defaultAvatar} />
+                    </Link>
+                    <div className="textWrap">
+                      <Link to={`/${item?.username}`}>
+                        <p>{item?.username}</p>
+                      </Link>
+                      <span style={{ fontSize: "11px" }}>
+                        {item?.firstName} {item?.lastName}
+                      </span>
+                    </div>
+                  </StyledItem>
+                ) : (
+                  <div>Ничего не обнаружено</div>
+                )}
+              </>
+            ))}
+          {users.length === 0 && (
+            <span className="d-flex justify-content-center mt-5">
+              Ничего не обнаружено
+            </span>
+          )}
+        </WrappperItems>
+      </StyledList>
+    </UsersWrap>
+  )
 }

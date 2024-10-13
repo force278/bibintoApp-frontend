@@ -7,6 +7,7 @@ import Autocomplete from "@mui/material/Autocomplete"
 import { useHistory } from "react-router-dom"
 import avatar from "../assets/img/editProfile/defaultAvatar.png"
 import styled from "styled-components"
+import { useMediaQuery } from "@mui/material"
 
 const StyledAutocomplete = styled(Autocomplete)`
   .MuiAutocomplete-inputRoot {
@@ -69,6 +70,7 @@ function Search({ onSearchResults = () => {}, showList = true }) {
   const [open, setOpen] = useState(false)
   const [searchValue, setSearchValue] = useState("")
   const history = useHistory()
+  const isMobile = useMediaQuery("(max-width: 600px)");
   let timeoutId
 
   useEffect(() => {
@@ -99,7 +101,7 @@ function Search({ onSearchResults = () => {}, showList = true }) {
           sx={{
             width: 200,
           }}
-          open={open}
+          open={open && !isMobile}
           onOpen={() => {
             setOpen(true)
           }}
@@ -113,7 +115,9 @@ function Search({ onSearchResults = () => {}, showList = true }) {
           options={showList ? options : []}
           loading={loading}
           autoHighlight
-          noOptionsText={showList ? 'Введите запрос' : 'Укажите никнейм пользователя'}
+          noOptionsText={
+            showList ? "Введите запрос" : "Укажите никнейм пользователя"
+          }
           inputValue={searchValue}
           onInputChange={(event) => setSearchValue(event?.target?.value || "")}
           onChange={(event, newValue) => {
@@ -149,7 +153,7 @@ function Search({ onSearchResults = () => {}, showList = true }) {
           renderInput={(params) => (
             <TextField
               {...params}
-              label="Поиск"
+              label="Укажите никнейм"
               inputProps={{
                 ...params.inputProps,
                 autoComplete: "new-password",
