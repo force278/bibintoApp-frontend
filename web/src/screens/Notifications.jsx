@@ -300,7 +300,7 @@ const Notifications = () => {
   )
 }
 
-export  const StyledList = styled.div`
+export const StyledList = styled.div`
   flex: 1;
   padding: 16px;
   overflow: auto;
@@ -363,7 +363,7 @@ const NotificationsWrap = styled.div`
   }
 `
 
-export  const StyledHeader = styled.div`
+export const StyledHeader = styled.div`
   height: 60px;
   display: flex;
   padding: 0 16px;

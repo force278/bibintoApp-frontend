@@ -51,11 +51,11 @@ function Home() {
       <PageTitle title="Лента" />
       <div className="isMobile">
         <MobLogoWrap>
-          <img src={IconLogo} alt="" />
+          <img src={IconLogo} alt="" style={{ marginLeft: "13px" }} />
         </MobLogoWrap>
         <div className="p-2">
           <Link to="/users">
-            <img src={SearchIcon} alt="searchLogo"/>
+            <img src={SearchIcon} alt="searchLogo" />
           </Link>
         </div>
       </div>
