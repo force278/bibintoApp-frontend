@@ -536,10 +536,10 @@ const StyledProfileContainer = styled.div`
     min-height: calc(100dvh - 123px);
   }
   @media (max-width: 768px) {
+    overflow: auto;
     margin-top: 0;
     width: 100vw;
     display: flex;
-    overflow: hidden;
     flex-direction: column;
     height: calc(100dvh - 60px);
     .mobilePostContainer {
@@ -560,15 +560,20 @@ const MobHeader = styled.div`
   align-items: center;
   flex-direction: column;
   justify-content: center;
+  margin-top: 70px;
 
   .header {
     width: 100%;
     display: flex;
     padding: 16px;
     align-items: center;
-    position: relative;
+    //position: relative;
     justify-content: center;
     border-bottom: 1px solid #f2f2f7;
+    position: fixed;
+    top: 0;
+    background: #fff;
+    z-index: 1;
   }
   .btnMenu {
     right: 16px;
@@ -721,9 +726,7 @@ const Grid = styled.div`
     flex: 1;
     gap: 5px;
     padding: 0;
-    overflow: auto;
     max-width: 100vw;
-    overflow: hidden;
     margin: 32px 0 -16px 0;
     grid-auto-rows: calc(33.33vw - 3.33px);
     grid-template-columns: repeat(3, calc(33.33vw - 3.33px));
