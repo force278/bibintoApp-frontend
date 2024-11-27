@@ -70,7 +70,7 @@ function Search({ onSearchResults = () => {}, showList = true }) {
   const [open, setOpen] = useState(false)
   const [searchValue, setSearchValue] = useState("")
   const history = useHistory()
-  const isMobile = useMediaQuery("(max-width: 600px)");
+  const isMobile = useMediaQuery("(max-width: 600px)")
   let timeoutId
 
   useEffect(() => {
