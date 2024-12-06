@@ -1,0 +1,165 @@
+#Streams {
+  position: fixed;
+  z-index: 9;
+  width: 100%;
+  height: 100%;
+  background: #232323;
+
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-flex-wrap: nowrap;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+  -webkit-justify-content: space-around;
+  -ms-flex-pack: distribute;
+  justify-content: space-around;
+  -webkit-align-content: stretch;
+  -ms-flex-line-pack: stretch;
+  align-content: stretch;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding: 0 20%;
+}
+
+#Streams .stream {
+  -webkit-order: 0;
+  -ms-flex-order: 0;
+  order: 0;
+  -webkit-flex: 0 1 auto;
+  -ms-flex: 0 1 auto;
+  flex: 0 1 auto;
+  -webkit-align-self: auto;
+  -ms-flex-item-align: auto;
+  align-self: auto;
+  margin-bottom: -60px;
+
+  color: #666;
+  font-size: 12px;
+  text-transform: uppercase;
+  font-family: "Supply";
+  letter-spacing: 4px;
+  position: relative;
+  -webkit-transition: 0.6s ease all;
+  -moz-transition: 0.6s ease all;
+  -ms-transition: 0.6s ease all;
+  -o-transition: 0.6s ease all;
+  transition: 0.6s ease all;
+  cursor: pointer;
+}
+
+#Streams .stream .circles > span {
+  width: 50px;
+  height: 50px;
+  border: 1px solid #555;
+  border-radius: 100px;
+  display: block;
+  position: absolute;
+  left: 50%;
+  margin-left: -25px;
+  top: -80px;
+  display: none;
+  box-sizing: border-box;
+  -webkit-transition: 0.6s ease all;
+  -moz-transition: 0.6s ease all;
+  -ms-transition: 0.6s ease all;
+  -o-transition: 0.6s ease all;
+  transition: 0.6s ease all;
+}
+
+/* Study */
+
+#Streams .stream#study .circles > span:nth-child(2) {
+  display: block;
+}
+
+/* Work */
+
+#Streams .stream#work .circles > span {
+  display: block;
+}
+
+#Streams .stream#work .circles > span:nth-child(1) {
+  transform: translateX(-10px);
+}
+
+#Streams .stream#work .circles > span:nth-child(3) {
+  transform: translateX(10px);
+}
+
+/* Think */
+
+#Streams .stream#creative .circles > span {
+  display: block;
+}
+
+#Streams .stream#creative .circles > span:nth-child(1) {
+  transform: translateY(-10px);
+}
+
+#Streams .stream#creative .circles > span:nth-child(2) {
+  transform: translate3d(-7px, 2px, 0);
+}
+
+#Streams .stream#creative .circles > span:nth-child(3) {
+  transform: translate3d(5px, 2px, 0);
+}
+
+/* Active */
+
+#Streams .stream .circles {
+  /* 	transform: scale(0.5); */
+}
+
+#Streams .stream.active .circles > span {
+  border-color: #fff;
+}
+
+#Streams .stream.active#work .circles > span:nth-child(1) {
+  transform: translateX(-12px);
+}
+
+#Streams .stream.active#work .circles > span:nth-child(3) {
+  transform: translateX(12px);
+}
+
+#Streams .stream.active#creative .circles > span:nth-child(1) {
+  transform: translateY(-12px);
+}
+
+#Streams .stream.active#creative .circles > span:nth-child(2) {
+  transform: translate3d(-9px, 3px, 0);
+}
+
+#Streams .stream.active#creative .circles > span:nth-child(3) {
+  transform: translate3d(7px, 3px, 0);
+}
+
+#Streams .stream.active {
+  color: #fff;
+}
+
+#Artwork {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  z-index: 0;
+  background-size: cover;
+  background-position: center center;
+}
+
+@media only screen and (max-width: 960px) {
+  #Streams {
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+
+    padding: 10%;
+
+    z-index: 30;
+  }
+}

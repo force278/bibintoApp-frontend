@@ -1,0 +1,8 @@
+#Footer {
+  display: block;
+  position: relative;
+}
+
+#Footer .wrapper {
+  padding: 200px 0;
+}

@@ -1,0 +1,159 @@
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    Segoe UI,
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    Fira Sans,
+    Droid Sans,
+    Helvetica Neue,
+    sans-serif;
+  margin: 0;
+}
+code {
+  font-family:
+    source-code-pro,
+    Menlo,
+    Monaco,
+    Consolas,
+    Courier New,
+    monospace;
+}
+@media screen {
+  * {
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  img {
+    pointer-events: none;
+  }
+  body {
+    background-color: #000;
+  }
+  @font-face {
+    font-family: Montserrat;
+    src: url(https://fonts.gstatic.com/s/montserrat/v25/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCtr6Hw9aXpsog.woff2)
+      format("woff2");
+  }
+  @font-face {
+    font-family: Roboto;
+    src: url(https://fonts.gstatic.com/s/roboto/v30/KFOkCnqEu92Fr1MmgVxMIzIFKw.woff2)
+      format("woff2");
+  }
+  .first {
+    color: #fff;
+    font-family: Montserrat;
+    font-size: 20px;
+  }
+  .first,
+  .second {
+    font-style: normal;
+    height: 98px;
+    margin-left: 20%;
+    width: 654px;
+  }
+  .second {
+    color: #fff9;
+    font-family: Roboto;
+    font-size: 15px;
+  }
+  .buttons {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    margin-left: 20%;
+  }
+  .tg {
+    padding-left: 10%;
+  }
+  .copyright {
+    bottom: 0;
+    color: #fff;
+    font-family: Roboto;
+    left: 43%;
+    position: fixed;
+  }
+  .iphone {
+    margin-left: 10%;
+    margin-top: 5%;
+  }
+  .container {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+  }
+  .i {
+    height: 90%;
+    width: 90%;
+  }
+}
+@media (max-width: 480px) {
+  * {
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  img {
+    pointer-events: none;
+  }
+  body {
+    background-color: #000;
+  }
+  @font-face {
+    font-family: Montserrat;
+    src: url(https://fonts.gstatic.com/s/montserrat/v25/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCtr6Hw9aXpsog.woff2)
+      format("woff2");
+  }
+  @font-face {
+    font-family: Roboto;
+    src: url(https://fonts.gstatic.com/s/roboto/v30/KFOkCnqEu92Fr1MmgVxMIzIFKw.woff2)
+      format("woff2");
+  }
+  .first {
+    color: #fff;
+    font-family: Montserrat;
+    font-size: 20px;
+    margin-top: 10%;
+  }
+  .first,
+  .second {
+    font-style: normal;
+    height: 98px;
+    margin-left: 30%;
+    width: 654px;
+  }
+  .second {
+    color: #fff9;
+    font-family: Roboto;
+    font-size: 15px;
+  }
+  .buttons {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    margin-left: 40%;
+  }
+  .tg {
+    padding-left: 10%;
+  }
+  .copyright {
+    bottom: 0;
+    color: #fff;
+    font-family: Roboto;
+    left: 41%;
+    position: fixed;
+  }
+  .iphone {
+    margin-left: 70%;
+  }
+  .container {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+  }
+}
+/*# sourceMappingURL=main.dc02abab.css.map*/

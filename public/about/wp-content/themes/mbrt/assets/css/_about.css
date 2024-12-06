@@ -1,0 +1,148 @@
+.summary {
+  margin: 0 !important;
+}
+
+.summary span {
+  width: 250px;
+  display: inline-block;
+}
+
+.history .image {
+  height: 500px;
+  background-position: center center;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+.history .image img {
+  display: none;
+}
+
+/* Milestones */
+
+.milestone {
+  width: 600px;
+  padding: 40px;
+  margin: 0 auto;
+  text-align: left;
+  line-height: 1.8;
+  border-left: 1px solid #ddd;
+}
+
+.milestone.first {
+  padding-top: 80px;
+}
+
+.milestone.last {
+  padding-bottom: 80px;
+}
+
+.milestone.h {
+  border-bottom: 1px solid #ddd;
+}
+
+.milestone h2 {
+  font-family: "Supply";
+  margin: 0 !important;
+  text-transform: uppercase;
+}
+
+.milestone .ms-date {
+  color: #ff1a65;
+  position: relative;
+  text-transform: uppercase;
+}
+
+.milestone .ms-date:before {
+  content: "";
+  display: block;
+  width: 7px;
+  height: 7px;
+  border-radius: 100%;
+  background: #ff1a65;
+  margin-left: -44px;
+  margin-top: 13px;
+  position: absolute;
+}
+
+.milestone .ms-title {
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+@media only screen and (max-width: 960px) {
+  .history .image {
+    height: auto;
+    background: none;
+    margin-bottom: 40px;
+  }
+
+  .history .image img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .summary {
+    margin: 0 !important;
+    font-weight: 500;
+    font-size: 16px;
+  }
+
+  .summary li {
+    padding: 10px 0;
+    border-top: 1px solid #eee;
+    text-align: right;
+  }
+
+  .summary span {
+    width: auto;
+    display: block;
+    font-weight: 400;
+    float: left;
+  }
+
+  .milestone {
+    width: auto;
+    padding: 30px;
+    margin: 0 auto;
+    text-align: left;
+    line-height: 1.8;
+    border-left: 1px solid #ddd;
+  }
+
+  .milestone.first {
+    padding-top: 40px;
+  }
+
+  .milestone.last {
+    padding-bottom: 40px;
+  }
+
+  .milestone.h {
+    border-bottom: none;
+  }
+
+  .milestone h2 {
+    font-family: "Supply";
+    margin: 0 !important;
+    text-transform: uppercase;
+  }
+
+  .milestone .ms-date {
+    color: #ff1a65;
+    position: relative;
+    text-transform: uppercase;
+  }
+
+  .milestone .ms-date:before {
+    content: none;
+  }
+
+  .milestone .ms-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+}

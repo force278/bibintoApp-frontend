@@ -106,7 +106,6 @@ function Login({
                 disabled={loading}
               />
             </div>
-
             <FormError message={formState.errors?.result?.message} center />
             <div className="textLine">
               <span>Нет аккаунта?</span>

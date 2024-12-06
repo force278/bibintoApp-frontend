@@ -1,0 +1,116 @@
+/*
+Theme Name: Mubert 2018
+Author: Mubert® Inc
+Author URI: http://mubert.com/
+Version: 1.0
+*/
+
+* {
+  box-sizing: border-box;
+  font-synthesis: none;
+  -moz-font-feature-settings: "kern";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  background: #111;
+  font-family: "Roboto", sans-serif;
+  height: 100%;
+}
+
+body {
+  background-color: #000;
+  margin: 0;
+  height: 100%;
+}
+
+a {
+  color: #ff0066;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+/* Buttons */
+
+.button {
+  background: transparent;
+  border-radius: 100px;
+  line-height: 24px;
+  height: 24px;
+  display: inline-block;
+  text-decoration: none;
+  color: #fff;
+  border: 1px solid #fff;
+  letter-spacing: 2px;
+  font-size: 10px;
+  text-transform: uppercase;
+  padding: 0 8px 0 10px;
+  vertical-align: middle;
+  font-weight: 500;
+  transition: 0.2s linear all;
+}
+
+.button:hover {
+  /*box-shadow: 0 0 7px rgba(0,0,0,0.15);*/
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+  background: #fff;
+  color: #000;
+}
+
+/* Channels */
+
+#Channels {
+  background-color: #fff;
+}
+
+#Channels .row.tabs {
+  padding: 30px;
+}
+
+#Channels .row.tabs a {
+  text-decoration: none;
+  color: #666;
+  margin-right: 40px;
+  font-size: 20px;
+  font-weight: 300;
+  text-transform: lowercase;
+  border-bottom: 1px solid transparent;
+  cursor: pointer;
+}
+
+#Channels .row.tabs a.active {
+  color: #000;
+  border-color: #000;
+}
+
+#Channels .row.channels > div {
+  border: 2px solid transparent;
+}
+
+#Channels .row.channels > div:hover {
+  /*border-color: #000;*/
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.box.channel {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-decoration: none;
+  color: #000;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-size: 13px;
+  margin: 20px 0 !important;
+}
+
+.box.channel img {
+  margin-right: 10px;
+  height: 50px;
+  opacity: 0.14;
+}
+
+#Channels .row.channels > div:hover img {
+  opacity: 1;
+}

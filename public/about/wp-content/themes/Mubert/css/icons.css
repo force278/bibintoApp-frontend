@@ -1,0 +1,18 @@
+@font-face {
+  font-family: "mubert";
+  src: url("icons/mubert.eot?15071847");
+  src:
+    url("icons/mubert.eot?15071847#iefix") format("embedded-opentype"),
+    url("icons/mubert.woff?15071847") format("woff"),
+    url("icons/mubert.ttf?15071847") format("truetype"),
+    url("icons/mubert.svg?15071847#mubert") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+i.icon {
+  font-family: "mubert";
+  font-weight: 400;
+  text-transform: lowercase;
+  font-style: normal;
+}

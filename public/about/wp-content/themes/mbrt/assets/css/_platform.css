@@ -1,0 +1,502 @@
+#GoBeyond {
+  height: auto;
+  text-align: center;
+  padding: 250px 0 250px 0;
+}
+
+#GoBeyond div {
+  font-size: 30px;
+  line-height: 1.5;
+  letter-spacing: 3px;
+  color: #fff;
+  margin: 0 auto;
+}
+
+#PlatformSlider {
+  height: 100%;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+  background: #222222;
+}
+
+#PlatformSlider .s-girl {
+  position: absolute;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background-position: center bottom;
+  background-size: cover;
+  background-image: url("https://media.giphy.com/media/xTiTnsQvlHAQkOafio/giphy.gif");
+  background-image: url("https://media.giphy.com/media/3oGRFjm63p2QC1x8eQ/giphy.gif");
+  background-image: url("https://media.giphy.com/media/hrLW6Q5Ma7r7W/giphy.gif");
+  background-image: url("https://media.giphy.com/media/3oxRmrakXIMW0GMf4I/giphy.gif");
+  background-image: url("https://media.giphy.com/media/3oz8xydgKB8aH1fpok/giphy.gif");
+  background-image: url("https://media.giphy.com/media/1xFK34c5MkzzW/giphy.gif");
+  background-image: url("https://media.giphy.com/media/opG6cQ9NVAFMI/giphy.gif");
+  background-image: url("../img/platform/girl.jpg");
+}
+
+#PlatformSlider .s-text {
+  position: absolute;
+  z-index: 11;
+  width: 100%;
+  bottom: 150px;
+  text-align: center;
+}
+
+#PlatformSlider .s-text h1 {
+  font-size: 60px;
+  margin-bottom: 20px;
+  color: #fff;
+  /* 	text-shadow: 0px 0px 10px rgba(0,0,0,0.1); */
+}
+
+#PlatformSlider .s-text > p {
+  font-size: 18px;
+  line-height: 2;
+  letter-spacing: 2px;
+  color: #fff;
+}
+
+#PlatformSlider .slide {
+  position: absolute;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+}
+
+#PlatformSlider .slide .s-headphones-01 {
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background-position: center bottom;
+  background-size: cover;
+  background-image: url("../img/platform/quarz/headphones-01.png");
+  animation-name: horror1;
+  animation-duration: 7s;
+  animation-iteration-count: infinite;
+}
+
+#PlatformSlider .slide .s-headphones-02 {
+  position: absolute;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background-position: center bottom;
+  background-size: cover;
+  background-image: url("../img/platform/quarz/headphones-02.png");
+  animation-name: horror2;
+  animation-duration: 5s;
+  animation-delay: 1s;
+  animation-iteration-count: infinite;
+}
+
+#PlatformSlider .slide .s-nimb {
+  position: absolute;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  transition-duration: 0s;
+  background-position: center bottom;
+  background-size: cover;
+  background-image: url("../img/platform/quarz/nimb.png");
+}
+
+@keyframes horror1 {
+  0% {
+    opacity: 0;
+  }
+  1% {
+    opacity: 1;
+  }
+  9% {
+    opacity: 1;
+  }
+  20% {
+    opacity: 1;
+  }
+  30% {
+    opacity: 1;
+  }
+  31% {
+    opacity: 0.7;
+  }
+  32% {
+    opacity: 1;
+  }
+  33% {
+    opacity: 0.7;
+  }
+  34% {
+    opacity: 1;
+  }
+  35% {
+    opacity: 0.7;
+  }
+  36% {
+    opacity: 1;
+  }
+  37% {
+    opacity: 0.7;
+  }
+  38% {
+    opacity: 1;
+  }
+  39% {
+    opacity: 0.7;
+  }
+  40% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  91% {
+    opacity: 1;
+  }
+  92% {
+    opacity: 1;
+  }
+  93% {
+    opacity: 1;
+  }
+  94% {
+    opacity: 1;
+  }
+  95% {
+    opacity: 1;
+  }
+  96% {
+    opacity: 1;
+  }
+  97% {
+    opacity: 0.8;
+  }
+  98% {
+    opacity: 1;
+  }
+  99% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes horror2 {
+  0% {
+    opacity: 0;
+  }
+  1% {
+    opacity: 1;
+  }
+  9% {
+    opacity: 1;
+  }
+  20% {
+    opacity: 1;
+  }
+  40% {
+    opacity: 1;
+  }
+  41% {
+    opacity: 0.7;
+  }
+  42% {
+    opacity: 1;
+  }
+  43% {
+    opacity: 0.7;
+  }
+  44% {
+    opacity: 1;
+  }
+  45% {
+    opacity: 0.7;
+  }
+  46% {
+    opacity: 1;
+  }
+  47% {
+    opacity: 0.7;
+  }
+  48% {
+    opacity: 1;
+  }
+  49% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  91% {
+    opacity: 1;
+  }
+  92% {
+    opacity: 1;
+  }
+  93% {
+    opacity: 1;
+  }
+  94% {
+    opacity: 1;
+  }
+  95% {
+    opacity: 1;
+  }
+  96% {
+    opacity: 1;
+  }
+  97% {
+    opacity: 0.5;
+  }
+  98% {
+    opacity: 1;
+  }
+  99% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Page */
+
+#AboutGeneration {
+  padding: 150px 0;
+}
+
+#Browser {
+  background-image: url("../img/platform/pyramid.jpg");
+  background-position: center center;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+.hole {
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+  user-drag: none;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  position: absolute;
+  border-radius: 100%;
+  z-index: 10;
+  cursor: move !important;
+  display: block;
+}
+
+#PlatformButton {
+  background: #f0ff17;
+  height: 100px;
+  line-height: 100px;
+  padding: 0 60px;
+  border: none;
+  border-radius: 100px;
+  box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.05);
+  font-family: "Supply";
+}
+
+#PlatformButton:hover {
+  color: #000;
+  transform: scale(1.02);
+  box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Screens */
+
+.screen {
+  background: #ffffff;
+  padding: 100px 0 0 0;
+}
+
+.screen .image {
+  width: 50%;
+}
+
+.screen .description {
+  width: 50%;
+  color: #000000;
+  padding: 100px;
+}
+
+.image-right .image {
+  float: right;
+}
+
+.image-right .description {
+  float: left;
+}
+
+.image-left .image {
+  float: left;
+}
+
+.image-left .description {
+  float: right;
+}
+
+.screen li {
+  padding-left: 40px;
+  position: relative;
+}
+
+.screen li:before {
+  content: "+";
+  position: absolute;
+  left: 0;
+  color: #ff1a65;
+}
+
+.screen .title {
+  font-size: 30px;
+  line-height: 1.6;
+  padding: 40px 0 10px;
+}
+
+.number {
+  border-bottom: 1px solid #ddd;
+  width: 100%;
+  display: block;
+  padding: 40px 0;
+  color: #ff1a65;
+}
+
+#HowWorks {
+  width: 600px;
+  margin: 0 auto;
+  padding: 30px;
+}
+
+#HowWorks h2 {
+  font-size: 50px;
+}
+
+.mobile-screen {
+  display: none;
+}
+
+/* #UniquePeople */
+
+#UniquePeople {
+  background: #dbdbdb;
+  background-image: linear-gradient(#ffffff 0%, #dbdbdb 100%);
+  padding: 100px 0 0 0;
+  position: relative;
+}
+
+#UniquePeople .wrapper {
+  padding: 100px 0 0 0;
+}
+
+#UniquePeople h2 {
+  font-size: 50px;
+}
+
+#UniquePeople p {
+  text-align: justify;
+}
+
+#UniquePeople .responsive {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+@media only screen and (max-width: 960px) {
+  #GoBeyond {
+    padding: 0;
+  }
+
+  #GoBeyond .supply {
+    padding: 80px 30px 0 30px;
+    color: #000;
+    text-align: center;
+  }
+
+  #AboutGeneration {
+    padding-top: 0;
+    padding: 10px;
+  }
+
+  #Icons .grid_3,
+  #Icons .grid_2 {
+    margin-bottom: 40px;
+  }
+
+  #Icons .grid_3 img,
+  #Icons .grid_2 img {
+    margin-bottom: 20px;
+  }
+
+  #PlatformScreen {
+    display: none;
+  }
+
+  #HowWorks {
+    width: auto;
+    margin: 0 auto;
+    padding: 30px;
+    margin-bottom: 80px;
+  }
+
+  #HowWorks h2 {
+    font-size: 30px;
+  }
+
+  #UniquePeople {
+    padding: 10px;
+    padding-bottom: 80px;
+  }
+
+  #UniquePeople h2 {
+    font-size: 30px;
+  }
+
+  #UniquePeople .wrapper {
+    padding-top: 0;
+  }
+
+  .screen {
+    padding-top: 0;
+    margin-top: 0;
+  }
+
+  .screen .wrapper {
+    padding-bottom: 40px;
+  }
+
+  .screen .grid_6 {
+    padding: 10px !important;
+  }
+
+  .mobile-screen {
+    display: block;
+  }
+
+  .hole {
+    display: none;
+  }
+}

@@ -1,0 +1,118 @@
+/* Header */
+
+#Header {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  position: absolute;
+  width: 100%;
+  z-index: 2;
+  top: 0;
+}
+
+#Header.player {
+  position: fixed;
+  z-index: 1;
+  width: 100vw;
+  height: 100vh;
+}
+
+#Header #Logo {
+  background: url("../img/logo/Frame\ 1.webp");
+  height: 100px;
+  width: 100px;
+  background-size: cover;
+  display: block;
+}
+
+#Header #Navigation {
+  text-align: right;
+  flex-grow: 1;
+}
+
+#Header #Navigation a {
+  margin-left: 10px;
+}
+
+#Header.active a.button-nav {
+  display: none;
+}
+
+/* Header -> Secondary */
+
+.secondary {
+  color: #fff;
+  text-decoration: none;
+  margin-left: 20px;
+}
+
+/* Buttons: Burger */
+
+#Burger {
+  height: 45px;
+  width: 45px;
+  position: relative;
+  border: none;
+  /*transition: 0.2s linear all;*/
+}
+#Burger span {
+  width: 16px;
+  height: 2px;
+  border-radius: 0;
+  background: #fff;
+  display: block;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  /*transition: 0.2s linear all;*/
+  padding-bottom: 1px;
+  margin-top: 3px;
+}
+#Burger span:nth-child(2) {
+  margin-top: -3px;
+}
+#Burger:hover {
+  background: none;
+}
+#Burger:hover span {
+  width: 20px;
+}
+
+#Burger.active span {
+  width: 20px;
+}
+#Burger.active span:nth-child(3) {
+  transform: translate(-50%, -50%) rotate(-45deg);
+  margin-top: 0px;
+}
+#Burger.active span:nth-child(2) {
+  transform: translate(-50%, -50%) rotate(45deg);
+  margin-top: 0px;
+}
+#Burger.active span:nth-child(1) {
+  display: none;
+}
+
+/* Header —> Colors */
+
+.black-buttons .button {
+  border-color: #000;
+  color: #000;
+  font-weight: 500;
+}
+
+.black-buttons .button:hover {
+  border-color: #000;
+  background: #000;
+  color: #fff;
+  box-shadow: none;
+}
+
+.black-buttons #Burger span {
+  background: #000;
+}
+
+.black-buttons .secondary {
+  color: #000;
+}

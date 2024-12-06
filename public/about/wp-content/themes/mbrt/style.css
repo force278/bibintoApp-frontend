@@ -1,0 +1,62 @@
+/* Theme Name: Mubert2017 */
+
+@import url("https://fonts.googleapis.com/css?family=Fira+Mono:400,500,700");
+@import url("assets/fonts/player/player.css");
+@import url("assets/fonts/metalista/stylesheet.css");
+@import url("assets/fonts/supply/stylesheet.css");
+
+@import url("assets/css/animate.css");
+@import url("assets/css/basic.css");
+@import url("assets/css/grid.css");
+
+@import url("assets/css/_layout.css");
+@import url("assets/css/_elements.css");
+@import url("assets/css/_player.css");
+
+@import url("assets/css/__header.css");
+@import url("assets/css/__main.css");
+@import url("assets/css/__about.css");
+@import url("assets/css/__team.css");
+@import url("assets/css/__focus.css");
+@import url("assets/css/__presentation.css");
+@import url("assets/css/__whitepaper.css");
+@import url("assets/css/__play.css");
+
+* {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: none;
+  border: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
+  font-family: "supply", monospace;
+  text-transform: uppercase;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  background: #fff;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font-size: 18px;
+  background-position: center center;
+  background-size: cover;
+}
+
+.supply {
+  font-family: "supply", sans-serif;
+  text-transform: uppercase;
+}
+
+#Content {
+  height: 100%;
+  width: 100%;
+  display: block;
+}

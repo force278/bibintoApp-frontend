@@ -1,0 +1,238 @@
+/* Articles */
+
+.article-parent {
+  /* 	border-bottom: 1px solid #ddd; */
+}
+
+.textblock {
+  text-align: center;
+  padding: 40px 0;
+}
+
+.textblock .title {
+  font-size: 50px;
+}
+
+.textblock .subtitle {
+  font-size: 24px;
+}
+
+.article-parent > .wrapper {
+  padding: 200px 0;
+}
+
+.article {
+  background: #eee;
+  padding: 200px 0;
+  display: block;
+  display: none;
+  cursor: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB2aWV3Qm94PSIwIDAgNTAgNTAiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDUwIDUwOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PHN0eWxlIHR5cGU9InRleHQvY3NzIj4uc3Qwe2ZpbGw6I0ZGRkZGRjt9PC9zdHlsZT48Y2lyY2xlIGN4PSIyNSIgY3k9IjI1IiByPSIyNSIvPjxwb2x5Z29uIGNsYXNzPSJzdDAiIHBvaW50cz0iMzMuMSwxOC42IDMyLjQsMTcuOSAyNSwyNS4zIDE3LjYsMTcuOSAxNi45LDE4LjYgMjQuMywyNiAxNi45LDMzLjQgMTcuNiwzNC4xIDI1LDI2LjcgMzIuNCwzNC4xIDMzLjEsMzMuNCAyNS43LDI2ICIvPjwvc3ZnPg==),
+    auto;
+}
+
+.article .article-wrapper {
+  width: 800px;
+  margin: 0 auto;
+}
+
+.article .title {
+  text-align: center;
+  font-size: 50px;
+  margin-bottom: 40px;
+}
+
+.article .subtitle {
+  font-size: 40px;
+  margin-bottom: 40px;
+  margin-top: 80px;
+}
+
+.article .heading {
+  font-size: 22px;
+}
+
+.article .article-image {
+  max-width: 100%;
+  display: block;
+  margin: 0 auto;
+}
+
+.article p {
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  -ms-hyphens: auto;
+  text-align: justify;
+}
+
+.icons {
+  margin: 80px auto !important;
+}
+
+.icons li {
+  float: left;
+  width: 33.3333333%;
+  text-align: center;
+}
+
+#Platform {
+  background: #232323;
+}
+
+#Platform .wrapper {
+  padding-top: 50px;
+}
+
+#AboutPlatform {
+  background: #333333;
+}
+
+/* Plus Button */
+
+.plus-button {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.plus-button:after {
+  content: "Learn More";
+  position: absolute;
+  width: 100px;
+  left: -10px;
+  bottom: -20px;
+  font-size: 12px;
+  text-transform: uppercase;
+  color: #aaa;
+  text-align: center;
+  letter-spacing: 2px;
+}
+
+.plus-button .plus {
+  width: 60px;
+  height: 60px;
+  margin: 10px;
+  border-radius: 100px;
+  background: #444;
+  position: absolute;
+  top: 0;
+  z-index: 1;
+}
+
+.plus-button .plus:before,
+.plus-button .plus:after {
+  width: 30px;
+  height: 1px;
+  background: #fff;
+  /* 	content: ''; */
+  display: block;
+  position: absolute;
+}
+
+.plus-button .plus:before {
+  top: 30px;
+  left: 15px;
+}
+
+.plus-button .plus:after {
+  top: 30px;
+  left: 15px;
+  transform: rotate(90deg);
+}
+
+.plus-button .see-more circle {
+  position: absolute;
+  z-index: 2;
+  stroke-dashoffset: 188.4;
+  stroke-width: 1px;
+  stroke: #000;
+}
+
+.see-more {
+  cursor: pointer;
+}
+
+.see-more .path {
+  stroke-width: 1px;
+  stroke: #fff;
+}
+
+@media only screen and (max-width: 960px) {
+  .supply {
+    letter-spacing: 0;
+  }
+
+  .textblock {
+    text-align: center;
+    padding: 40px 0;
+  }
+
+  .textblock .title {
+    font-size: 30px;
+  }
+
+  .textblock .subtitle {
+    font-size: 20px;
+  }
+
+  .article-parent > .wrapper {
+    padding: 100px 0;
+  }
+
+  .article {
+    padding: 0;
+  }
+
+  .article .article-wrapper {
+    width: auto;
+    margin: 0 auto;
+    padding: 50px 30px;
+  }
+
+  .article .title {
+    text-align: left;
+    font-size: 30px;
+    margin-bottom: 40px;
+    line-height: 1.2;
+  }
+
+  .article .title span {
+    font-size: 30px;
+    margin: 0;
+  }
+
+  .article .heading {
+    font-size: 22px;
+    margin-top: 40px;
+  }
+
+  .article .subtitle {
+    text-align: left;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .article .grid_6.p40 {
+    padding: 0px;
+  }
+
+  .icons {
+    margin: 80px auto !important;
+  }
+
+  .icons li {
+    float: left;
+    width: 33.3333333%;
+    text-align: center;
+    font-size: 12px;
+  }
+
+  .icons li img {
+    width: 50px;
+  }
+
+  .placer {
+    display: none;
+  }
+}

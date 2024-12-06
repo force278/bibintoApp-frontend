@@ -1,0 +1,36 @@
+/* Header */
+
+#Header {
+  text-align: center;
+  height: 100px;
+  line-height: 100px;
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  width: 100%;
+}
+
+#Header a {
+  display: inline-block;
+  margin: 0 10px;
+  color: #000;
+  font-size: 14px;
+}
+
+.dark #Header a {
+  color: #666;
+}
+
+.black #Header a {
+  color: #fff;
+}
+
+#Header a:hover {
+  color: #ff1a65;
+}
+
+@media only screen and (max-width: 960px) {
+  #Header a {
+    margin: 0 10px;
+  }
+}

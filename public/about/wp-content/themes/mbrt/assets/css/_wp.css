@@ -1,0 +1,210 @@
+.wp article {
+  text-align: left;
+  width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.wp article h2 {
+  margin-top: 200px;
+  font-size: 100px;
+  margin-bottom: 80px;
+}
+
+.wp article h3 {
+  font-size: 24px;
+  text-transform: uppercase;
+}
+
+.wp article blockquote {
+  font-size: 24px;
+  line-height: 1.6;
+  margin: 80px 0;
+}
+
+.wp article ol {
+  list-style: decimal;
+}
+
+.wp article ol li {
+  list-style: decimal;
+  margin-left: 40px;
+}
+
+.wp article ul li {
+  padding-left: 40px;
+  position: relative;
+}
+
+.wp article ul li:before {
+  content: "+";
+  position: absolute;
+  left: 0;
+  color: #ff1a65;
+}
+
+.wp article pre {
+  padding: 40px;
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 40px 0;
+  background: #f5f5f5;
+}
+
+.scheme {
+  width: 800px;
+  margin: 80px auto;
+  display: block;
+}
+
+.image.fixed {
+  height: 500px;
+  background-position: center center;
+  background-size: cover;
+  background-attachment: fixed;
+  margin: 100px 0;
+}
+
+.image.fixed.m0 {
+  margin: 0;
+}
+
+.image.fixed img {
+  display: none;
+}
+
+.triangle {
+  position: relative;
+  height: 1000px !important;
+}
+
+.triangle.zigzag {
+  position: relative;
+  height: 1200px !important;
+}
+
+.triangle img.img-triangle {
+  display: block;
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+}
+
+/* Table of Contents */
+
+#Contents {
+  display: none;
+  position: fixed;
+  background: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100%;
+  left: 0;
+}
+
+#Contents #Table {
+  width: 50%;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  background: #eee;
+  padding: 50px;
+  z-index: 1000;
+}
+
+#Contents #Table > a {
+  text-decoration: none;
+  color: #000;
+  position: relative;
+  display: block;
+  padding-bottom: 20px;
+}
+
+#Contents #Table > a > .chapter {
+  position: absolute;
+  margin-left: -30px;
+  bottom: 22px;
+  font-size: 10px;
+  color: #666;
+}
+
+#Contents #Table .sublist {
+  padding-bottom: 40px;
+  font-size: 12px;
+  line-height: 2;
+  color: #666;
+}
+
+#Contents #Table .sublist a {
+  color: #666;
+}
+
+@media only screen and (max-width: 960px) {
+  .wp article {
+    width: 100%;
+    padding: 0 20px;
+    font-size: 16px;
+  }
+
+  .wp article h2 {
+    margin-top: 200px;
+    font-size: 40px;
+    margin-bottom: 80px;
+  }
+
+  .wp article h3 {
+    margin-top: 80px;
+    line-height: 1.6;
+  }
+
+  .wp article blockquote {
+    font-size: 20px;
+    line-height: 1.6;
+    margin: 40px 0;
+    padding-left: 20px;
+    border-left: 3px solid #ff1a65;
+  }
+
+  .wp article ul li {
+    padding-left: 20px;
+  }
+
+  .scheme {
+    width: 100%;
+    margin: 80px auto;
+    display: block;
+  }
+
+  .image.fixed {
+    height: auto;
+    margin: 100px 0;
+    background: none !important;
+  }
+
+  .image.fixed img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .triangle {
+    height: auto !important;
+  }
+
+  .triangle.zigzag {
+    height: auto !important;
+  }
+
+  .triangle img.img-triangle {
+    display: none;
+  }
+
+  .wp article pre {
+    padding: 20px;
+    font-size: 12px;
+    margin: 40px 0;
+    overflow: scroll;
+    width: 100%;
+  }
+}

@@ -1,0 +1,49 @@
+#Footer {
+  padding-top: 50px;
+  padding-bottom: 50px;
+  background: #000;
+  color: #999;
+  z-index: 10;
+  line-height: 2;
+  font-size: 18px;
+}
+
+.terms {
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+#Footer a {
+  color: #fff;
+  text-decoration: none;
+}
+
+#Footer a:hover {
+  text-decoration: underline;
+}
+
+#Footer .box {
+  margin-bottom: 30px;
+}
+
+#Footer .cta {
+  width: 100%;
+  color: #000;
+  margin-bottom: 20px;
+  height: 50px;
+  line-height: 50px;
+  display: block;
+}
+
+#Footer .cta:hover {
+  text-decoration: none;
+}
+
+#Footer #menuSocial {
+  margin-top: 20px;
+}
+
+#Footer #menuSocial a {
+  filter: invert(1);
+  margin-right: 10px;
+}

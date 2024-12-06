@@ -1,0 +1,33 @@
+@font-face {
+  font-family: "din";
+  src: url("din/din_regular.eot");
+  src:
+    local("☺"),
+    url("din/din_regular.woff") format("woff"),
+    url("din/din_regular.ttf") format("truetype"),
+    url("din/din_regular.svg") format("svg");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "din";
+  src: url("din/din_light.eot");
+  src:
+    local("☺"),
+    url("din/din_light.ttf") format("truetype"),
+    url("din/din_light.svg") format("svg");
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "din";
+  src: url("din/din_bold.eot");
+  src:
+    local("☺"),
+    url("din/din_bold.ttf") format("truetype"),
+    url("din/din_bold.svg") format("svg");
+  font-weight: 500;
+  font-style: normal;
+}
