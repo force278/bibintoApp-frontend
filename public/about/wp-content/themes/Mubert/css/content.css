@@ -279,8 +279,19 @@ div#playerContent.section-content:before {
     background-attachment: scroll;
   }
 
+  #pageMainblock {
+    align-self: auto;
+  }
+
   #pageMainblock h1 {
-    font-size: 50px;
+    font-size: 16px;
+    margin-top: 110px;
+    letter-spacing: normal;
+  }
+
+  #pageMainblock h3 {
+    font-size: 16px;
+    margin-bottom: 0;
   }
 
   .section-content h1.extra {
@@ -294,6 +305,10 @@ div#playerContent.section-content:before {
   .button.cta {
     width: 100%;
     display: block;
+  }
+
+  .button.cta#appApple {
+    margin-bottom: 0 !important;
   }
 
   .mobile-no-bg {
