@@ -3,12 +3,11 @@ import { Link } from "react-router-dom"
 
 const openHtmlFile = () => {
   // Открытие HTML-файла в новой вкладке
-  window.open("/about/index.html", "_blank")
+  window.open("/about", )
 
   // Или перенаправление на HTML-файл в той же вкладке
   // window.location.href = '/my-page.html';
 }
-
 
 const InfoFooter = () => {
   // const currentDate = new Date()
