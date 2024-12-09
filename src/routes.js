@@ -5,6 +5,7 @@ const routes = {
   privacy: "/privacy-policy",
   termOfUse: "/termsOfUse",
   recommendations: "/recommendations",
+  about: "/about",
   likes: "/likes",
   users: "/users",
   messenger: "/me",
