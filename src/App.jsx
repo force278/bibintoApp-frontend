@@ -35,7 +35,7 @@ import Followers from "./screens/Followers"
 import Following from "./screens/Following"
 import { TechSupport } from "./components/ProfileEdit/TechSupport"
 import { SearcherUsersMobile } from "./screens/SearcherUsersMobile"
-import {AboutPage} from "./screens/About/AboutPage";
+import { AboutPage } from "./screens/About/AboutPage"
 
 function App() {
   const isLoggedIn = useReactiveVar(isLoggedInVar)

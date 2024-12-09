@@ -21,10 +21,7 @@ const InfoFooter = () => {
         <span className="">
           <Link to="/termsOfUse">Условия использования</Link>
         </span>
-        <span
-          className=""
-          style={{ cursor: "pointer", marginBottom: "30px" }}
-        >
+        <span className="" style={{ cursor: "pointer", marginBottom: "30px" }}>
           <Link to="/about">О нас</Link>
         </span>
         {/* <span className="col-sm-12 col-lg-3 d-flex justify-content-center  me-2">
