@@ -15660,13 +15660,16 @@
     ])
   },
   function (t, e, i) {
-    var n, s, o
-    /**
-     *  StartAudioContext.js
-     *  @author Yotam Mann
-     *  @license http://opensource.org/licenses/MIT MIT License
-     *  @copyright 2016 Yotam Mann
-     */ ;(s = []),
+    var n,
+      s,
+      o
+      /**
+       *  StartAudioContext.js
+       *  @author Yotam Mann
+       *  @license http://opensource.org/licenses/MIT MIT License
+       *  @copyright 2016 Yotam Mann
+       */
+    ;(s = []),
       void 0 ===
         (o =
           "function" ==

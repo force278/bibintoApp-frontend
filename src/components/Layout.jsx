@@ -84,11 +84,33 @@ const SUB_NOTIFIC_UPDATES = gql`
   }
 `
 
+const SUB_DIALOGS_UPDATES = gql`
+  subscription allDialogsUpdates {
+    allDialogsUpdates {
+      dialogId
+      newMessage {
+        dialogId
+        createdAt
+        id
+        payload
+        read
+        user {
+          avatar
+          username
+          isMe
+        }
+      }
+      read
+    }
+  }
+`
+
 function Layout({ children }) {
   const { cache } = client
   const [notificationList, setNotificationList] = useState([])
   const [allList, setAllList] = useState([])
   const [loading, setLoading] = useState(true)
+  const [messUpdated, setMessUpdated] = useState(false)
 
   const { subscribeToMore, data } = useQuery(SEE_NOTIFIC, {
     onError: () => setLoading(false),
@@ -107,6 +129,33 @@ function Layout({ children }) {
       setAllList([...arr.sort((a, b) => a.createdAt - b.createdAt)])
     },
   })
+
+  useEffect(() => {
+    const subscribe = subscribeToMore({
+      document: SUB_DIALOGS_UPDATES,
+      onError: (error) => {
+        console.error("Error subscribing to dialog updates:", error);
+        setMessUpdated(false);
+      },
+      updateQuery: (prev, { subscriptionData }) => {
+        // Проверьте, есть ли новые данные в subscriptionData
+        if (subscriptionData.data) {
+          if (subscriptionData.data.allDialogsUpdates.newMessage && !subscriptionData.data.allDialogsUpdates.newMessage.user.isMe) {
+            setMessUpdated(true)
+          }
+          // Верните обновленные данные, если необходимо
+          return {
+            ...prev,
+            // Обновите ваши данные здесь, если нужно
+          };
+        }
+        return prev;
+      }
+    });
+  
+    return () => subscribe(); // Отписка от подписки
+    // eslint-disable-next-line
+  }, [subscribeToMore]);
 
   useEffect(() => {
     const subscribe = subscribeToMore({
@@ -148,7 +197,7 @@ function Layout({ children }) {
 
   return (
     <>
-      <Header notificationList={notificationList} />
+      <Header notificationList={notificationList} messUpdated={messUpdated} setMessUpdated={setMessUpdated}/>
       <Content>{children}</Content>
     </>
   )

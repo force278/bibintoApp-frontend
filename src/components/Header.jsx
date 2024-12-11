@@ -13,6 +13,7 @@ import notificationIconNew from "../assets/icons/notificationNew.svg"
 import notificationIcon from "../assets/icons/notification.svg"
 import profileIconFill from "../assets/icons/profileFill.svg"
 import profileIcon from "../assets/icons/profile.svg"
+import chatNew from "../assets/icons/chatNew.svg"
 
 import { useReactiveVar } from "@apollo/client"
 import uploadIcon from "../assets/img/upload.svg"
@@ -24,7 +25,7 @@ import React, { useState, useEffect, useCallback, useRef } from "react"
 import { useLocation } from "react-router-dom/cjs/react-router-dom.min"
 import { Alert } from "@mui/material"
 
-export function Header({ notificationList }) {
+export function Header({ notificationList, messUpdated, setMessUpdated }) {
   const curLocation = useLocation().pathname
   const isLoggedIn = useReactiveVar(isLoggedInVar)
   const { data } = useMe()
@@ -124,12 +125,15 @@ export function Header({ notificationList }) {
                     </div>
                   </NavLink>
                   <NavLink
+                    onClick={()=> {setMessUpdated(false)}}
                     to="/me"
                     activeClassName="is-active"
                     className={({ isActive }) => (isActive ? "active" : "")}
                   >
                     <div className="light">
-                      <img src={chatIcon} alt="" />
+                    {messUpdated ? (
+                      <img src={chatNew} alt="" />
+                    ) : (<img src={chatIcon} alt="" />)}
                     </div>
                     <div className="dark">
                       <img src={chatIconFill} alt="" />
