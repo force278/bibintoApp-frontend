@@ -88,7 +88,6 @@ const ChatMob = ({ username, messages, dialogId }) => {
     if (dialogId) {
       readMessage({ variables: { id: dialogId } })
     }
-    // eslint-disable-next-line
   }, [dialogId])
 
   const onValid = (data) => {

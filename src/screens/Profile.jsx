@@ -307,11 +307,17 @@ function Profile() {
 
       {!isMobile && !popupPosts && (
         <Header>
-          {!data?.seeProfile?.isMe && (
+          {!data?.seeProfile?.isMe ? (
             <button
               type="button"
               className="formBtnBack"
               onClick={() => history.goBack()}
+            ></button>
+          ) : (
+            <button
+              type="button"
+              className="formBtnBack"
+              style={{ opacity: "0" }}
             ></button>
           )}
           {data?.seeProfile?.avatar ? (

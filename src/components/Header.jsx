@@ -125,15 +125,19 @@ export function Header({ notificationList, messUpdated, setMessUpdated }) {
                     </div>
                   </NavLink>
                   <NavLink
-                    onClick={()=> {setMessUpdated(false)}}
+                    onClick={() => {
+                      setMessUpdated(false)
+                    }}
                     to="/me"
                     activeClassName="is-active"
                     className={({ isActive }) => (isActive ? "active" : "")}
                   >
                     <div className="light">
-                    {messUpdated ? (
-                      <img src={chatNew} alt="" />
-                    ) : (<img src={chatIcon} alt="" />)}
+                      {messUpdated ? (
+                        <img src={chatNew} alt="" />
+                      ) : (
+                        <img src={chatIcon} alt="" />
+                      )}
                     </div>
                     <div className="dark">
                       <img src={chatIconFill} alt="" />

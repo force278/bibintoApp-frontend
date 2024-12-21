@@ -134,28 +134,31 @@ function Layout({ children }) {
     const subscribe = subscribeToMore({
       document: SUB_DIALOGS_UPDATES,
       onError: (error) => {
-        console.error("Error subscribing to dialog updates:", error);
-        setMessUpdated(false);
+        console.error("Error subscribing to dialog updates:", error)
+        setMessUpdated(false)
       },
       updateQuery: (prev, { subscriptionData }) => {
         // Проверьте, есть ли новые данные в subscriptionData
         if (subscriptionData.data) {
-          if (subscriptionData.data.allDialogsUpdates.newMessage && !subscriptionData.data.allDialogsUpdates.newMessage.user.isMe) {
+          if (
+            subscriptionData.data.allDialogsUpdates.newMessage &&
+            !subscriptionData.data.allDialogsUpdates.newMessage.user.isMe
+          ) {
             setMessUpdated(true)
           }
           // Верните обновленные данные, если необходимо
           return {
             ...prev,
             // Обновите ваши данные здесь, если нужно
-          };
+          }
         }
-        return prev;
-      }
-    });
-  
-    return () => subscribe(); // Отписка от подписки
+        return prev
+      },
+    })
+
+    return () => subscribe() // Отписка от подписки
     // eslint-disable-next-line
-  }, [subscribeToMore]);
+  }, [subscribeToMore])
 
   useEffect(() => {
     const subscribe = subscribeToMore({
@@ -197,7 +200,11 @@ function Layout({ children }) {
 
   return (
     <>
-      <Header notificationList={notificationList} messUpdated={messUpdated} setMessUpdated={setMessUpdated}/>
+      <Header
+        notificationList={notificationList}
+        messUpdated={messUpdated}
+        setMessUpdated={setMessUpdated}
+      />
       <Content>{children}</Content>
     </>
   )
