@@ -49,11 +49,19 @@ function Home() {
   return (
     <>
       <PageTitle title="Лента" />
-      <div className="isMobile">
+      <div className="isMobile" style={{ position: "relative" }}>
         <MobLogoWrap>
-          <img src={IconLogo} alt="" style={{ marginLeft: "13px" }} />
+          <img src={IconLogo} alt="" />
         </MobLogoWrap>
-        <div className="p-2">
+        <div
+          className="p-2"
+          style={{
+            position: "absolute",
+            top: "50%",
+            right: "0",
+            transform: "translateY(-50%)",
+          }}
+        >
           <Link to="/users">
             <img src={SearchIcon} alt="searchLogo" />
           </Link>
