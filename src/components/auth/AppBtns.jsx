@@ -60,7 +60,11 @@ function AppBtns() {
             ></path>
           </svg>
         </a>
-        <a href="https://vk.com/bibinto" target="_blank" rel="noreferrer">
+        <a
+          href="https://www.rustore.ru/catalog/app/com.example.bibinto"
+          target="_blank"
+          rel="noreferrer"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="120"
