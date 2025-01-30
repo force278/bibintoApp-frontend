@@ -13,6 +13,13 @@ import logoIcon from "../../assets/img/bibinto.svg"
 import Notification from "./Notification/Notification"
 import InfoFooter from "../InfoFooter"
 import AppBtns from "../../components/auth/AppBtns"
+import { gql, useQuery } from "@apollo/client"
+
+const TOTAL_USERS_QUERY = gql`
+  query totalUsers {
+    totalUsers
+  }
+`
 
 function Login({
   register,
@@ -25,6 +32,7 @@ function Login({
   // toLowWithClear,
   // value,
 }) {
+  const totalUsers = useQuery(TOTAL_USERS_QUERY, {})
   const [showedInput, setShowedInput] = useState("")
 
   const showInput = (key) => {
@@ -110,10 +118,17 @@ function Login({
             <div className="textLine">
               <span>Нет аккаунта?</span>
             </div>
-
             <button className="bg-transparent border-0 formBtnReg">
               <Link to="/sign-up">Зарегистрироваться</Link>
             </button>
+            <p className="formTextSecondary" style={{ marginTop: "16px" }}>
+              <span>
+                Количество пользователей:{" "}
+                {totalUsers.called && !totalUsers.loading
+                  ? totalUsers.data.totalUsers
+                  : "Загрузка..."}
+              </span>
+            </p>
           </form>
         </FormBox>
         <AppBtns />
