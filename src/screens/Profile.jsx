@@ -179,7 +179,7 @@ function Profile() {
           </Link>
         </MobBtns>
       )
-    else return <ProfileBtn onClick={followUser}>Подписаться</ProfileBtn>
+    else return <SubscribBtn onClick={followUser}>Подписаться</SubscribBtn>
   }
 
   useEffect(() => {
@@ -760,6 +760,25 @@ export const Icons = styled.div`
   }
 `
 
+const SubscribBtn = styled(Button).attrs({
+  as: "span",
+})`
+  background: #FE2C55;
+  margin-left: 10px;
+  margin-left: 10px;
+  margin-top: 0px;
+  padding: 8px 10px;
+  cursor: pointer;
+  max-width: 300px;
+  @media (max-width: 1024px) {
+    margin: 0;
+    border: 0;
+    display: flex;
+    max-width: none;
+    align-items: center;
+  }
+`
+
 const ProfileBtn = styled(Button).attrs({
   as: "span",
 })`
@@ -829,12 +848,7 @@ const ChatBtn = styled(DefaultButton).attrs({
   padding: 8px 10px;
   width: min-content;
 
-  background: linear-gradient(
-    269.53deg,
-    #fe2db7 5.8%,
-    #2936ff 47.41%,
-    #6cf2fe 96.11%
-  );
+  background: #0095f6;
 `
 
 export default Profile
