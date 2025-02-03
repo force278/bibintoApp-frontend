@@ -179,58 +179,66 @@ const Messenger = () => {
         <MessengerWrap>
           <DialoguesWrap>
             <ul className="dialogues">
-              {dialoguesList.length === 0 && (
+              {dialoguesList.length === 0 && !dialogues ? (
                 <p
                   style={{ padding: "16px", color: "#76768c" }}
                   className="title"
                 >
-                  Диалогов пока нет
+                  Загрузка...
                 </p>
+              ) : dialoguesList.length === 0 ? (
+                <p
+                  style={{ padding: "16px", color: "#76768c" }}
+                  className="title"
+                >
+                  Нет диалогов
+                </p>
+              ) : (
+                dialoguesList.map((dialogue, index) => {
+                  const lastMes = [...dialogue.messages].sort(
+                    (a, b) => b.id - a.id,
+                  )[0]
+                  const companion = dialogue.users.find((user) => !user.isMe)
+                  const unreadTotal = dialogue.messages?.length
+                    ? dialogue.messages.filter(
+                        (mes) => !mes.user.isMe && !mes.read,
+                      ).length
+                    : 0
+                  return (
+                    <li className="dialogue" key={index}>
+                      <Link to={`/${companion.username}`}>
+                        <div className="avatarWrap">
+                          <Avatar src={companion.avatar} />
+                        </div>
+                      </Link>
+                      <Link
+                        to={`/me?${"user=" + companion.username}`}
+                        style={{ flex: 1 }}
+                      >
+                        <div className="info">
+                          <p className="username">{companion.username}</p>
+                          <p className="message">{lastMes.payload}</p>
+                        </div>
+                      </Link>
+                      <div className="statusWrap">
+                        <div className="status">
+                          {lastMes.user.isMe && lastMes.read && (
+                            <img src={mesViewed} alt="" />
+                          )}
+                          {lastMes.user.isMe && !lastMes.read && (
+                            <img src={mesNotViewed} alt="" />
+                          )}
+                          {!lastMes.user.isMe && unreadTotal ? (
+                            <span className="statusUnread">{unreadTotal}</span>
+                          ) : (
+                            ""
+                          )}
+                        </div>
+                      </div>
+                    </li>
+                  )
+                })
               )}
-              {dialoguesList.map((dialogue, index) => {
-                const lastMes = [...dialogue.messages].sort(
-                  (a, b) => b.id - a.id,
-                )[0]
-                const companion = dialogue.users.find((user) => !user.isMe)
-                const unreadTotal = dialogue.messages?.length
-                  ? dialogue.messages.filter(
-                      (mes) => !mes.user.isMe && !mes.read,
-                    ).length
-                  : 0
-                return (
-                  <li className="dialogue" key={index}>
-                    <Link to={`/${companion.username}`}>
-                      <div className="avatarWrap">
-                        <Avatar src={companion.avatar} />
-                      </div>
-                    </Link>
-                    <Link
-                      to={`/me?${"user=" + companion.username}`}
-                      style={{ flex: 1 }}
-                    >
-                      <div className="info">
-                        <p className="username">{companion.username}</p>
-                        <p className="message">{lastMes.payload}</p>
-                      </div>
-                    </Link>
-                    <div className="statusWrap">
-                      <div className="status">
-                        {lastMes.user.isMe && lastMes.read && (
-                          <img src={mesViewed} alt="" />
-                        )}
-                        {lastMes.user.isMe && !lastMes.read && (
-                          <img src={mesNotViewed} alt="" />
-                        )}
-                        {!lastMes.user.isMe && unreadTotal ? (
-                          <span className="statusUnread">{unreadTotal}</span>
-                        ) : (
-                          ""
-                        )}
-                      </div>
-                    </div>
-                  </li>
-                )
-              })}
             </ul>
           </DialoguesWrap>
           <Chat

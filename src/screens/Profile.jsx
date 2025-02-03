@@ -236,7 +236,9 @@ function Profile() {
             {!popupPosts && (
               <>
                 <Username>
-                  {data?.seeProfile?.username || "Пользователь не найден"}
+                  {loading
+                    ? "Загрузка..."
+                    : data?.seeProfile?.username || "Пользователь не найден"}
                 </Username>
                 {data?.seeProfile?.isMe && (
                   <Link
@@ -329,7 +331,9 @@ function Profile() {
           <Column>
             <Row style={{ gap: "20px", alignItems: "baseline" }}>
               <Username>
-                {data?.seeProfile?.username || "Пользователь не найден"}
+                {loading
+                  ? "Загрузка..."
+                  : data?.seeProfile?.username || "Пользователь не найден"}
               </Username>
               {data?.seeProfile?.official ? (
                 <img
@@ -381,14 +385,25 @@ function Profile() {
         </Header>
       )}
 
-      {data?.seeProfile?.isMe && data?.seeProfile?.photos?.length === 0 && (
-        <AddPhotoWrap>
-          <img src={camera} alt="" />
-          <span>Ваша галерея пуста. Добавьте фото</span>
-          <ProfileBtn id="addPhotoBtn" onClick={addPhoto}>
-            Добавить фото
-          </ProfileBtn>
-        </AddPhotoWrap>
+      {data?.seeProfile && (
+        <>
+          {data.seeProfile.isMe && data.seeProfile.photos?.length === 0 && (
+            <AddPhotoWrap>
+              <img src={camera} alt="" />
+              <span>Ваша галерея пуста. Добавьте фото</span>
+              <ProfileBtn id="addPhotoBtn" onClick={addPhoto}>
+                Добавить фото
+              </ProfileBtn>
+            </AddPhotoWrap>
+          )}
+
+          {!data.seeProfile.isMe && data.seeProfile.photos?.length === 0 && (
+            <AddPhotoWrap>
+              <img src={camera} alt="" />
+              <span>Галерея пользователя пуста</span>
+            </AddPhotoWrap>
+          )}
+        </>
       )}
 
       {!popupPosts && (
@@ -763,7 +778,7 @@ export const Icons = styled.div`
 const SubscribBtn = styled(Button).attrs({
   as: "span",
 })`
-  background: #FE2C55;
+  background: #fe2c55;
   margin-left: 10px;
   margin-left: 10px;
   margin-top: 0px;
