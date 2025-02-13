@@ -863,7 +863,7 @@ const ChatBtn = styled(DefaultButton).attrs({
   padding: 8px 10px;
   width: min-content;
 
-  background: #0095f6;
+  background: #1dc7ff;
 `
 
 export default Profile

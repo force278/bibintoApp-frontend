@@ -154,7 +154,7 @@ const ChatMob = ({ username, messages, dialogId }) => {
             <button
               type="submit"
               className="btnSubmit"
-              style={{ color: "#1F1F2C", fontWeight: "600" }}
+              style={{ color: "#1DC7FF", fontWeight: "600" }}
             >
               <img src={IconSend} alt="send" />
             </button>
@@ -204,7 +204,7 @@ const MessagesListWrap = styled.div`
     justify-content: flex-end;
     .message {
       color: #fff;
-      background: #1877f2;
+      background: #1dc7ff;
       border-radius: 18px 18px 4px 16px;
     }
   }
@@ -242,7 +242,7 @@ const FormContainer = styled.div`
     min-width: 32px;
     align-items: center;
     border-radius: 100%;
-    background: #1877f2;
+    background: #1dc7ff;
     justify-content: center;
     img {
       width: 16px;

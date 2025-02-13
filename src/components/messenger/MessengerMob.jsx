@@ -125,7 +125,7 @@ export default MessengerMob
 //     min-width: 32px;
 //     align-items: center;
 //     border-radius: 100%;
-//     background: #1877f2;
+//     background: #1DC7FF;
 //     justify-content: center;
 //     img {
 //       width: 16px;
