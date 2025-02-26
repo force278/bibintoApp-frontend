@@ -9,23 +9,10 @@ import CloseLock from "../../assets/img/CloseLock"
 import OpenLock from "../../assets/img/OpenLock"
 import { gql, useMutation } from "@apollo/client"
 
-const EDIT_PROFILE_MUTATION = gql`
-  mutation EditProfile(
-    $firstName: String
-    $username: String
-    $lastName: String
-    $bio: String
-    $password: String
-  ) {
-    editProfile(
-      firstName: $firstName
-      username: $username
-      lastName: $lastName
-      bio: $bio
-      password: $password
-    ) {
+const EDIT_PASSWORD_MUTATION = gql`
+  mutation EditPassword($oldPassword: String!, $newPassword: String!) {
+    editPassword(oldPassword: $oldPassword, newPassword: $newPassword) {
       ok
-      id
       error
     }
   }
@@ -35,26 +22,29 @@ export const ChangePassword = () => {
   const [showedInput, setShowedInput] = useState("")
   const [showNotification, setShowNotification] = useState(false)
 
-  const [editProfile] = useMutation(EDIT_PROFILE_MUTATION)
+  const [editPassword] = useMutation(EDIT_PASSWORD_MUTATION)
 
   const updatePas = async (data) => {
     try {
-      const result = await editProfile({
+      const result = await editPassword({
         variables: {
-          password: data.newPas,
+          newPassword: data.newPas,
+          oldPassword: data.curPas,
         },
-      })
-      if (result.data && result.data.editProfile.ok) {
-        setShowNotification(true)
+      });
+  
+      // Исправлено: используем editPassword вместо editProfile
+      if (result.data && result.data.editPassword.ok) {
+        setShowNotification(true);
       } else {
         alert(
-          `При изменении профиля произошла ошибка, ${result.data.editProfile.error}`,
-        )
+          `При изменении пароля произошла ошибка: ${result.data.editPassword.error}`
+        );
       }
     } catch (error) {
       alert(
-        `Кажется, на сервере ошибка, попробуй поменять значения ${error.message}`,
-      )
+        `Ошибка: ${error.message}`
+      );
     }
   }
 

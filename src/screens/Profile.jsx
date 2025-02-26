@@ -218,9 +218,7 @@ function Profile() {
   return (
     <StyledProfileContainer>
       <PageTitle
-        title={
-          loading ? "Загрузка..." : `${data?.seeProfile?.username}`
-        }
+        title={loading ? "Загрузка..." : `${data?.seeProfile?.username}`}
       />
       {isMobile && (
         <MobHeader>

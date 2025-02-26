@@ -25,18 +25,21 @@ export const EditProfile = ({ children }) => {
             <NavLink to="/accountEditProfile" activeClassName="active_profile">
               <button className="btnSwithWindow">Редактировать профиль</button>
             </NavLink>
+            {/*
+              <NavLink
+              to="/account/accountChangeEmail"
+              activeClassName="active_profile"
+            >
+              <button className="btnSwithWindow">Изменить почту</button>
+            </NavLink>
+              */}
             <NavLink
               to="/account/accountChangePassword"
               activeClassName="active_profile"
             >
               <button className="btnSwithWindow">Поменять пароль</button>
             </NavLink>
-            <NavLink
-              to="/account/accountChangeEmail"
-              activeClassName="active_profile"
-            >
-              <button className="btnSwithWindow">Изменить почту</button>
-            </NavLink>
+
             {/*
             <NavLink
               to="/account/accountConfirm"
