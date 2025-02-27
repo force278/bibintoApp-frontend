@@ -31,20 +31,18 @@ export const ChangePassword = () => {
           newPassword: data.newPas,
           oldPassword: data.curPas,
         },
-      });
-  
+      })
+
       // Исправлено: используем editPassword вместо editProfile
       if (result.data && result.data.editPassword.ok) {
-        setShowNotification(true);
+        setShowNotification(true)
       } else {
         alert(
-          `При изменении пароля произошла ошибка: ${result.data.editPassword.error}`
-        );
+          `При изменении пароля произошла ошибка: ${result.data.editPassword.error}`,
+        )
       }
     } catch (error) {
-      alert(
-        `Ошибка: ${error.message}`
-      );
+      alert(`Ошибка: ${error.message}`)
     }
   }
 

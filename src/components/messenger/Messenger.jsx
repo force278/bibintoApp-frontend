@@ -84,7 +84,7 @@ const Messenger = () => {
     if (user && dialoguesList.length) {
       // пытаемся найти текущий диалог с тем челом, которого выбрали среди нашего списка диалогов
       try {
-        const curChat = dialoguesList.find(
+        let curChat = dialoguesList.find(
           (dialogue) =>
             dialogue.users.findIndex(({ username }) => username === user) >= 0,
         )

@@ -1,15 +1,17 @@
-import { useEffect, useState } from "react"
-import styled from "styled-components"
+import { useEffect} from "react"
 import { gql, useQuery } from "@apollo/client"
-import { client } from "../../apollo"
 import { useInView } from "react-intersection-observer"
 import { COMMENTS_FRAGMENT, POST_FRAGMENT } from "../../fragments"
 import { RecommendationPost } from "./RecommendationPost"
+import  Post from "./Post"
 
 const GET_REC_HISTORY_QUERY = gql`
   query getRecHistory($offset: Int!) {
     getRecHistory(offset: $offset) {
       ...PostFragment
+      comments {
+        ...CommentFragment
+      }
       caption
       user {
         username
@@ -23,7 +25,8 @@ const GET_REC_HISTORY_QUERY = gql`
       isDisliked
     }
   }
-  ${POST_FRAGMENT}
+  ${POST_FRAGMENT},
+  ${COMMENTS_FRAGMENT}
 `
 
 const GET_REC_QUERY = gql`
@@ -90,7 +93,7 @@ function RecommendationList() {
         />
       ) : null}
       {rec_history_data?.data?.getRecHistory?.map((post) => (
-        <RecommendationPost key={post.id} {...post} />
+        <Post key={post.id} {...post} />
       ))}
       {!rec_history_data.loading && (
         <div ref={ref} id="endOfRec" style={{ textAlign: "center" }}>

@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react"
 import styled from "styled-components"
 import { gql, useQuery } from "@apollo/client"
 import Post from "../components/feed/Post"
@@ -27,29 +26,6 @@ const SEE_FEED_QUERY = gql`
       createdAt
       isMine
       isLiked
-    }
-  }
-  ${POST_FRAGMENT}
-  ${COMMENTS_FRAGMENT}
-`
-
-const SUB_POST_UPDATES = gql`
-  subscription {
-    postUpdates {
-      ...PostFragment
-      caption
-      comments {
-        ...CommentFragment
-      }
-      user {
-        username
-        avatar
-        official
-      }
-      createdAt
-      isMine
-      isLiked
-      isDisliked
     }
   }
   ${POST_FRAGMENT}
