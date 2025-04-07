@@ -18,6 +18,7 @@ const routes = {
   username: `/:username`,
   followers: `/:username/followers`,
   following: `/:username/following`,
+  restorePass: `/restore-pass`,
 }
 
 export default routes

@@ -9,7 +9,7 @@ import ReactCodeInput from "react-code-input"
 import Button from "../components/auth/Button"
 import PageTitle from "../components/PageTitle"
 import FormBox from "../components/auth/FormBox"
-import logoIcon from "../assets/img/bibinto.svg"
+import logoIcon from "../assets/img/Logo.svg"
 import AppBtns from "../components/auth/AppBtns"
 import { Link, useHistory } from "react-router-dom"
 import FormError from "../components/auth/FormError"
@@ -317,10 +317,9 @@ function SignUp() {
         <PageTitle title="Регистрация" />
         <FormBox>
           <img
-            className="formLogo"
             src={logoIcon}
-            width="180"
-            height="60"
+            width="270"
+            height="90"
             alt="логотип"
           ></img>
           <div></div>

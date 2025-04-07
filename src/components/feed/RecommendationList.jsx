@@ -1,9 +1,9 @@
-import { useEffect} from "react"
+import { useEffect } from "react"
 import { gql, useQuery } from "@apollo/client"
 import { useInView } from "react-intersection-observer"
 import { COMMENTS_FRAGMENT, POST_FRAGMENT } from "../../fragments"
 import { RecommendationPost } from "./RecommendationPost"
-import  Post from "./Post"
+import Post from "./Post"
 
 const GET_REC_HISTORY_QUERY = gql`
   query getRecHistory($offset: Int!) {

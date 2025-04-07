@@ -9,7 +9,7 @@ import FormBox from "../../components/auth/FormBox"
 import PageTitle from "../../components/PageTitle"
 import FormError from "../../components/auth/FormError"
 import { Link } from "react-router-dom"
-import logoIcon from "../../assets/img/bibinto.svg"
+import logoIcon from "../../assets/img/Logo.svg"
 import Notification from "./Notification/Notification"
 import InfoFooter from "../InfoFooter"
 import AppBtns from "../../components/auth/AppBtns"
@@ -45,13 +45,7 @@ function Login({
         <PageTitle title="Вход в аккаунт" />
 
         <FormBox>
-          <img
-            className="formLogo"
-            src={logoIcon}
-            width="180"
-            height="60"
-            alt="Бибинто"
-          ></img>
+          <img src={logoIcon} width="270" height="90" alt="Бибинто"></img>
           {/* <h2 className="formTitle">Вход</h2> */}
           <Notification location={location} />
           <form
@@ -113,6 +107,16 @@ function Login({
                 value={loading ? "Загрузка..." : "Войти"}
                 disabled={loading}
               />
+            </div>
+            <div className="mt-3">
+              <Link to="/restore-pass">
+                <button
+                  className="bg-transparent border-0"
+                  style={{ color: "#76768c" }}
+                >
+                  Забыли пароль?
+                </button>
+              </Link>
             </div>
             <FormError message={formState.errors?.result?.message} center />
             <div className="textLine">

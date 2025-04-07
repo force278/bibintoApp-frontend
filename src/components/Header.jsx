@@ -2,7 +2,7 @@ import Search from "./Search"
 import routes from "../routes"
 import useMe from "../hooks/useMe"
 import { isLoggedInVar } from "../apollo"
-import logo from "../assets/img/bibinto.svg"
+import logo from "../assets/img/Logo.svg"
 
 import chatIcon from "../assets/icons/chat.svg"
 import chatIconFill from "../assets/icons/chatFill.svg"
@@ -102,7 +102,7 @@ export function Header({ notificationList, messUpdated, setMessUpdated }) {
                 <div className="hideElement">
                   <Link to={routes.home}>
                     <div>
-                      <img src={logo} width="100" alt="Бибинто"></img>
+                      <img src={logo} width="150" alt="Бибинто"></img>
                     </div>
                   </Link>
                 </div>
